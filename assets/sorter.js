@@ -1,116 +1,229 @@
 var picSet1 = {
-  Seoyeon: "dcc6dc8a-81f1-47eb-b0f5-d853a8c26100",
-  Hyerin: "d7b9432c-c0fc-4cfb-37bd-f4b088800200",
-  Jiwoo: "edbcd6fe-b11e-496d-fad5-39cdfffb4200",
-  Chaeyeon: "a7089ece-89c8-4c54-3b32-804d0f452400",
-  Yooyeon: "69c5ee85-6787-481f-3532-ae47f4254700",
-  Soomin: "99243004-807a-469d-b2d2-79fe44241900",
-  Nakyoung: "7645e9bd-4247-4bab-1ff1-e4a8d383df00",
-  Yubin: "64ab77ec-1724-4824-ef9a-31d586f2d300",
-  Kaede: "a873565b-3605-4523-e3a6-45cf88deab00",
-  Dahyun: "b1d8e55a-e672-4c7f-7ec5-295f24c3a700",
-  Kotone: "6206faaa-51f9-4feb-62d0-c5631b1f9300",
-  Yeonji: "f4e0f53a-c30a-4ad4-f583-c251b8e72d00",
-  Nien: "d3fa4827-2d20-4149-806e-c07841a38000",
-  Sohyun: "78e368f2-614f-4548-acbd-9cce27082c00",
-  Xinyu: "58bbb237-983c-4bfe-9a44-22896dc2c200",
-  Mayu: "281a51fb-9b08-46de-c509-75d6e85aa000",
-  Lynn: "6165a55b-d286-4608-3fe1-02173a61d600",
-  Joobin: "2d938ba4-3797-43be-6b5e-36a8f6bf5500",
-  Hayeon: "6e64c029-7024-411d-335f-631dbf5ddb00",
-  Shion: "42ff8905-abd8-4c69-5851-be37ddd19a00",
-  Chaewon: "87620cea-8844-4fbe-51de-48998dfa4900",
-  Sullin: "7a0a188b-eaa4-4c8c-4f3b-e4fe151eae00",
-  Seoah: "9ad024db-35e5-41cf-2183-9fa20dc60200",
-  Jiyeon: "6882311f-63a5-4fc4-ec6e-17f7de2a0400",
+  SeoYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/b9f13402-18a4-485b-554c-5b588feb7300/original",
+  HyeRin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8c88fe6f-954e-4b28-c2a0-e6cf07521e00/original",
+  JiWoo:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/af162606-1841-46d7-4a90-a9abbc213200/original",
+  ChaeYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ce9d90fe-3fa2-41c7-5797-529b92653000/original",
+  YooYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/10080218-ef3f-43a1-f06c-d1353484c800/original",
+  SooMin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/29c5c317-f39e-41c4-03cb-3f6cca80df00/original",
+  NaKyoung:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9f3cd777-3433-4d77-316c-882a799bbe00/original",
+  YuBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/22d1e40b-6e5d-4155-61d9-60f47c80a100/original",
+  Kaede:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9a8b8697-ac1f-44e8-f6e7-c5084602fd00/original",
+  DaHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4e8b02af-3cd6-4184-5883-11e54b95ac00/original",
+  Kotone:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/eb821ff2-7401-41b0-809e-0cbeaa7df500/original",
+  YeonJi:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/a1cfbfac-94ba-4c2f-34c6-82bff903a300/original",
+  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d4a5b1dc-d918-424a-bb4c-dae62faa6f00/original",
+  SoHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/6407890d-3ab1-42b1-7af0-283300fde500/original",
+  Xinyu:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e8826f78-eb6d-4851-9306-b8d1ffffc900/original",
+  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/b70df604-2f72-4edc-6559-25e1f5722700/original",
+  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ec70e985-6a6c-4b41-1f4e-b5e24cb9af00/original",
+  JooBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/fb9fc551-7374-4074-152a-11e5e5e6dd00/original",
+  HaYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/965dbe53-0eac-4958-6301-965e24cd9a00/original",
+  ShiOn:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/cb16adf0-b131-4a53-eea1-6644b94ec500/original",
+  ChaeWon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e3bc62ed-6fed-4f1e-8fc7-334f6f5d4400/original",
+  Sullin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/dcd6973f-dd24-4f3c-bbec-17faa7b26f00/original",
+  SeoAh:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/b419c196-d26a-4c12-3b48-39b3a48f8100/original",
+  JiYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/22959ee2-1335-4778-2e74-210b06924a00/original",
+};
+
+var picSet2 = {
+  SeoYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d580d2ed-c6f1-4bef-09dd-281bd814bd00/original",
+  HyeRin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/cf488c95-e91f-439e-932f-13c8e0f8bf00/original",
+  JiWoo:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7f2e55fb-1df7-46e5-3d33-69d559b2a100/original",
+  ChaeYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/b60abba6-87fa-43e2-494d-8eb30b927400/original",
+  YooYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d4fa74bf-db9a-44c7-1261-3bd649473600/original",
+  SooMin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d21b77ee-38b5-4cdd-74c5-6643eb13ce00/original",
+  NaKyoung:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5a90bde2-5b75-4979-1aae-f9a0e2277500/original",
+  YuBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/24f5e2c6-0a32-432c-8455-67655e44de00/original",
+  Kaede:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5b020d33-324b-497e-f3a3-dbab65eb8d00/original",
+  DaHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/69057e8a-397c-4fed-4328-09b41dda6100/original",
+  Kotone:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/24c0bdfd-777b-41b1-93cb-fa921b634500/original",
+  YeonJi:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d905345b-3010-40ad-d01b-5ca2f1018900/original",
+  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/543b8d71-998a-4799-df8e-1d8b41656500/original",
+  SoHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/06bde33a-ccdd-4506-ba26-b94c7f2fc100/original",
+  Xinyu:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8d3b51eb-96b5-477f-5751-607d103d4100/original",
+  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/faa5db7a-3ea9-4549-87bb-fa66383edc00/original",
+  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/89513af8-89c2-4216-b056-3f9233f6cb00/original",
+  JooBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/fde6b324-760b-4748-5212-05b004560200/original",
+  HaYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c2f672db-b2f2-451a-0b95-a57ad51cde00/original",
+  ShiOn:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4cde8e25-0180-4285-b453-c3cc2a0a5400/original",
+  ChaeWon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ce0e07ec-5b2f-41a4-4103-ca5d9e29a100/original",
+  Sullin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/be1f3d9e-36e1-4938-da22-558d64726a00/original",
+  SeoAh:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/05320a21-5c63-48e9-9c1b-e2bcc7588c00/original",
+  JiYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/6be4886d-0186-479f-0267-8402eeb15200/original",
+};
+
+var picSet3 = {
+  SeoYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/95225a9a-4246-4fc3-0226-2014f72d2200/original",
+  HyeRin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/011f2101-cbde-4adf-f693-ca6739075900/original",
+  JiWoo:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c01b96a9-d57b-4f11-54d4-d061fb261500/original",
+  ChaeYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9c7682b3-5080-467e-5dd0-6a83dceaf300/original",
+  YooYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/781b2067-f443-4ce1-59f6-1e3c9457be00/original",
+  SooMin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/09633460-cfc3-48bf-ec30-c137612a5500/original",
+  NaKyoung:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8c73b365-d3f2-49ef-7c06-fde30b86e100/original",
+  YuBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/64656d1b-1514-43ae-26da-5062a6bc5300/original",
+  Kaede:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/b446221f-b009-4af7-5607-78140db34100/original",
+  DaHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/fbb32d81-b4ca-45ab-1a04-892808309300/original",
+  Kotone:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/99b88ecf-fe8d-4f93-0ceb-660d12851500/original",
+  YeonJi:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8feab450-6728-4a88-0316-79236fbaea00/original",
+  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8d29d6ea-f16f-4271-6169-f8c866854600/original",
+  SoHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/561eac9f-cfbf-4f31-280e-75e53992c600/original",
+  Xinyu:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d431e9c1-aeac-44b9-d51a-ff7a92526d00/original",
+  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/0aa19b16-0f69-44f0-7579-a14c68e5a300/original",
+  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/383ac08a-5864-4263-2de1-785d12ccdf00/original",
+  JooBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5174eb1e-16bb-40e9-6e09-351e70dcc600/original",
+  HaYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d9fa1a39-2d4d-41a5-c9c5-b501899a4e00/original",
+  ShiOn:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/bbee743b-485e-4db0-917e-ef5c5a343700/original",
+  ChaeWon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/f69d3762-0b36-43e4-e9a3-cf5a60844700/original",
+  Sullin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/bbad2ae3-9fd3-43d6-cf0f-b0315840ba00/original",
+  SeoAh:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/2b73cb87-2422-4ec9-05a0-6c3ecbbf1400/original",
+  JiYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ec61e4bc-19ef-492a-3ad0-6be73213fd00/original",
 };
 
 var rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-// var memberPicId = [picSet1][rand(0, 1)];
-var memberPicId = picSet1;
-
-var toPicUrl = (id) =>
-  `https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/${id}/2x`;
+var memberPicId = [picSet1, picSet2, picSet3][rand(0, 2)];
 
 var memberColor = {
-  Seoyeon: "#21AEFE",
-  Hyerin: "#830CE8",
-  Jiwoo: "#FDF70A",
-  Chaeyeon: "#98C64A",
-  Yooyeon: "#DC0B74",
-  Soomin: "#F985A4",
-  Nakyoung: "#659AA0",
-  Yubin: "#FDE4E0",
+  SeoYeon: "#21AEFE",
+  HyeRin: "#830CE8",
+  JiWoo: "#FDF70A",
+  ChaeYeon: "#98C64A",
+  YooYeon: "#DC0B74",
+  SooMin: "#F985A4",
+  NaKyoung: "#659AA0",
+  YuBin: "#FDE4E0",
   Kaede: "#FDB634",
-  Dahyun: "#FE9BD6",
+  DaHyun: "#FE9BD6",
   Kotone: "#E3C500",
-  Yeonji: "#5974FA",
+  YeonJi: "#5974FA",
   Nien: "#FD963D",
-  Sohyun: "#1223B2",
+  SoHyun: "#1223B2",
   Xinyu: "#CA1E20",
   Mayu: "#FB9074",
   Lynn: "#AC60B8",
-  Joobin: "#B7F54C",
-  Hayeon: "#52D8BB",
-  Shion: "#FF428A",
-  Chaewon: "#C3A4E0",
+  JooBin: "#B7F54C",
+  HaYeon: "#52D8BB",
+  ShiOn: "#FF428A",
+  ChaeWon: "#C3A4E0",
   Sullin: "#7DBA8D",
-  Seoah: "#D0F3FF",
-  Jiyeon: "#FFAB64",
+  SeoAh: "#D0F3FF",
+  JiYeon: "#FFAB64",
 };
 
 var memberEmoji = {
-  Seoyeon: "🐶",
-  Hyerin: "🐱",
-  Jiwoo: "🐻",
-  Chaeyeon: "🦌",
-  Yooyeon: "🐰",
-  Soomin: "🐿️",
-  Nakyoung: "🐈",
-  Yubin: "🐯",
+  SeoYeon: "🐶",
+  HyeRin: "🐱",
+  JiWoo: "🐻",
+  ChaeYeon: "🦌",
+  YooYeon: "🐰",
+  SooMin: "🐿️",
+  NaKyoung: "🐈",
+  YuBin: "🐯",
   Kaede: "🍁",
-  Dahyun: "🍒",
+  DaHyun: "🍒",
   Kotone: "🦭",
-  Yeonji: "🦆",
+  YeonJi: "🦆",
   Nien: "🐑",
-  Sohyun: "🐺",
+  SoHyun: "🐺",
   Xinyu: "🦊",
   Mayu: "🐇",
   Lynn: "🦈",
-  Joobin: "🐣",
-  Hayeon: "🐹",
-  Shion: "🍞",
-  Chaewon: "🎀",
+  JooBin: "🐣",
+  HaYeon: "🐹",
+  ShiOn: "🍞",
+  ChaeWon: "🎀",
   Sullin: "⛄️",
-  Seoah: "☀️",
-  Jiyeon: "🦢",
+  SeoAh: "☀️",
+  JiYeon: "🦢",
 };
 
 var namMember = new Array(
-  "Seoyeon",
-  "Hyerin",
-  "Jiwoo",
-  "Chaeyeon",
-  "Yooyeon",
-  "Soomin",
-  "Nakyoung",
-  "Yubin",
+  "SeoYeon",
+  "HyeRin",
+  "JiWoo",
+  "ChaeYeon",
+  "YooYeon",
+  "SooMin",
+  "NaKyoung",
+  "YuBin",
   "Kaede",
-  "Dahyun",
+  "DaHyun",
   "Kotone",
-  "Yeonji",
+  "YeonJi",
   "Nien",
-  "Sohyun",
+  "SoHyun",
   "Xinyu",
   "Mayu",
   "Lynn",
-  "Joobin",
-  "Hayeon",
-  "Shion",
-  "Chaewon",
+  "JooBin",
+  "HaYeon",
+  "ShiOn",
+  "ChaeWon",
   "Sullin",
-  "Seoah",
-  "Jiyeon",
+  "SeoAh",
+  "JiYeon",
 );
 
 var lstMember = new Array();
@@ -343,7 +456,7 @@ function toNameFace(n) {
   const mem = namMember[n];
   const disp = `<div>
   <span style='color:${memberColor[mem]};text-shadow: 1px 2px #808080;'>${mem}</span><br><span>${memberEmoji[mem] || ""}</span> 
-  <img src='${toPicUrl(memberPicId[mem])}' style='max-height:100%;max-width:100%'/>
+  <img src='${memberPicId[mem]}' style='max-height:100%;max-width:100%'/>
 </div>`;
 
   return disp;
