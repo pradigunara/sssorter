@@ -142,8 +142,56 @@ var picSet3 = {
     "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ec61e4bc-19ef-492a-3ad0-6be73213fd00/original",
 };
 
+var picSet4 = {
+  SeoYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/aad19c63-05bb-4f75-ddf0-75ae64ee9e00/original",
+  HyeRin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ed18908b-3c5c-4fcf-41f5-a57870857b00/original",
+  JiWoo:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/555b4ff5-4665-4bbf-4638-a0f710a04600/original",
+  ChaeYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/fcb4e5bb-8d94-401f-b764-6ab8c13e7e00/original",
+  YooYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e4db53bf-d21b-41a5-254b-acb124dac100/original",
+  SooMin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/95658e03-7f93-47e5-3138-382fcd35ed00/original",
+  NaKyoung:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/17e93085-270f-4dcd-d8b0-5bc60cd8a600/original",
+  YuBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/a1d3ab56-3ff2-414e-0813-e078940ed600/original",
+  Kaede:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4defc3c7-d197-4fa7-0d61-6df383ccf100/original",
+  DaHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4ae9dfcb-6002-4dd4-aae7-6a3094efa200/original",
+  Kotone:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7eb0e278-f2cc-41d9-ea19-2019eb288100/original",
+  YeonJi:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/79f1fee1-e7a4-47ff-1e10-14309dedba00/original",
+  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/1a5ce00f-525e-4aec-55c2-20351857b800/original",
+  SoHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8b730c03-f4bd-4a45-9b9c-686497e9be00/original",
+  Xinyu:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/3dcb3be4-568b-4c9b-0b5f-37e9903ad400/original",
+  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/f4e3ffa1-aff9-4a04-c516-cc803a2e5c00/original",
+  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9cdbe3d6-b93f-40eb-4c7b-fcfd73084800/original",
+  JooBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7fbbcf4b-c824-45c9-2fcd-929385d15a00/original",
+  HaYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/80a3226b-8dbc-4828-4cb8-42d317db4f00/original",
+  ShiOn:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c89d1306-d19b-4ca0-ddf0-6b964d4edd00/original",
+  ChaeWon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5483a160-926f-4a37-b1da-bc63a8b87d00/original",
+  Sullin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5cac4d22-832d-46c0-6adc-182be3951c00/original",
+  SeoAh:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c378da91-205b-439f-cd4d-08bf0d5c0e00/original",
+  JiYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/42c9587a-8f65-4373-1f6e-96e1a731c100/original",
+};
+
 var rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-var memberPicId = [picSet1, picSet2, picSet3][rand(0, 2)];
+var memberPicId = [picSet1, picSet2, picSet3, picSet4][rand(0, 3)];
 
 var memberColor = {
   SeoYeon: "#21AEFE",
