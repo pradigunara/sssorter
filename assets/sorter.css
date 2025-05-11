@@ -179,6 +179,7 @@ h2 {
 }
 
 @media screen and (min-width: 700px) {
+
   .sorter-option#optionA,
   .sorter-option#optionB {
     width: 45%;
@@ -240,11 +241,11 @@ h2 {
 }
 
 .twitter-share-button {
+  width: fit-content;
   border: 2px solid #000;
   color: #000;
   margin-top: 20px;
   padding: 10px 40px;
   background: #fff;
-  width: 300px;
   border-radius: 1em;
 }
