@@ -14,6 +14,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* Add padding to body to prevent content from being hidden by fixed footer */
+  padding-bottom: 80px;
+  /* Adjust this value based on actual footer height */
 }
 
 body.dark-mode {
@@ -118,7 +121,8 @@ body.dark-mode .page-result {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transform: scale(1);
 }
 
 body.dark-mode .sorter-option {
@@ -174,13 +178,15 @@ body.dark-mode .sorter-option {
   }
 }
 
-.sorter-option:hover {
-  background-color: #1b1f23;
-  border-color: #1b1f23;
-  color: #fff;
-  box-shadow:
-    0 3px 0 #1b1f23,
-    0 5px 12px rgba(0, 0, 0, 0.1);
+@media screen and (min-width: 500px) {
+  .sorter-option:hover {
+    background-color: #1b1f23;
+    border-color: #1b1f23;
+    color: #fff;
+    box-shadow:
+      0 3px 0 #1b1f23,
+      0 5px 12px rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* Disable highlight on click */
@@ -294,6 +300,45 @@ body.dark-mode .twitter-share-button {
   color: #e4e4e4;
   background: #1e1e1e;
 }
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+  padding: 10px 0;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .page-footer {
+  background-color: #121212;
+}
+
+.page-footer::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  /* Adjust based on desired gradient height */
+  left: 0;
+  right: 0;
+  height: 20px;
+  /* Adjust based on desired gradient height */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  /* Light mode gradient */
+  pointer-events: none;
+  /* Allow clicking through the gradient */
+  transition: background 0.3s ease;
+}
+
+body.dark-mode .page-footer::before {
+  background: linear-gradient(to bottom, rgba(18, 18, 18, 0), rgba(18, 18, 18, 1));
+  /* Dark mode gradient */
+}
+
 
 /* Dark Mode Toggle */
 .theme-toggle {

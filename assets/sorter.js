@@ -573,8 +573,35 @@ function showFinal({ skipIncrement = false } = {}) {
   var str2 = "" + toNameFace(lstMember[cmp2][head2]);
 
   document.getElementById("battleNumber").innerHTML = str0;
-  document.getElementById("optionA").innerHTML = str1;
-  document.getElementById("optionB").innerHTML = str2;
+
+  const optionA = document.getElementById("optionA");
+  const optionB = document.getElementById("optionB");
+
+  // Set visibility to visible before starting fade out
+  optionA.style.visibility = "visible";
+  optionB.style.visibility = "visible";
+
+  // Fade out the current options
+  optionA.style.opacity = 0;
+  optionB.style.opacity = 0;
+
+  // Wait for the fade-out transition to complete, then update content and fade in
+  setTimeout(() => {
+    // Set visibility to hidden after fade out
+    optionA.style.visibility = "hidden";
+    optionB.style.visibility = "hidden";
+
+    optionA.innerHTML = str1;
+    optionB.innerHTML = str2;
+
+    // Set visibility to visible before fading in
+    optionA.style.visibility = "visible";
+    optionB.style.visibility = "visible";
+
+    // Fade in the new options
+    optionA.style.opacity = 1;
+    optionB.style.opacity = 1;
+  }, 200); // 200ms matches the CSS transition duration
 }
 
 function toNameFace(n) {
