@@ -575,18 +575,46 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
   const optionA = document.getElementById("optionA");
   const optionB = document.getElementById("optionB");
 
+  // Get the member indices currently displayed in optionA and optionB
+  // Use -1 as a default if the data attribute is not set (initial load)
+  const currentMemberIndexA = parseInt(optionA.dataset.memberIndex, 10) || -1;
+  const currentMemberIndexB = parseInt(optionB.dataset.memberIndex, 10) || -1;
+
+  // Determine the next member indices
+  const nextMemberIndexA = lstMember[cmp1][head1];
+  const nextMemberIndexB = lstMember[cmp2][head2];
+
+  // Determine the next content
+  const nextContentA = toNameFace(nextMemberIndexA);
+  const nextContentB = toNameFace(nextMemberIndexB);
+
   // Remove any existing animation classes and inline styles
-  optionA.classList.remove('fade-out', 'fade-in', 'flip-out', 'flip-in');
-  optionB.classList.remove('fade-out', 'fade-in', 'flip-out', 'flip-in');
-  optionA.style.opacity = ''; // Clear inline opacity
-  optionB.style.opacity = ''; // Clear inline opacity
-  optionA.style.transform = ''; // Clear inline transform
-  optionB.style.transform = ''; // Clear inline transform
+  optionA.classList.remove(
+    "fade-out",
+    "fade-in",
+    "flip-out",
+    "flip-in",
+    "selected-glow",
+  );
+  optionB.classList.remove(
+    "fade-out",
+    "fade-in",
+    "flip-out",
+    "flip-in",
+    "selected-glow",
+  );
+  optionA.style.opacity = ""; // Clear inline opacity
+  optionB.style.opacity = ""; // Clear inline opacity
+  optionA.style.transform = ""; // Clear inline transform
+  optionB.style.transform = ""; // Clear inline transform
 
-
-  if (selectedFlag === 0) { // Initial state or tie (if tie were active)
-    optionA.innerHTML = toNameFace(lstMember[cmp1][head1]); // Use current heads for initial display
-    optionB.innerHTML = toNameFace(lstMember[cmp2][head2]); // Use current heads for initial display
+  if (selectedFlag === 0) {
+    // Initial state or tie (if tie were active)
+    optionA.innerHTML = nextContentA; // Use current heads for initial display
+    optionB.innerHTML = nextContentB; // Use current heads for initial display
+    // Set data-member-index for the initial state
+    optionA.dataset.memberIndex = nextMemberIndexA;
+    optionB.dataset.memberIndex = nextMemberIndexB;
     // Ensure they are visible initially
     optionA.style.visibility = "visible";
     optionB.style.visibility = "visible";
@@ -595,48 +623,67 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
     return; // Exit the function
   }
 
-  // Apply initial animation states
-  // The selected option fades out, the unselected option flips out
-  if (selectedFlag < 0) { // Option A was selected
-      optionA.classList.add('fade-out');
-      optionB.classList.add('flip-out');
-  } else { // Option B was selected
-      optionB.classList.add('fade-out');
-      optionA.classList.add('flip-out');
+  // Apply initial animation states based on content change and selection
+  // Compare the member indices to see if the content is changing
+  const optionAContentChanged = currentMemberIndexA !== nextMemberIndexA;
+  const optionBContentChanged = currentMemberIndexB !== nextMemberIndexB;
+
+  if (optionAContentChanged) {
+    optionA.classList.add("flip-out");
+  } else {
+    // optionA.classList.add("fade-out"); // Use fade for no content change
   }
 
+  if (optionBContentChanged) {
+    optionB.classList.add("flip-out");
+  } else {
+    // optionB.classList.add("fade-out"); // Use fade for no content change
+  }
+
+  // Add glow to the selected option
+  if (selectedFlag < 0) {
+    // Option A was selected
+    optionA.classList.add("selected-glow");
+  } else {
+    // Option B was selected
+    optionB.classList.add("selected-glow");
+  }
 
   // Wait for the fade-out/flip-out transition to complete
   setTimeout(() => {
     // Update content for the next battle
-    optionA.innerHTML = toNameFace(lstMember[cmp1][head1]);
-    optionB.innerHTML = toNameFace(lstMember[cmp2][head2]);
+    optionA.innerHTML = nextContentA;
+    optionB.innerHTML = nextContentB;
+    // Update data-member-index after content update
+    optionA.dataset.memberIndex = nextMemberIndexA;
+    optionB.dataset.memberIndex = nextMemberIndexB;
 
     // Apply fade-in/flip-in animation
-    if (selectedFlag < 0) { // Option A was selected
-        optionA.classList.remove('fade-out');
-        optionA.classList.add('fade-in');
-
-        optionB.classList.remove('flip-out');
-        optionB.classList.add('flip-in');
-    } else { // Option B was selected
-        optionB.classList.remove('fade-out');
-        optionB.classList.add('fade-in');
-
-        optionA.classList.remove('flip-out');
-        optionA.classList.add('flip-in');
+    if (optionAContentChanged) {
+      optionA.classList.remove("flip-out");
+      optionA.classList.add("flip-in");
+    } else {
+      optionA.classList.remove("fade-out");
+      optionA.classList.add("fade-in");
     }
 
+    if (optionBContentChanged) {
+      optionB.classList.remove("flip-out");
+      optionB.classList.add("flip-in");
+    } else {
+      optionB.classList.remove("fade-out");
+      optionB.classList.add("fade-in");
+    }
 
-    // After the second transition, remove the animation classes
+    // After the second transition, remove the animation classes and glow
     setTimeout(() => {
-        optionA.classList.remove('fade-in', 'flip-in');
-        optionB.classList.remove('fade-in', 'flip-in');
-         // Ensure final state is visible and not transformed
-        optionA.style.opacity = 1;
-        optionB.style.opacity = 1;
-        optionA.style.transform = 'rotateY(0deg)';
-        optionB.style.transform = 'rotateY(0deg)';
+      optionA.classList.remove("fade-in", "flip-in", "selected-glow");
+      optionB.classList.remove("fade-in", "flip-in", "selected-glow");
+      // Ensure final state is visible and not transformed
+      optionA.style.opacity = 1;
+      optionB.style.opacity = 1;
+      optionA.style.transform = "rotateY(0deg)";
+      optionB.style.transform = "rotateY(0deg)";
     }, 200); // Match the transition duration
   }, 200); // Match the transition duration
 }

@@ -178,16 +178,17 @@ body.dark-mode .sorter-option {
     align-content: center;
     justify-content: center;
   }
-}
 
-@media screen and (min-width: 500px) {
-  .sorter-option:hover {
-    background-color: #1b1f23;
-    border-color: #1b1f23;
-    color: #fff;
-    box-shadow:
-      0 3px 0 #1b1f23,
-      0 5px 12px rgba(0, 0, 0, 0.1);
+  .sorter-option.selected-glow {
+    /* Reduced glow on mobile */
+    box-shadow: 0 0 8px 3px rgba(205, 127, 139, 0.7);
+    /* Adjusted color, blur, and spread for mobile */
+  }
+
+  body.dark-mode .sorter-option.selected-glow {
+    /* Reduced grey-ish glow on mobile in dark mode */
+    box-shadow: 0 0 8px 3px rgba(180, 180, 180, 0.7);
+    /* Adjusted grey-ish color, blur, and spread for mobile */
   }
 }
 
@@ -306,6 +307,18 @@ body.dark-mode .twitter-share-button {
 /* Add animation classes */
 .sorter-option.fade-out {
   opacity: 0;
+}
+
+.sorter-option.selected-glow {
+  /* Even more diffused and wider rose-gold glow */
+  box-shadow: 0 0 40px 15px rgba(205, 127, 139, 0.7);
+  /* Adjusted color, blur, and spread */
+}
+
+body.dark-mode .sorter-option.selected-glow {
+  /* Even more diffused and wider grey-ish glow in dark mode */
+  box-shadow: 0 0 40px 15px rgba(180, 180, 180, 0.7);
+  /* Grey-ish color with transparency */
 }
 
 .sorter-option.fade-in {
