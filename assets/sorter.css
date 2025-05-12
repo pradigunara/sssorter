@@ -123,6 +123,8 @@ body.dark-mode .page-result {
   user-select: none;
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   transform: scale(1);
+  backface-visibility: hidden;
+  /* Add this */
 }
 
 body.dark-mode .sorter-option {
@@ -299,6 +301,27 @@ body.dark-mode .twitter-share-button {
   border-color: #e4e4e4;
   color: #e4e4e4;
   background: #1e1e1e;
+}
+
+/* Add animation classes */
+.sorter-option.fade-out {
+  opacity: 0;
+}
+
+.sorter-option.fade-in {
+  opacity: 1;
+}
+
+.sorter-option.flip-out {
+  transform: rotateY(90deg);
+  opacity: 0;
+  /* Fade out during flip */
+}
+
+.sorter-option.flip-in {
+  transform: rotateY(0deg);
+  opacity: 1;
+  /* Fade in after flip */
 }
 
 .page-footer {

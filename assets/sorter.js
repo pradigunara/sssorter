@@ -505,7 +505,8 @@ function sortList(flag) {
     showResult();
     finishFlag = 1;
   } else {
-    showFinal();
+    // Pass the flag to showFinal
+    showFinal({ selectedFlag: flag });
   }
 }
 
@@ -560,7 +561,7 @@ function toggleResult() {
   }
 }
 
-function showFinal({ skipIncrement = false } = {}) {
+function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
   if (!skipIncrement) numQuestion++;
 
   var str0 =
@@ -569,39 +570,75 @@ function showFinal({ skipIncrement = false } = {}) {
     " (" +
     Math.floor((finishSize * 100) / totalSize) +
     "% complete)";
-  var str1 = "" + toNameFace(lstMember[cmp1][head1]);
-  var str2 = "" + toNameFace(lstMember[cmp2][head2]);
-
   document.getElementById("battleNumber").innerHTML = str0;
 
   const optionA = document.getElementById("optionA");
   const optionB = document.getElementById("optionB");
 
-  // Set visibility to visible before starting fade out
-  optionA.style.visibility = "visible";
-  optionB.style.visibility = "visible";
+  // Remove any existing animation classes and inline styles
+  optionA.classList.remove('fade-out', 'fade-in', 'flip-out', 'flip-in');
+  optionB.classList.remove('fade-out', 'fade-in', 'flip-out', 'flip-in');
+  optionA.style.opacity = ''; // Clear inline opacity
+  optionB.style.opacity = ''; // Clear inline opacity
+  optionA.style.transform = ''; // Clear inline transform
+  optionB.style.transform = ''; // Clear inline transform
 
-  // Fade out the current options
-  optionA.style.opacity = 0;
-  optionB.style.opacity = 0;
 
-  // Wait for the fade-out transition to complete, then update content and fade in
-  setTimeout(() => {
-    // Set visibility to hidden after fade out
-    optionA.style.visibility = "hidden";
-    optionB.style.visibility = "hidden";
-
-    optionA.innerHTML = str1;
-    optionB.innerHTML = str2;
-
-    // Set visibility to visible before fading in
+  if (selectedFlag === 0) { // Initial state or tie (if tie were active)
+    optionA.innerHTML = toNameFace(lstMember[cmp1][head1]); // Use current heads for initial display
+    optionB.innerHTML = toNameFace(lstMember[cmp2][head2]); // Use current heads for initial display
+    // Ensure they are visible initially
     optionA.style.visibility = "visible";
     optionB.style.visibility = "visible";
-
-    // Fade in the new options
     optionA.style.opacity = 1;
     optionB.style.opacity = 1;
-  }, 200); // 200ms matches the CSS transition duration
+    return; // Exit the function
+  }
+
+  // Apply initial animation states
+  // The selected option fades out, the unselected option flips out
+  if (selectedFlag < 0) { // Option A was selected
+      optionA.classList.add('fade-out');
+      optionB.classList.add('flip-out');
+  } else { // Option B was selected
+      optionB.classList.add('fade-out');
+      optionA.classList.add('flip-out');
+  }
+
+
+  // Wait for the fade-out/flip-out transition to complete
+  setTimeout(() => {
+    // Update content for the next battle
+    optionA.innerHTML = toNameFace(lstMember[cmp1][head1]);
+    optionB.innerHTML = toNameFace(lstMember[cmp2][head2]);
+
+    // Apply fade-in/flip-in animation
+    if (selectedFlag < 0) { // Option A was selected
+        optionA.classList.remove('fade-out');
+        optionA.classList.add('fade-in');
+
+        optionB.classList.remove('flip-out');
+        optionB.classList.add('flip-in');
+    } else { // Option B was selected
+        optionB.classList.remove('fade-out');
+        optionB.classList.add('fade-in');
+
+        optionA.classList.remove('flip-out');
+        optionA.classList.add('flip-in');
+    }
+
+
+    // After the second transition, remove the animation classes
+    setTimeout(() => {
+        optionA.classList.remove('fade-in', 'flip-in');
+        optionB.classList.remove('fade-in', 'flip-in');
+         // Ensure final state is visible and not transformed
+        optionA.style.opacity = 1;
+        optionB.style.opacity = 1;
+        optionA.style.transform = 'rotateY(0deg)';
+        optionB.style.transform = 'rotateY(0deg)';
+    }, 200); // Match the transition duration
+  }, 200); // Match the transition duration
 }
 
 function toNameFace(n) {
