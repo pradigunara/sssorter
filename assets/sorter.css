@@ -13,6 +13,12 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  color: #e4e4e4;
+  background: #121212;
 }
 
 a {
@@ -71,6 +77,11 @@ h2 {
 .page-result {
   padding: 20px 1em 60px 1em;
   background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .page-result {
+  background-color: #121212;
 }
 
 .page-header h1 {
@@ -107,6 +118,14 @@ h2 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .sorter-option {
+  background: #2d2d2d;
+  border-color: #444;
+  box-shadow: 0 3px 0 #444;
+  color: #e4e4e4;
 }
 
 .song-sorter .sorter-option {
@@ -162,6 +181,20 @@ h2 {
   box-shadow:
     0 3px 0 #1b1f23,
     0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Disable highlight on click */
+.sorter-option:active,
+.sorter-option:focus,
+button:active,
+button:focus,
+a:active,
+a:focus {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .main-battle {
@@ -230,6 +263,11 @@ h2 {
   padding-bottom: 4px;
   margin-bottom: 4px;
   border-bottom: solid 1px #e1e4e8;
+  transition: border-color 0.3s ease;
+}
+
+body.dark-mode .results-list li:not(:last-child) {
+  border-bottom: solid 1px #444;
 }
 
 .number {
@@ -248,4 +286,58 @@ h2 {
   padding: 10px 40px;
   background: #fff;
   border-radius: 1em;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode .twitter-share-button {
+  border-color: #e4e4e4;
+  color: #e4e4e4;
+  background: #1e1e1e;
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 100;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media screen and (max-width: 500px) {
+  .theme-toggle {
+    position: relative;
+    top: 10px;
+    right: 0;
+    margin: 0 auto 30px;
+    justify-content: center;
+  }
+}
+
+.theme-toggle-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  padding: 4px;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .theme-toggle-icon {
+  background: #444;
+}
+
+.theme-toggle-text {
+  font-size: 14px;
+  font-weight: bold;
 }

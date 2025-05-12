@@ -48,54 +48,6 @@ var picSet1 = {
 
 var picSet2 = {
   SeoYeon:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8911a1cd-cba8-43eb-18e3-92536de92a00/2x",
-  HyeRin:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/24e537f2-9936-4b32-1994-30efad8c8a00/2x",
-  JiWoo:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/28a49277-ed8e-40ed-864a-7fb7ef128d00/2x",
-  ChaeYeon:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9f0dca17-1827-47cd-0440-e6b6e0f67900/2x",
-  YooYeon:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/3b21ec45-02ee-40fc-78c6-888dd7e5d800/2x",
-  SooMin:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e238fe9f-1753-4114-140b-aeac40df3100/2x",
-  NaKyoung:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ec3354ea-2dc2-4d6c-5037-93cb520b5000/2x",
-  YuBin:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/59537afd-0ef3-4f92-af98-41e242828000/2x",
-  Kaede:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/68fae808-9aca-4518-2a03-c94d4a2c5f00/2x",
-  DaHyun:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7b0bd21a-1643-487e-aa6a-76380f47a100/2x",
-  Kotone:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/086fb95c-6135-4afc-6fd1-cdced86e9d00/2x",
-  YeonJi:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d9cd50d2-d266-4c89-e4fd-c5ce0707b100/2x",
-  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8532c958-b11a-4bfd-1e37-54d762d72700/2x",
-  SoHyun:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d71a1f4b-90e0-4a5f-7411-2aa560197f00/2x",
-  Xinyu:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/2870bbcd-5639-4404-cda8-056cdf04bf00/2x",
-  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/6b0fb3e8-7cfc-444d-cc64-b2f61c9b6800/2x",
-  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/94e1a74b-1f8f-4886-c402-809e14eb1900/2x",
-  JooBin:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4580d694-4bc1-45df-16f1-ee8cc8d8d300/2x",
-  HaYeon:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c3f08392-d51d-4b9b-ade3-6626ead20900/2x",
-  ShiOn:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7c49e490-445e-4170-4c78-7415dd7f9000/2x",
-  ChaeWon:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/cb9e5e39-3552-47cc-8afa-a853be520600/2x",
-  Sullin:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c30fde2f-2adb-410c-15ef-0fb6bcc37c00/2x",
-  SeoAh:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9d48c0e3-57d4-42e6-bf0e-523f6b923b00/2x",
-  JiYeon:
-    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8f765952-216e-44fc-1bd3-f0df40dea600/2x",
-};
-
-var picSet3 = {
-  SeoYeon:
     "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/64b04454-3acd-4d27-b040-604f664d0500/2x",
   HyeRin:
     "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/52c1c9da-63d3-4aca-8812-a4a74e9d0600/2x",
@@ -142,8 +94,148 @@ var picSet3 = {
     "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/1f31faa4-9df2-4a84-7b02-58ed91288d00/2x",
 };
 
+var picSet3 = {
+  SeoYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8911a1cd-cba8-43eb-18e3-92536de92a00/2x",
+  HyeRin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/24e537f2-9936-4b32-1994-30efad8c8a00/2x",
+  JiWoo:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/28a49277-ed8e-40ed-864a-7fb7ef128d00/2x",
+  ChaeYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9f0dca17-1827-47cd-0440-e6b6e0f67900/2x",
+  YooYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/3b21ec45-02ee-40fc-78c6-888dd7e5d800/2x",
+  SooMin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e238fe9f-1753-4114-140b-aeac40df3100/2x",
+  NaKyoung:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/ec3354ea-2dc2-4d6c-5037-93cb520b5000/2x",
+  YuBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/59537afd-0ef3-4f92-af98-41e242828000/2x",
+  Kaede:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/68fae808-9aca-4518-2a03-c94d4a2c5f00/2x",
+  DaHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7b0bd21a-1643-487e-aa6a-76380f47a100/2x",
+  Kotone:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/086fb95c-6135-4afc-6fd1-cdced86e9d00/2x",
+  YeonJi:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d9cd50d2-d266-4c89-e4fd-c5ce0707b100/2x",
+  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8532c958-b11a-4bfd-1e37-54d762d72700/2x",
+  SoHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d71a1f4b-90e0-4a5f-7411-2aa560197f00/2x",
+  Xinyu:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/2870bbcd-5639-4404-cda8-056cdf04bf00/2x",
+  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/6b0fb3e8-7cfc-444d-cc64-b2f61c9b6800/2x",
+  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/94e1a74b-1f8f-4886-c402-809e14eb1900/2x",
+  JooBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4580d694-4bc1-45df-16f1-ee8cc8d8d300/2x",
+  HaYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c3f08392-d51d-4b9b-ade3-6626ead20900/2x",
+  ShiOn:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/7c49e490-445e-4170-4c78-7415dd7f9000/2x",
+  ChaeWon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/cb9e5e39-3552-47cc-8afa-a853be520600/2x",
+  Sullin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c30fde2f-2adb-410c-15ef-0fb6bcc37c00/2x",
+  SeoAh:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9d48c0e3-57d4-42e6-bf0e-523f6b923b00/2x",
+  JiYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/8f765952-216e-44fc-1bd3-f0df40dea600/2x",
+};
+
+var picSet4 = {
+  SeoYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/c24dcff7-3083-4363-548c-0420275dcb00/2x",
+  HyeRin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/1d849261-24b4-46dc-071f-2666a8b8df00/2x",
+  JiWoo:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/bcd83b3d-cb1c-45f0-28b5-a01577886b00/2x",
+  ChaeYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/d1c282a8-c0a4-4354-0cc6-3de5cc305100/2x",
+  YooYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4d0e696f-243c-4d3f-80b4-fd32ab7cc900/2x",
+  SooMin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9ad04024-f8e8-4c72-e315-1df02a9a9b00/2x",
+  NaKyoung:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/0f67bd16-be42-44aa-0239-7a847ccf5900/2x",
+  YuBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e6160eb3-2963-41b0-9124-23e361163600/2x",
+  Kaede:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/f7901f1b-0db7-49b8-0f93-d6aaa746b300/2x",
+  DaHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/71260e02-541a-4a0b-3174-c44b37ab1400/2x",
+  Kotone:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5c41b4ae-bc6f-43b0-7427-b0cc511d9700/2x",
+  YeonJi:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/3966ee11-8648-4c93-b0f7-db099b8b6400/2x",
+  Nien: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5f06866b-2e5c-48c3-799b-160be1b9c500/2x",
+  SoHyun:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/549dbd02-94e5-40bd-bca7-8e7f9cc68800/2x",
+  Xinyu:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/83b70428-ce00-43c6-2939-8cf6fc219400/2x",
+  Mayu: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/baa6a2e9-3cbc-4c98-13e1-c7c1e5a3d400/2x",
+  Lynn: "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/e75b375e-ac1e-4b25-003b-f5b2d5397700/2x",
+  JooBin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/2c2e1424-55b8-4c39-23ef-e8cc9724cc00/2x",
+  HaYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/730c7ea4-6fed-48ca-89c2-9a7e5785f200/2x",
+  ShiOn:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/5860ba26-7b62-4fbe-d63e-bc7c0b5fef00/2x",
+  ChaeWon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/4b271ecb-96fc-421b-8b9c-b7e6cf74c100/2x",
+  Sullin:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/9d2fea70-8c56-4b83-f02e-58b83dd2e300/2x",
+  SeoAh:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/6e447541-3f8c-451c-ce1e-3400e7782f00/2x",
+  JiYeon:
+    "https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/511be17d-d3cd-46d7-fda5-9cb1ab647c00/2x",
+};
+
 var rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-var memberPicId = [picSet1, picSet2, picSet3][rand(0, 2)];
+var memberPicId = {};
+initMemberPic();
+
+function initMemberPic() {
+  const isDarkMode = localStorage.getItem("darkMode") === "true";
+  const picSets = isDarkMode ? [picSet3, picSet4] : [picSet1, picSet2];
+  memberPicId = picSets[rand(0, 1)];
+}
+
+// Dark mode functionality
+function toggleDarkMode() {
+  const body = document.body;
+  const isDarkMode = body.classList.toggle("dark-mode");
+  const themeToggleText = document.querySelector(".theme-toggle-text");
+  const themeToggleIcon = document.querySelector(".theme-toggle-icon svg");
+
+  // Update toggle text and icon
+  if (isDarkMode) {
+    themeToggleText.textContent = "Light Mode";
+    themeToggleIcon.innerHTML =
+      '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+  } else {
+    themeToggleText.textContent = "#DarkMode";
+    themeToggleIcon.innerHTML =
+      '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+  }
+
+  // Save preference to localStorage
+  localStorage.setItem("darkMode", isDarkMode);
+  initMemberPic();
+  showFinal({ skipIncrement: true });
+}
+
+// Check for saved theme preference on page load
+document.addEventListener("DOMContentLoaded", function () {
+  const savedDarkMode = localStorage.getItem("darkMode");
+  initMemberPic();
+
+  if (savedDarkMode === "true") {
+    document.body.classList.add("dark-mode");
+    document.querySelector(".theme-toggle-text").textContent = "Light Mode";
+    document.querySelector(".theme-toggle-icon svg").innerHTML =
+      '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+  }
+});
 
 var memberColor = {
   SeoYeon: "#21AEFE",
@@ -452,10 +544,12 @@ function toggleResult() {
   }
 }
 
-function showFinal() {
+function showFinal({ skipIncrement = false } = {}) {
+  if (!skipIncrement) numQuestion++;
+
   var str0 =
     "Round " +
-    numQuestion +
+    (numQuestion - 1) +
     " (" +
     Math.floor((finishSize * 100) / totalSize) +
     "% complete)";
@@ -465,7 +559,6 @@ function showFinal() {
   document.getElementById("battleNumber").innerHTML = str0;
   document.getElementById("optionA").innerHTML = str1;
   document.getElementById("optionB").innerHTML = str2;
-  numQuestion++;
 }
 
 function toNameFace(n) {
