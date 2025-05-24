@@ -1,0 +1,3 @@
+[submodule "sssongs"]
+	path = sssongs
+	url = https://github.com/pradigunara/sssongs.git
