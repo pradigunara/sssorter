@@ -287,7 +287,7 @@ body.dark-mode .results-list li:not(:last-child) {
   color: #959da5;
 }
 
-.twitter-share-button {
+.result-btn {
   width: fit-content;
   border: 2px solid #000;
   color: #000;
@@ -298,10 +298,21 @@ body.dark-mode .results-list li:not(:last-child) {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-body.dark-mode .twitter-share-button {
+body.dark-mode .result-btn {
   border-color: #e4e4e4;
   color: #e4e4e4;
   background: #1e1e1e;
+}
+
+.result-btn-primary {
+  color: #fff;
+  background: #000;
+}
+
+body.dark-mode .result-btn-primary {
+  border-color: #fff;
+  color: #000;
+  background: #fff;
 }
 
 /* Add animation classes */

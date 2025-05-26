@@ -545,8 +545,12 @@ function showResult({ full = false } = {}) {
 
   const shareText = `My %23tripleS Bias Ranking:%0A${listResult.join("%0A")}%0A> https://sssorter.pages.dev`;
   const tweetBtn = document.getElementById("tweet-button");
+
   tweetBtn.style.display = "inline-block";
   tweetBtn.href = `https://twitter.com/intent/tweet?text=${shareText}`;
+
+  const sssongsBtn = document.getElementById("sssongs-button");
+  sssongsBtn.style.display = "inline-block";
 }
 
 function toggleResult() {
