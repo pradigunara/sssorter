@@ -1,0 +1,25 @@
+{
+  "name": "triples-bias-sorter",
+  "version": "1.0.0",
+  "description": "tripleS bias sorter with cute K-pop design",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  },
+  "keywords": [
+    "kpop",
+    "triples",
+    "bias",
+    "sorter",
+    "ranking"
+  ],
+  "author": "",
+  "license": "MIT"
+}

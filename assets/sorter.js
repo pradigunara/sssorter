@@ -307,6 +307,33 @@ var memberEmoji = {
   JiYeon: "🦢",
 };
 
+var memberSNumber = {
+  SeoYeon: "S1",
+  HyeRin: "S2", 
+  JiWoo: "S3",
+  ChaeYeon: "S4",
+  YooYeon: "S5",
+  SooMin: "S6",
+  NaKyoung: "S7",
+  YuBin: "S8",
+  Kaede: "S9",
+  DaHyun: "S10",
+  Kotone: "S11",
+  YeonJi: "S12",
+  Nien: "S13",
+  SoHyun: "S14",
+  Xinyu: "S15",
+  Mayu: "S16",
+  Lynn: "S17",
+  JooBin: "S18",
+  HaYeon: "S19",
+  ShiOn: "S20",
+  ChaeWon: "S21",
+  Sullin: "S22",
+  SeoAh: "S23",
+  JiYeon: "S24",
+};
+
 var namMember = new Array(
   "SeoYeon",
   "HyeRin",
@@ -495,12 +522,11 @@ function sortList(flag) {
   }
 
   if (cmp1 < 0) {
-    str =
-      "Round " +
-      (numQuestion - 1) +
-      " (" +
-      Math.floor((finishSize * 100) / totalSize) +
-      "% complete)";
+    const progressPercent = Math.floor((finishSize * 100) / totalSize);
+    const heartCount = 5;
+    const filledHearts = Math.floor((progressPercent / 100) * heartCount);
+    const heartDisplay = "♥".repeat(filledHearts) + "♡".repeat(heartCount - filledHearts);
+    str = `<strong>Gravity #${numQuestion - 1}</strong><br>${heartDisplay} ${progressPercent}% sorted`;
     document.getElementById("battleNumber").innerHTML = str;
     showResult();
     finishFlag = 1;
@@ -568,12 +594,11 @@ function toggleResult() {
 function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
   if (!skipIncrement) numQuestion++;
 
-  var str0 =
-    "Round " +
-    (numQuestion - 1) +
-    " (" +
-    Math.floor((finishSize * 100) / totalSize) +
-    "% complete)";
+  const progressPercent = Math.floor((finishSize * 100) / totalSize);
+  const heartCount = 5;
+  const filledHearts = Math.floor((progressPercent / 100) * heartCount);
+  const heartDisplay = "♥".repeat(filledHearts) + "♡".repeat(heartCount - filledHearts);
+  var str0 = `<strong>Gravity #${numQuestion - 1}</strong><br>${heartDisplay} ${progressPercent}% sorted`;
   document.getElementById("battleNumber").innerHTML = str0;
 
   const optionA = document.getElementById("optionA");
@@ -616,6 +641,9 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
     // Initial state or tie (if tie were active)
     optionA.innerHTML = nextContentA; // Use current heads for initial display
     optionB.innerHTML = nextContentB; // Use current heads for initial display
+    // Set member color CSS variables
+    optionA.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexA]]);
+    optionB.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexB]]);
     // Set data-member-index for the initial state
     optionA.dataset.memberIndex = nextMemberIndexA;
     optionB.dataset.memberIndex = nextMemberIndexB;
@@ -658,6 +686,9 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
     // Update content for the next battle
     optionA.innerHTML = nextContentA;
     optionB.innerHTML = nextContentB;
+    // Set member color CSS variables
+    optionA.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexA]]);
+    optionB.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexB]]);
     // Update data-member-index after content update
     optionA.dataset.memberIndex = nextMemberIndexA;
     optionB.dataset.memberIndex = nextMemberIndexB;
@@ -694,10 +725,15 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
 
 function toNameFace(n) {
   const mem = namMember[n];
-  const disp = `<div>
-  <span style='color:${memberColor[mem]};text-shadow: 1px 2px #808080;'>${mem}</span><br><span>${memberEmoji[mem] || ""}</span> 
-  <img src='${memberPicId[mem]}' style='max-height:100%;max-width:100%'/>
-</div>`;
+  const disp = `
+    <div class='photocard-image-container'>
+      <img src='${memberPicId[mem]}' alt='${mem}' class='photocard-image'/>
+      <div class='member-badge'>${memberSNumber[mem]}</div>
+    </div>
+    <div class='photocard-info'>
+      <div class='member-name' style='color: ${memberColor[mem]};'>${mem} ${memberEmoji[mem] || ""}</div>
+    </div>
+  `;
 
   return disp;
 }
