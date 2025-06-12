@@ -671,6 +671,10 @@ body.dark-mode .result-btn {
   .page-footer {
     padding: 1.5rem 1rem;
     gap: 1.5rem;
+    justify-content: flex-start;
+    left: 0;
+    right: auto;
+    width: auto;
   }
 }
 
