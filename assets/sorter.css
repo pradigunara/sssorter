@@ -632,6 +632,11 @@ body.dark-mode .result-btn {
   box-shadow: var(--card-shadow-hover), 0 4px 20px rgba(255, 112, 166, 0.3);
 }
 
+body.dark-mode .result-btn-primary {
+  background: linear-gradient(135deg, var(--primary-pink), var(--secondary-purple));
+  color: white;
+}
+
 /* Additional animation classes for JavaScript */
 
 .sorter-option.fade-in {
@@ -681,16 +686,16 @@ body.dark-mode .result-btn {
 .footer-sticker {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.4rem 0.6rem;
+  gap: 0.2rem;
+  padding: 0.3rem 0.5rem;
   /* Fallback for browsers without backdrop-filter */
   background: rgba(255, 255, 255, 0.8);
-  border-radius: 18px;
+  border-radius: 16px;
   text-decoration: none;
   color: var(--text-dark);
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.05);
@@ -698,7 +703,7 @@ body.dark-mode .result-btn {
   transform: rotate(-1deg);
   border: 1px solid rgba(255, 255, 255, 0.6);
   flex: 1;
-  max-width: 160px;
+  max-width: 140px;
   justify-content: center;
 }
 
@@ -713,10 +718,10 @@ body.dark-mode .result-btn {
 
 @media screen and (min-width: 768px) {
   .footer-sticker {
-    gap: 0.5rem;
-    padding: 0.8rem 1.2rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    border-radius: 18px;
+    font-size: 0.75rem;
     flex: none;
     max-width: none;
   }
@@ -753,19 +758,19 @@ body.dark-mode .result-btn {
 }
 
 .footer-sticker.github-link {
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   line-height: 1.2;
-  padding: 0.3rem 0.5rem;
-  max-width: 140px;
+  padding: 0.25rem 0.4rem;
+  max-width: 120px;
 }
 
 @media screen and (min-width: 768px) {
   .footer-sticker::before {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .footer-sticker.github-link {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     line-height: 1.4;
   }
 }
