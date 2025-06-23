@@ -192,6 +192,7 @@ var picSet4 = {
 
 var rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 var memberPicId = {};
+
 initMemberPic();
 
 function initMemberPic() {
@@ -430,6 +431,31 @@ function initList() {
   finishFlag = 0;
 }
 
+// Preload critical member images for first comparison
+function preloadInitialImages() {
+  if (lstMember[cmp1] && lstMember[cmp2]) {
+    const memberAIndex = lstMember[cmp1][head1];
+    const memberBIndex = lstMember[cmp2][head2];
+    
+    if (memberAIndex !== undefined && memberBIndex !== undefined) {
+      const memberAName = namMember[memberAIndex];
+      const memberBName = namMember[memberBIndex];
+      
+      // Preload all image sets for these members
+      [picSet1, picSet2, picSet3, picSet4].forEach(picSet => {
+        if (picSet[memberAName]) {
+          const imgA = new Image();
+          imgA.src = picSet[memberAName];
+        }
+        if (picSet[memberBName]) {
+          const imgB = new Image();
+          imgB.src = picSet[memberBName];
+        }
+      });
+    }
+  }
+}
+
 function sortList(flag) {
   var i;
   var str;
@@ -531,8 +557,10 @@ function sortList(flag) {
     showResult();
     finishFlag = 1;
   } else {
-    // Pass the flag to showFinal
-    showFinal({ selectedFlag: flag });
+    // Pass the flag to showFinal - defer to allow interaction response to paint first
+    requestAnimationFrame(() => {
+      showFinal({ selectedFlag: flag });
+    });
   }
 }
 
@@ -617,40 +645,25 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
   const nextContentA = toNameFace(nextMemberIndexA);
   const nextContentB = toNameFace(nextMemberIndexB);
 
-  // Remove any existing animation classes and inline styles
-  optionA.classList.remove(
-    "fade-out",
-    "fade-in",
-    "flip-out",
-    "flip-in",
-    "selected-glow",
-  );
-  optionB.classList.remove(
-    "fade-out",
-    "fade-in",
-    "flip-out",
-    "flip-in",
-    "selected-glow",
-  );
-  optionA.style.opacity = ""; // Clear inline opacity
-  optionB.style.opacity = ""; // Clear inline opacity
-  optionA.style.transform = ""; // Clear inline transform
-  optionB.style.transform = ""; // Clear inline transform
+  // Batch DOM cleanup operations
+  optionA.classList.remove("fade-out", "fade-in", "flip-out", "flip-in", "selected-glow");
+  optionA.style.cssText = ""; // Clear all inline styles at once
+  
+  optionB.classList.remove("fade-out", "fade-in", "flip-out", "flip-in", "selected-glow");
+  optionB.style.cssText = ""; // Clear all inline styles at once
 
   if (selectedFlag === 0) {
-    // Initial state or tie (if tie were active)
-    optionA.innerHTML = nextContentA; // Use current heads for initial display
-    optionB.innerHTML = nextContentB; // Use current heads for initial display
-    // Set member color CSS variables
+    // Initial state or tie (if tie were active) - batch all updates
+    optionA.innerHTML = nextContentA;
     optionA.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexA]]);
-    optionB.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexB]]);
-    // Set data-member-index for the initial state
     optionA.dataset.memberIndex = nextMemberIndexA;
-    optionB.dataset.memberIndex = nextMemberIndexB;
-    // Ensure they are visible initially
     optionA.style.visibility = "visible";
-    optionB.style.visibility = "visible";
     optionA.style.opacity = 1;
+    
+    optionB.innerHTML = nextContentB;
+    optionB.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexB]]);
+    optionB.dataset.memberIndex = nextMemberIndexB;
+    optionB.style.visibility = "visible";
     optionB.style.opacity = 1;
     return; // Exit the function
   }
@@ -683,32 +696,34 @@ function showFinal({ skipIncrement = false, selectedFlag = 0 } = {}) {
 
   // Wait for the fade-out/flip-out transition to complete
   setTimeout(() => {
-    // Update content for the next battle
-    optionA.innerHTML = nextContentA;
-    optionB.innerHTML = nextContentB;
-    // Set member color CSS variables
-    optionA.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexA]]);
-    optionB.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexB]]);
-    // Update data-member-index after content update
-    optionA.dataset.memberIndex = nextMemberIndexA;
-    optionB.dataset.memberIndex = nextMemberIndexB;
+    // Batch DOM updates to prevent layout thrashing
+    requestAnimationFrame(() => {
+      // Update content and properties in batch
+      optionA.innerHTML = nextContentA;
+      optionA.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexA]]);
+      optionA.dataset.memberIndex = nextMemberIndexA;
+      
+      optionB.innerHTML = nextContentB;
+      optionB.style.setProperty('--member-color', memberColor[namMember[nextMemberIndexB]]);
+      optionB.dataset.memberIndex = nextMemberIndexB;
 
-    // Apply fade-in/flip-in animation
-    if (optionAContentChanged) {
-      optionA.classList.remove("flip-out");
-      optionA.classList.add("flip-in");
-    } else {
-      optionA.classList.remove("fade-out");
-      optionA.classList.add("fade-in");
-    }
+      // Apply animations after DOM updates
+      if (optionAContentChanged) {
+        optionA.classList.remove("flip-out");
+        optionA.classList.add("flip-in");
+      } else {
+        optionA.classList.remove("fade-out");
+        optionA.classList.add("fade-in");
+      }
 
-    if (optionBContentChanged) {
-      optionB.classList.remove("flip-out");
-      optionB.classList.add("flip-in");
-    } else {
-      optionB.classList.remove("fade-out");
-      optionB.classList.add("fade-in");
-    }
+      if (optionBContentChanged) {
+        optionB.classList.remove("flip-out");
+        optionB.classList.add("flip-in");
+      } else {
+        optionB.classList.remove("fade-out");
+        optionB.classList.add("fade-in");
+      }
+    });
 
     // After the second transition, remove the animation classes and glow
     setTimeout(() => {
