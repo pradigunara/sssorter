@@ -3,6 +3,7 @@
 const fs = require("fs");
 const https = require("https");
 const readline = require("readline");
+const { execSync } = require("child_process");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -17,34 +18,30 @@ function prompt(question) {
   });
 }
 
-let args = {
-  class: "Double",
-  season: "Atom02",
-  collectionNo: "314Z",
-  picSet: "picSet1",
-};
+async function getConfig() {
+  const args = {
+    class: process.argv[2],
+    season: process.argv[3],
+    collectionNo: process.argv[4],
+    picSet: process.argv[5],
+  };
 
-async function processData() {
-  try {
+  if (Object.values(args).some((arg) => arg === undefined)) {
     console.log(
       "Please enter the following configuration values (or press Enter to use defaults):"
     );
+    args.class = await prompt(`Class (default: Double): `) || "Double";
+    args.season = await prompt(`Season (default: Atom02): `) || "Atom02";
+    args.collectionNo = await prompt(`Collection Number (default: 314Z): `) || "314Z";
+    args.picSet = await prompt(`Picture Set to update (default: picSet1): `) || "picSet1";
+  }
 
-    const classInput = await prompt(`Class (default: ${args.class}): `);
-    if (classInput) args.class = classInput;
+  return args;
+}
 
-    const seasonInput = await prompt(`Season (default: ${args.season}): `);
-    if (seasonInput) args.season = seasonInput;
-
-    const collectionNoInput = await prompt(
-      `Collection Number (default: ${args.collectionNo}): `
-    );
-    if (collectionNoInput) args.collectionNo = collectionNoInput;
-
-    const picSetInput = await prompt(
-      `Picture Set to update (default: ${args.picSet}): `
-    );
-    if (picSetInput) args.picSet = picSetInput;
+async function processData() {
+  try {
+    const args = await getConfig();
 
     console.log(`
 Fetching data with the following configuration:`);
@@ -53,7 +50,7 @@ Fetching data with the following configuration:`);
     console.log(`- Collection Number: ${args.collectionNo}`);
     console.log(`- Picture Set: ${args.picSet}`);
 
-    const data = await fetchData();
+    const data = await fetchData(args);
 
     if (!data.objekts || !Array.isArray(data.objekts)) {
       throw new Error("Invalid data format: objekts array not found");
@@ -72,30 +69,36 @@ Found ${data.objekts.length} objekts in the response.`);
       }
     });
 
-    const sorterFilePath = "assets/sorter.js";
-    let sorterContent = fs.readFileSync(sorterFilePath, "utf8");
+    const sorterFilePath = "assets/member-data.js";
+    const { memberData } = await import(`./assets/member-data.js`);
 
     let updatedCount = 0;
     for (const member in memberImageMap) {
       if (memberImageMap.hasOwnProperty(member)) {
-        const imageUrl = memberImageMap[member];
-        const regex = new RegExp(
-          `(${member}:\s*{[\s\S]*?${args.picSet}:\s*")[^"]*(")`
-        );
-        if (regex.test(sorterContent)) {
-          sorterContent = sorterContent.replace(regex, `$1${imageUrl}$2`);
+        if (memberData[member]) {
+          memberData[member][args.picSet] = memberImageMap[member];
           updatedCount++;
         } else {
-          console.warn(`Warning: Could not find ${args.picSet} for member ${member} in ${sorterFilePath}`);
+          console.warn(`Warning: No data found for member ${member}`);
         }
       }
     }
+
+    const newMemberDataString = JSON.stringify(memberData, null, 2).replace(/"(\w+)":/g, "$1:");
+    let sorterContent = fs.readFileSync(sorterFilePath, "utf8");
+    const memberDataRegex = /export const memberData = ({[^;]*});/;
+    sorterContent = sorterContent.replace(memberDataRegex, `export const memberData = ${newMemberDataString};`);
 
     fs.writeFileSync(sorterFilePath, sorterContent);
 
     console.log(`
 Successfully updated ${sorterFilePath}`);
     console.log(`Updated images for ${updatedCount} members`);
+
+    console.log(`
+Formatting ${sorterFilePath} with Prettier...`);
+    execSync(`npx prettier --write ${sorterFilePath}`);
+    console.log("Formatting complete.");
 
     rl.close();
   } catch (error) {
@@ -105,7 +108,7 @@ Successfully updated ${sorterFilePath}`);
   }
 }
 
-function fetchData() {
+function fetchData(args) {
   return new Promise((resolve, reject) => {
     const url = `https://apollo.cafe/api/objekts?sort=newest&class=${args.class}&season=${args.season}&collectionNo=${args.collectionNo}&page=0`;
 
