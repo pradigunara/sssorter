@@ -109,11 +109,11 @@
       }
     </script>
 
-    <script src="/assets/sorter.js"></script>
+    <script type="module" src="/assets/sorter.js"></script>
   </head>
 
   <body class="song-sorter">
-    <div class="theme-toggle" onclick="toggleDarkMode()">
+    <div class="theme-toggle">
       <span class="theme-toggle-text">#DarkMode</span>
       <div class="theme-toggle-icon">
         <svg
@@ -152,7 +152,6 @@
           <div class="main-battle">
             <div
               id="optionA"
-              onclick="if(finishFlag==0) sortList(-1);"
               class="sorter-option"
             >
               x
@@ -160,7 +159,6 @@
             <div class="versus"><span>vs</span></div>
             <div
               id="optionB"
-              onclick="if(finishFlag==0) sortList(1);"
               class="sorter-option"
             >
               y
@@ -181,7 +179,6 @@
         <div id="battleResult"></div>
         <a
           id="showMore"
-          onclick="toggleResult()"
           style="display: none; cursor: pointer"
           >Show More</a
         >
@@ -217,13 +214,6 @@
       </a>
     </footer>
 
-    <script type="text/javascript">
-      /**
-       * Initialize
-       **/
-      initList();
-      preloadInitialImages();
-      showFinal();
-    </script>
+    
   </body>
 </html>
