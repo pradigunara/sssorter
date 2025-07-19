@@ -349,6 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initList();
   preloadInitialImages();
   showFinal();
+  document.body.classList.remove("page-loading");
 
   document
     .getElementById("optionA")

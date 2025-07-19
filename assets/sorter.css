@@ -7,13 +7,13 @@
   --surface-white: rgba(255, 255, 255, 0.9);
   --text-dark: #2d2d2d;
   --text-muted: #666666;
-  
+
   /* Vibrant Accent Colors */
   --primary-pink: #ff70a6;
   --secondary-purple: #c471ed;
   --tertiary-blue: #70a6ff;
   --success-mint: #70ffb3;
-  
+
   /* Dark Mode Variants */
   --dark-bg-gradient-start: #2a1f2b;
   --dark-bg-gradient-mid: #1f2a2b;
@@ -21,7 +21,7 @@
   --dark-surface: rgba(45, 45, 45, 0.9);
   --dark-text: #e4e4e4;
   --dark-text-muted: #a0a0a0;
-  
+
   /* Shadows and Effects */
   --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
@@ -55,9 +55,44 @@ body {
   }
 }
 
+body.page-loading .page-header,
+body.page-loading .page-sorter,
+body.page-loading .page-footer,
+body.page-loading .theme-toggle {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-header,
+.page-sorter,
+.page-footer,
+.theme-toggle {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.page-header {
+  transition-delay: 0.1s;
+}
+
+.page-sorter {
+  transition-delay: 0.2s;
+}
+
+.page-footer {
+  transition-delay: 0.3s;
+}
+
+.theme-toggle {
+  transition-delay: 0.4s;
+}
+
+
+
 .page-sorter {
   background: transparent;
   padding-bottom: 20px;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 body.dark-mode {
@@ -166,7 +201,7 @@ h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
   }
-  
+
   .page-header p {
     font-size: 1rem;
     line-height: 1.6;
@@ -237,6 +272,8 @@ body.dark-mode .sorter-header strong {
   flex-direction: column;
   position: relative;
   --member-color: var(--primary-pink);
+  min-height: 300px;
+  /* Prevent collapse before content loads */
 }
 
 /* Enhanced background for browsers that support color-mix */
@@ -254,10 +291,9 @@ body.dark-mode .sorter-header strong {
   right: 0;
   bottom: 0;
   /* Fallback gradient for browsers without color-mix */
-  background: linear-gradient(135deg, 
-    rgba(255, 112, 166, 0.1), 
-    rgba(255, 112, 166, 0.03)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 112, 166, 0.1),
+      rgba(255, 112, 166, 0.03));
   border-radius: 16px;
   pointer-events: none;
   z-index: 0;
@@ -266,10 +302,9 @@ body.dark-mode .sorter-header strong {
 /* Enhanced gradient for browsers that support color-mix */
 @supports (background: color-mix(in srgb, red, blue)) {
   .sorter-option::before {
-    background: linear-gradient(135deg, 
-      color-mix(in srgb, var(--member-color) 10%, transparent 90%), 
-      color-mix(in srgb, var(--member-color) 3%, transparent 97%)
-    );
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--member-color) 10%, transparent 90%),
+        color-mix(in srgb, var(--member-color) 3%, transparent 97%));
   }
 }
 
@@ -285,7 +320,7 @@ body.dark-mode .sorter-header strong {
 .photocard-image-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 3 / 4;
   z-index: 1;
 }
 
@@ -336,7 +371,7 @@ body.dark-mode .member-badge {
   gap: 6px;
   position: relative;
   z-index: 2;
-  text-shadow: 
+  text-shadow:
     0 1px 3px rgba(255, 255, 255, 0.95),
     0 2px 6px rgba(255, 255, 255, 0.8),
     0 1px 1px rgba(0, 0, 0, 0.4),
@@ -386,10 +421,12 @@ body.dark-mode .member-badge {
     opacity: 0;
     transform: scale(0.8);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.05);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -403,10 +440,9 @@ body.dark-mode .sorter-option {
 
 body.dark-mode .sorter-option::before {
   /* Fallback gradient for browsers without color-mix */
-  background: linear-gradient(135deg, 
-    rgba(255, 112, 166, 0.18), 
-    rgba(255, 112, 166, 0.06)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 112, 166, 0.18),
+      rgba(255, 112, 166, 0.06));
 }
 
 /* Enhanced dark mode colors for browsers that support color-mix */
@@ -416,10 +452,9 @@ body.dark-mode .sorter-option::before {
   }
 
   body.dark-mode .sorter-option::before {
-    background: linear-gradient(135deg, 
-      color-mix(in srgb, var(--member-color) 18%, transparent 82%), 
-      color-mix(in srgb, var(--member-color) 6%, transparent 94%)
-    );
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--member-color) 18%, transparent 82%),
+        color-mix(in srgb, var(--member-color) 6%, transparent 94%));
   }
 }
 
@@ -429,7 +464,7 @@ body.dark-mode .photocard-info {
 
 body.dark-mode .member-name {
   color: var(--dark-text);
-  text-shadow: 
+  text-shadow:
     0 1px 3px rgba(0, 0, 0, 0.95),
     0 2px 6px rgba(0, 0, 0, 0.8),
     0 1px 1px rgba(255, 255, 255, 0.3),
@@ -523,7 +558,7 @@ a:focus {
   .main-battle {
     gap: 2rem;
   }
-  
+
   .sorter-option#optionA,
   .sorter-option#optionB {
     width: 300px;
@@ -697,7 +732,7 @@ body.dark-mode .result-btn-primary {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 0.6rem;
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -738,7 +773,7 @@ body.dark-mode .result-btn-primary {
 
 .footer-sticker:hover {
   transform: translateY(-6px) scale(1.05) rotate(0deg);
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(0, 0, 0, 0.15),
     0 4px 8px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.6);
@@ -769,7 +804,7 @@ body.dark-mode .result-btn-primary {
   .footer-sticker::before {
     font-size: 0.9rem;
   }
-  
+
   .footer-sticker.github-link {
     font-size: 0.65rem;
     line-height: 1.4;
