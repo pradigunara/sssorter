@@ -1,5 +1,4 @@
-import TripleSBiasSorter from "./TripleSBiasSorter.js";
-
+import TripleSBiasSorter from "./sorter-class.js";
 import { memberData } from "./member-data.js";
 
 const memberNames = Object.keys(memberData);
@@ -51,11 +50,11 @@ function toggleDarkMode() {
   showFinal({ skipIncrement: true });
 }
 
-// Check for saved theme preference on page load
 document.addEventListener("DOMContentLoaded", function () {
-  const savedDarkMode = localStorage.getItem("darkMode");
   initMemberPic();
+  preloadImages();
 
+  const savedDarkMode = localStorage.getItem("darkMode");
   if (savedDarkMode === "true") {
     document.body.classList.add("dark-mode");
     document.querySelector(".theme-toggle-text").textContent = "Light Mode";
@@ -63,8 +62,20 @@ document.addEventListener("DOMContentLoaded", function () {
       '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
   }
 
-  // Call preloadImages
-  preloadImages();
+  initList();
+  showFinal();
+  document.body.classList.remove("page-loading");
+
+  document
+    .getElementById("optionA")
+    .addEventListener("click", () => handleSort("A"));
+  document
+    .getElementById("optionB")
+    .addEventListener("click", () => handleSort("B"));
+  document
+    .querySelector(".theme-toggle")
+    .addEventListener("click", toggleDarkMode);
+  document.getElementById("showMore").addEventListener("click", toggleResult);
 });
 
 function initList() {
@@ -74,27 +85,6 @@ function initList() {
   document.getElementById("member-emojis").innerHTML =
     `${topEmojis}<br/>${botEmojis}`;
   sorter.reset();
-}
-
-// Preload critical member images for first comparison
-function preloadInitialImages() {
-  const comparison = sorter.getCurrentComparison();
-  if (comparison) {
-    const { memberAName, memberBName } = comparison;
-
-    // Preload all image sets for these members
-    for (let i = 1; i <= 4; i++) {
-      const picSet = `picSet${i}`;
-      if (memberData[memberAName][picSet]) {
-        const imgA = new Image();
-        imgA.src = memberData[memberAName][picSet];
-      }
-      if (memberData[memberBName][picSet]) {
-        const imgB = new Image();
-        imgB.src = memberData[memberBName][picSet];
-      }
-    }
-  }
 }
 
 function handleSort(preference) {
@@ -182,38 +172,54 @@ function toggleResult() {
   }
 }
 
-function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
+function updateProgressDisplay(progress) {
+  const heartCount = 5;
+  const filledHearts = Math.floor(
+    (progress.progressPercent / 100) * heartCount,
+  );
+  const heartDisplay =
+    "♥".repeat(filledHearts) + "♡".repeat(heartCount - filledHearts);
+  const str = `<strong>Gravity #${progress.currentQuestion}</strong><br>${heartDisplay} ${progress.progressPercent}% sorted`;
+  document.getElementById("battleNumber").innerHTML = str;
+}
+
+function updateOptionContent(optionElement, memberName, memberIndex) {
+  optionElement.innerHTML = toNameFace(memberName);
+  optionElement.style.setProperty(
+    "--member-color",
+    memberData[memberName].color,
+  );
+  optionElement.dataset.memberIndex = memberIndex;
+}
+
+function animateElement(element, ...animationClasses) {
+  return new Promise((resolve) => {
+    const onAnimationEnd = () => {
+      element.removeEventListener("transitionend", onAnimationEnd);
+      resolve();
+    };
+
+    element.addEventListener("transitionend", onAnimationEnd, { once: true });
+    element.classList.add(...animationClasses);
+  });
+}
+
+async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
   if (!skipIncrement) {
-    const progress = sorter.getProgress();
-    const heartCount = 5;
-    const filledHearts = Math.floor(
-      (progress.progressPercent / 100) * heartCount,
-    );
-    const heartDisplay =
-      "♥".repeat(filledHearts) + "♡".repeat(heartCount - filledHearts);
-    var str0 = `<strong>Gravity #${progress.currentQuestion}</strong><br>${heartDisplay} ${progress.progressPercent}% sorted`;
-    document.getElementById("battleNumber").innerHTML = str0;
+    updateProgressDisplay(sorter.getProgress());
   }
 
   const optionA = document.getElementById("optionA");
   const optionB = document.getElementById("optionB");
-
   const comparison = sorter.getCurrentComparison();
 
-  // Get the member indices currently displayed in optionA and optionB
-  // Use -1 as a default if the data attribute is not set (initial load)
   const currentMemberIndexA = parseInt(optionA.dataset.memberIndex, 10) || -1;
   const currentMemberIndexB = parseInt(optionB.dataset.memberIndex, 10) || -1;
 
-  // Determine the next member indices
   const nextMemberIndexA = comparison.memberA;
   const nextMemberIndexB = comparison.memberB;
 
-  // Determine the next content
-  const nextContentA = toNameFace(comparison.memberAName);
-  const nextContentB = toNameFace(comparison.memberBName);
-
-  // Batch DOM cleanup operations
+  // Cleanup classes and styles
   optionA.classList.remove(
     "fade-out",
     "fade-in",
@@ -233,101 +239,60 @@ function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
   optionB.style.cssText = ""; // Clear all inline styles at once
 
   if (selectedFlag === "") {
-    // Initial state or tie (if tie were active) - batch all updates
-    optionA.innerHTML = nextContentA;
-    optionA.style.setProperty(
-      "--member-color",
-      memberData[comparison.memberAName].color,
-    );
-    optionA.dataset.memberIndex = nextMemberIndexA;
+    updateOptionContent(optionA, comparison.memberAName, nextMemberIndexA);
+    updateOptionContent(optionB, comparison.memberBName, nextMemberIndexB);
     optionA.style.visibility = "visible";
     optionA.style.opacity = 1;
-
-    optionB.innerHTML = nextContentB;
-    optionB.style.setProperty(
-      "--member-color",
-      memberData[comparison.memberBName].color,
-    );
-    optionB.dataset.memberIndex = nextMemberIndexB;
     optionB.style.visibility = "visible";
     optionB.style.opacity = 1;
-    return; // Exit the function
+    return;
   }
 
-  // Apply initial animation states based on content change and selection
-  // Compare the member indices to see if the content is changing
   const optionAContentChanged = currentMemberIndexA !== nextMemberIndexA;
   const optionBContentChanged = currentMemberIndexB !== nextMemberIndexB;
 
+  const animationPromises = [];
+
   if (optionAContentChanged) {
-    optionA.classList.add("flip-out");
-  } else {
-    // optionA.classList.add("fade-out"); // Use fade for no content change
+    animationPromises.push(animateElement(optionA, "flip-out"));
   }
-
   if (optionBContentChanged) {
-    optionB.classList.add("flip-out");
-  } else {
-    // optionB.classList.add("fade-out"); // Use fade for no content change
+    animationPromises.push(animateElement(optionB, "flip-out"));
   }
 
-  // Add glow to the selected option
   if (selectedFlag === "A") {
-    // Option A was selected
     optionA.classList.add("selected-glow");
   } else {
-    // Option B was selected
     optionB.classList.add("selected-glow");
   }
 
-  // Wait for the fade-out/flip-out transition to complete
-  setTimeout(() => {
-    // Batch DOM updates to prevent layout thrashing
-    requestAnimationFrame(() => {
-      // Update content and properties in batch
-      optionA.innerHTML = nextContentA;
-      optionA.style.setProperty(
-        "--member-color",
-        memberData[comparison.memberAName].color,
-      );
-      optionA.dataset.memberIndex = nextMemberIndexA;
+  await Promise.all(animationPromises);
 
-      optionB.innerHTML = nextContentB;
-      optionB.style.setProperty(
-        "--member-color",
-        memberData[comparison.memberBName].color,
-      );
-      optionB.dataset.memberIndex = nextMemberIndexB;
+  updateOptionContent(optionA, comparison.memberAName, nextMemberIndexA);
+  updateOptionContent(optionB, comparison.memberBName, nextMemberIndexB);
 
-      // Apply animations after DOM updates
-      if (optionAContentChanged) {
-        optionA.classList.remove("flip-out");
-        optionA.classList.add("flip-in");
-      } else {
-        optionA.classList.remove("fade-out");
-        optionA.classList.add("fade-in");
-      }
+  const inAnimationPromises = [];
+  if (optionAContentChanged) {
+    inAnimationPromises.push(animateElement(optionA, "flip-in"));
+  } else {
+    inAnimationPromises.push(animateElement(optionA, "fade-in"));
+  }
 
-      if (optionBContentChanged) {
-        optionB.classList.remove("flip-out");
-        optionB.classList.add("flip-in");
-      } else {
-        optionB.classList.remove("fade-out");
-        optionB.classList.add("fade-in");
-      }
-    });
+  if (optionBContentChanged) {
+    inAnimationPromises.push(animateElement(optionB, "flip-in"));
+  } else {
+    inAnimationPromises.push(animateElement(optionB, "fade-in"));
+  }
 
-    // After the second transition, remove the animation classes and glow
-    setTimeout(() => {
-      optionA.classList.remove("fade-in", "flip-in", "selected-glow");
-      optionB.classList.remove("fade-in", "flip-in", "selected-glow");
-      // Ensure final state is visible and not transformed
-      optionA.style.opacity = 1;
-      optionB.style.opacity = 1;
-      optionA.style.transform = "rotateY(0deg)";
-      optionB.style.transform = "rotateY(0deg)";
-    }, 200); // Match the transition duration
-  }, 200); // Match the transition duration
+  await Promise.all(inAnimationPromises);
+
+  optionA.classList.remove("selected-glow", "flip-in", "fade-in");
+  optionB.classList.remove("selected-glow", "flip-in", "fade-in");
+
+  optionA.style.opacity = 1;
+  optionB.style.opacity = 1;
+  optionA.style.transform = "rotateY(0deg)";
+  optionB.style.transform = "rotateY(0deg)";
 }
 
 function toNameFace(mem) {
@@ -343,22 +308,3 @@ function toNameFace(mem) {
 
   return disp;
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  initMemberPic();
-  initList();
-  preloadInitialImages();
-  showFinal();
-  document.body.classList.remove("page-loading");
-
-  document
-    .getElementById("optionA")
-    .addEventListener("click", () => handleSort("A"));
-  document
-    .getElementById("optionB")
-    .addEventListener("click", () => handleSort("B"));
-  document
-    .querySelector(".theme-toggle")
-    .addEventListener("click", toggleDarkMode);
-  document.getElementById("showMore").addEventListener("click", toggleResult);
-});

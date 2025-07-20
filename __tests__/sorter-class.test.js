@@ -1,4 +1,4 @@
-import TripleSBiasSorter from "../assets/TripleSBiasSorter.js";
+import TripleSBiasSorter from "../assets/sorter-class.js";
 
 describe("TripleSBiasSorter", () => {
   let sorter;
@@ -187,14 +187,14 @@ describe("TripleSBiasSorter", () => {
 
     test("should throw error for non-array member list", () => {
       expect(() => new TripleSBiasSorter("not an array")).toThrow(
-        "Member names must be an array"
+        "Member names must be an array",
       );
     });
 
     test("should throw error for invalid memberData", () => {
       const members = ["A", "B"];
       expect(() => new TripleSBiasSorter(members, "not an object")).toThrow(
-        "Member data must be an object"
+        "Member data must be an object",
       );
     });
   });
@@ -396,7 +396,7 @@ describe("TripleSBiasSorter", () => {
       const memberCount = 15;
       const randomMembers = Array.from(
         { length: memberCount },
-        (_, i) => `Member${i}`
+        (_, i) => `Member${i}`,
       );
 
       sorter = new TripleSBiasSorter(randomMembers);
