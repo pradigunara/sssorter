@@ -286,6 +286,9 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
 
   await Promise.all(inAnimationPromises);
 
+  // Pause to ensure the glow is visible
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
   optionA.classList.remove("selected-glow", "flip-in", "fade-in");
   optionB.classList.remove("selected-glow", "flip-in", "fade-in");
 

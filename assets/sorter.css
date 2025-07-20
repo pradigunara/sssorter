@@ -698,140 +698,75 @@ body.dark-mode .result-btn-primary {
   left: 0;
   right: 0;
   width: 100%;
-  padding: 0.8rem;
+  padding: 1rem;
   display: flex;
-  gap: 0.8rem;
   justify-content: center;
   align-items: center;
-  flex-wrap: nowrap;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 100;
 }
 
-@media screen and (min-width: 768px) {
-  .page-footer {
-    padding: 1.5rem 1rem;
-    gap: 1.5rem;
-    justify-content: flex-start;
-    left: 0;
-    right: auto;
-    width: auto;
-  }
+body.dark-mode .page-footer {
+  background: rgba(30, 30, 30, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-sticker {
+.footer-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.2rem;
-  padding: 0.3rem 0.5rem;
-  /* Fallback for browsers without backdrop-filter */
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 16px;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border-radius: 18px;
   text-decoration: none;
   color: var(--text-dark);
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 0.6rem;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 0.75rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: rotate(-1deg);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  flex: 1;
-  max-width: 140px;
-  justify-content: center;
 }
 
-/* Glass morphism effect for browsers that support backdrop-filter */
-@supports (backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px)) {
-  .footer-sticker {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .footer-sticker {
-    gap: 0.4rem;
-    padding: 0.6rem 1rem;
-    border-radius: 18px;
-    font-size: 0.75rem;
-    flex: none;
-    max-width: none;
-  }
-}
-
-.footer-sticker:nth-child(2) {
-  transform: rotate(1deg);
-}
-
-.footer-sticker:nth-child(3) {
-  transform: rotate(-0.5deg);
-}
-
-.footer-sticker:hover {
-  transform: translateY(-6px) scale(1.05) rotate(0deg);
-  box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.15),
-    0 4px 8px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.footer-sticker::before {
-  content: "♡";
-  font-size: 0.8rem;
+.footer-link:hover {
+  transform: translateY(-2px);
   color: var(--primary-pink);
 }
 
-.footer-sticker.github-link::before {
-  content: "⭐";
-}
-
-.footer-sticker.author-link::before {
-  content: "💫";
-}
-
-.footer-sticker.github-link {
-  font-size: 0.5rem;
-  line-height: 1.2;
-  padding: 0.25rem 0.4rem;
-  max-width: 120px;
-}
-
-@media screen and (min-width: 768px) {
-  .footer-sticker::before {
-    font-size: 0.9rem;
-  }
-
-  .footer-sticker.github-link {
-    font-size: 0.65rem;
-    line-height: 1.4;
-  }
-}
-
-body.dark-mode .footer-sticker {
-  /* Fallback for browsers without backdrop-filter */
-  background: rgba(30, 30, 30, 0.8);
+body.dark-mode .footer-link {
   color: var(--dark-text);
-  border-color: rgba(255, 255, 255, 0.2);
 }
 
-body.dark-mode .footer-sticker:hover {
-  /* Fallback for browsers without backdrop-filter */
-  background: rgba(30, 30, 30, 0.9);
+.footer-link::before {
+  content: "💫";
+  font-size: 0.9rem;
+  color: var(--primary-pink);
 }
 
-/* Glass morphism effect for dark mode with backdrop-filter support */
-@supports (backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px)) {
-  body.dark-mode .footer-sticker {
-    background: rgba(30, 30, 30, 0.5);
+.accent-text {
+  color: var(--primary-pink);
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1024px) {
+  .page-footer {
+    padding: 0.4rem;
+  }
+  .footer-sticker {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-footer {
+    padding: 0.2rem;
   }
 
-  body.dark-mode .footer-sticker:hover {
-    background: rgba(30, 30, 30, 0.7);
+  .footer-sticker {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    gap: 0.3rem;
   }
 }
 
