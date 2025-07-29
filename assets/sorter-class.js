@@ -46,8 +46,43 @@ export default class TripleSBiasSorter {
       return;
     }
 
-    // Create initial member indices array
-    const initialMembers = [...Array(this.memberNames.length).keys()];
+    // --- Start of new logic ---
+
+    // 1. Create a randomly shuffled list of member indices.
+    const shuffledIndices = [...Array(this.memberNames.length).keys()];
+    shuffledIndices.sort(() => 0.5 - Math.random());
+
+    // 2. Temporarily build the sort tree to find the initial comparison pair.
+    let tempList = [shuffledIndices];
+    for (let i = 0; i < tempList.length; i++) {
+      if (tempList[i].length >= 2) {
+        const mid = Math.ceil(tempList[i].length / 2);
+        tempList.push(tempList[i].slice(0, mid));
+        tempList.push(tempList[i].slice(mid));
+      }
+    }
+
+    // 3. Identify the members in the first comparison.
+    const firstToCompareA = tempList[tempList.length - 2][0];
+    const firstToCompareB = tempList[tempList.length - 1][0];
+
+    // 4. Find the positions of our target members (0 and 23) and the first-pair members.
+    const pos0 = shuffledIndices.indexOf(0);
+    const pos23 = shuffledIndices.indexOf(23);
+    const posA = shuffledIndices.indexOf(firstToCompareA);
+    const posB = shuffledIndices.indexOf(firstToCompareB);
+
+    // 5. Swap our target members into the positions of the first-pair members.
+    // This ensures 0 and 23 will be the first to be compared.
+    [shuffledIndices[pos0], shuffledIndices[posA]] = [shuffledIndices[posA], shuffledIndices[pos0]];
+    // After the first swap, the position of member 23 might have changed if it was at posA.
+    const newPos23 = shuffledIndices.indexOf(23);
+    [shuffledIndices[newPos23], shuffledIndices[posB]] = [shuffledIndices[posB], shuffledIndices[newPos23]];
+
+    // --- End of new logic ---
+
+    // 6. Now, build the definitive sort tree with the modified list.
+    const initialMembers = shuffledIndices;
 
     this.lstMember = [initialMembers];
     this.parent = [-1];
@@ -247,7 +282,7 @@ export default class TripleSBiasSorter {
       (this.finishSize * 100) / this.totalSize,
     );
     return {
-      currentQuestion: this.numQuestion - 1,
+      currentQuestion: this.numQuestion,
       progressPercent,
       completedComparisons: this.finishSize,
       totalComparisons: this.totalSize,

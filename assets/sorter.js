@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initList();
   showFinal();
-  document.body.classList.remove("page-loading");
+  
 
   document
     .getElementById("optionA")
@@ -79,11 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function initList() {
-  const memEmojis = memberNames.map((m) => memberData[m].emoji);
-  const topEmojis = memEmojis.slice(0, 12).join(" ");
-  const botEmojis = memEmojis.slice(12).join(" ");
-  document.getElementById("member-emojis").innerHTML =
-    `${topEmojis}<br/>${botEmojis}`;
   sorter.reset();
 }
 
@@ -190,6 +185,15 @@ function updateOptionContent(optionElement, memberName, memberIndex) {
     memberData[memberName].color,
   );
   optionElement.dataset.memberIndex = memberIndex;
+
+  const img = optionElement.querySelector(".photocard-image");
+  if (img.complete) {
+    img.classList.remove("is-loading");
+  } else {
+    img.addEventListener("load", () => {
+      img.classList.remove("is-loading");
+    });
+  }
 }
 
 function animateElement(element, ...animationClasses) {
