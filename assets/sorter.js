@@ -1,6 +1,14 @@
 import TripleSBiasSorter from "./sorter-class.js";
 import { memberData } from "./member-data.js";
 
+// Optimization: preload initial member images
+for (const member of [memberData.SeoYeon, memberData.JiYeon]) {
+  for (let i = 1; i <= 4; i++) {
+    const img = new Image();
+    img.src = member[`picSet${i}`];
+  }
+}
+
 const memberNames = Object.keys(memberData);
 let sorter = new TripleSBiasSorter(memberNames, memberData);
 let memberPicId = {};
@@ -16,7 +24,7 @@ function initMemberPic() {
   }
 }
 
-// Preload images
+// Preload images for the rest of the members
 function preloadImages() {
   for (const memberName of memberNames) {
     for (let i = 1; i <= 4; i++) {
@@ -52,7 +60,6 @@ function toggleDarkMode() {
 
 document.addEventListener("DOMContentLoaded", function () {
   initMemberPic();
-  preloadImages();
 
   const savedDarkMode = localStorage.getItem("darkMode");
   if (savedDarkMode === "true") {
@@ -62,9 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
       '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
   }
 
-  initList();
+  sorter.reset();
   showFinal();
-  
 
   document
     .getElementById("optionA")
@@ -76,11 +82,18 @@ document.addEventListener("DOMContentLoaded", function () {
     .querySelector(".theme-toggle")
     .addEventListener("click", toggleDarkMode);
   document.getElementById("showMore").addEventListener("click", toggleResult);
-});
 
-function initList() {
-  sorter.reset();
-}
+  const initialImg = document.querySelector(".photocard-image");
+  if (initialImg.complete) {
+    initialImg.classList.remove("is-loading");
+    preloadImages();
+  } else {
+    initialImg.addEventListener("load", () => {
+      initialImg.classList.remove("is-loading");
+      preloadImages();
+    });
+  }
+});
 
 function handleSort(preference) {
   if (sorter.isComplete()) return;
@@ -185,15 +198,6 @@ function updateOptionContent(optionElement, memberName, memberIndex) {
     memberData[memberName].color,
   );
   optionElement.dataset.memberIndex = memberIndex;
-
-  const img = optionElement.querySelector(".photocard-image");
-  if (img.complete) {
-    img.classList.remove("is-loading");
-  } else {
-    img.addEventListener("load", () => {
-      img.classList.remove("is-loading");
-    });
-  }
 }
 
 function animateElement(element, ...animationClasses) {
