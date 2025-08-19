@@ -69,10 +69,6 @@
 
     <!-- Preconnect for faster image loading -->
     <link rel="preconnect" href="https://imagedelivery.net" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Quicksand:wght@400;600&family=Inter:wght@400;500&family=Poppins:wght@500;600&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="/assets/sorter.css" />
     <link rel="icon" type="image/png" href="/assets/cube.png" />
 
@@ -164,6 +160,7 @@
                   class="photocard-image is-loading"
                   width="582"
                   height="900"
+                  fetchpriority="high"
                 />
                 <div class="member-badge">S1</div>
               </div>
@@ -231,5 +228,12 @@
         made with ♡ by <span class="accent-text">@celdaris</span>
       </a>
     </footer>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Quicksand:wght@400;600&family=Inter:wght@400;500&family=Poppins:wght@500;600&display=swap"
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
   </body>
 </html>
