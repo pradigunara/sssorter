@@ -309,7 +309,7 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
 function toNameFace(mem) {
   const disp = `
     <div class='photocard-image-container'>
-      <img src='${memberPicId[mem]}' alt='${mem}' class='photocard-image'/>
+      <img src='${memberPicId[mem]}' alt='${mem}' class='photocard-image' width="582" height="900"/>
       <div class='member-badge'>${memberData[mem].sNumber}</div>
     </div>
     <div class='photocard-info'>
