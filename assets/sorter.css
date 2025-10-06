@@ -1,10 +1,10 @@
 :root {
   /* Cute K-pop Color System */
   /* Pastel Base Palette */
-  --bg-gradient-start: #ffe1e8;
-  --bg-gradient-mid: #e8e1ff;
-  --bg-gradient-end: #e1ffe8;
-  --surface-white: rgba(255, 255, 255, 0.9);
+  --bg-gradient-start: #A2D2D2;
+  --bg-gradient-mid: #F5C3B8;
+  --bg-gradient-end: #FBF3D5;
+  --surface-white: rgba(255, 255, 255, 0.75);
   --text-dark: #2d2d2d;
   --text-muted: #666666;
 
@@ -15,9 +15,9 @@
   --success-mint: #70ffb3;
 
   /* Dark Mode Variants */
-  --dark-bg-gradient-start: #2a1f2b;
-  --dark-bg-gradient-mid: #1f2a2b;
-  --dark-bg-gradient-end: #1f2b2a;
+  --dark-bg-gradient-start: #2A2A2A;
+  --dark-bg-gradient-mid: #2A2525;
+  --dark-bg-gradient-end: #252A25;
   --dark-surface: rgba(45, 45, 45, 0.9);
   --dark-text: #e4e4e4;
   --dark-text-muted: #a0a0a0;
@@ -139,7 +139,7 @@ h2 {
   font-family: "Nunito", sans-serif;
   font-weight: 800;
   font-size: 1.8rem;
-  background: linear-gradient(135deg, var(--primary-pink), var(--secondary-purple), var(--tertiary-blue));
+  background: linear-gradient(135deg, #5a8a8a, #8a6a6a, #8a7a5a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -205,12 +205,12 @@ body.dark-mode .sorter-header {
 }
 
 .sorter-header strong {
-  color: var(--primary-pink);
+  color: #8a6a6a;
   font-weight: 600;
 }
 
 body.dark-mode .sorter-header strong {
-  color: var(--primary-pink);
+  color: #8a6a6a;
 }
 
 /* Photocard Component */
@@ -241,7 +241,7 @@ body.dark-mode .sorter-header strong {
 /* Enhanced background for browsers that support color-mix */
 @supports (background: color-mix(in srgb, red, blue)) {
   .sorter-option {
-    background: color-mix(in srgb, var(--member-color) 6%, var(--surface-white) 94%);
+    background: color-mix(in srgb, var(--member-color) 12%, var(--surface-white) 88%);
   }
 }
 
@@ -338,25 +338,27 @@ body.dark-mode .member-badge {
   gap: 6px;
   position: relative;
   z-index: 2;
-  text-shadow:
-    0 1px 3px rgba(255, 255, 255, 0.95),
-    0 2px 6px rgba(255, 255, 255, 0.8),
-    0 1px 1px rgba(0, 0, 0, 0.4),
-    0 2px 4px rgba(0, 0, 0, 0.2);
-  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.4);
 }
 
 .member-name::before {
   content: '';
   position: absolute;
   top: -4px;
-  left: -8px;
-  right: -8px;
+  left: -12px;
+  right: -12px;
   bottom: -4px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(30, 30, 30, 0.85);
   border-radius: 12px;
   z-index: -1;
-  backdrop-filter: blur(4px);
+}
+
+/* Use CSS color-mix to create adaptive background based on member color */
+@supports (background: color-mix(in srgb, red, blue)) {
+  .member-name::before {
+    /* https://til.jakelazaroff.com/css/swap-between-black-and-white-text-based-on-background-color/ */
+    --computed-light-bg: lch(from var(--member-color) calc((49.44 - l) * infinity) 0 0 / 50%);
+    background: color-mix(in srgb, var(--member-color) 35%, var(--computed-light-bg));
+  }
 }
 
 
@@ -431,16 +433,17 @@ body.dark-mode .photocard-info {
 
 body.dark-mode .member-name {
   color: var(--dark-text);
-  text-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.95),
-    0 2px 6px rgba(0, 0, 0, 0.8),
-    0 1px 1px rgba(255, 255, 255, 0.3),
-    0 2px 4px rgba(255, 255, 255, 0.15);
-  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.4);
 }
 
 body.dark-mode .member-name::before {
-  background: rgba(30, 30, 30, 0.65);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Dark mode: adaptive background using color-mix */
+@supports (background: color-mix(in srgb, red, blue)) {
+  body.dark-mode .member-name::before {
+    background: color-mix(in srgb, var(--member-color) 20%, rgba(0, 0, 0, 0.8));
+  }
 }
 
 
@@ -540,7 +543,7 @@ a:focus {
   text-align: center;
   font-weight: 600;
   font-size: 1.5rem;
-  color: var(--primary-pink);
+  color: #8a6a6a;
   letter-spacing: 2px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
@@ -624,17 +627,17 @@ body.dark-mode .result-btn {
 }
 
 .result-btn-primary {
-  background: linear-gradient(135deg, var(--primary-pink), var(--secondary-purple));
+  background: linear-gradient(135deg, #5a8a8a, #8a6a6a, #8a7a5a);
   color: white;
 }
 
 .result-btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: var(--card-shadow-hover), 0 4px 20px rgba(255, 112, 166, 0.3);
+  box-shadow: var(--card-shadow-hover), 0 4px 20px rgba(138, 106, 106, 0.3);
 }
 
 body.dark-mode .result-btn-primary {
-  background: linear-gradient(135deg, var(--primary-pink), var(--secondary-purple));
+  background: linear-gradient(135deg, #5a8a8a, #8a6a6a, #8a7a5a);
   color: white;
 }
 
@@ -694,7 +697,7 @@ body.dark-mode .page-footer {
 
 .footer-link:hover {
   transform: translateY(-2px);
-  color: var(--primary-pink);
+  color: #8a6a6a;
 }
 
 body.dark-mode .footer-link {
@@ -704,11 +707,11 @@ body.dark-mode .footer-link {
 .footer-link::before {
   content: "💫";
   font-size: 0.9rem;
-  color: var(--primary-pink);
+  color: #8a6a6a;
 }
 
 .accent-text {
-  color: var(--primary-pink);
+  color: #8a6a6a;
   font-weight: bold;
 }
 
