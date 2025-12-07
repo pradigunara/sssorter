@@ -221,8 +221,12 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
   const optionB = document.getElementById("optionB");
   const comparison = sorter.getCurrentComparison();
 
-  const currentMemberIndexA = parseInt(optionA.dataset.memberIndex, 10) || -1;
-  const currentMemberIndexB = parseInt(optionB.dataset.memberIndex, 10) || -1;
+  const currentMemberIndexA = optionA.dataset.memberIndex != null
+    ? parseInt(optionA.dataset.memberIndex, 10)
+    : -1;
+  const currentMemberIndexB = optionB.dataset.memberIndex != null
+    ? parseInt(optionB.dataset.memberIndex, 10)
+    : -1;
 
   const nextMemberIndexA = comparison.memberA;
   const nextMemberIndexB = comparison.memberB;
@@ -276,8 +280,12 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
 
   await Promise.all(animationPromises);
 
-  updateOptionContent(optionA, comparison.memberAName, nextMemberIndexA);
-  updateOptionContent(optionB, comparison.memberBName, nextMemberIndexB);
+  if (optionAContentChanged) {
+    updateOptionContent(optionA, comparison.memberAName, nextMemberIndexA);
+  }
+  if (optionBContentChanged) {
+    updateOptionContent(optionB, comparison.memberBName, nextMemberIndexB);
+  }
 
   const inAnimationPromises = [];
   if (optionAContentChanged) {
@@ -302,8 +310,8 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
 
   optionA.style.opacity = 1;
   optionB.style.opacity = 1;
-  optionA.style.transform = "rotateY(0deg)";
-  optionB.style.transform = "rotateY(0deg)";
+  optionA.style.transform = "scale(1)";
+  optionB.style.transform = "scale(1)";
 }
 
 function toNameFace(mem) {
