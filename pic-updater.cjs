@@ -28,12 +28,14 @@ async function getConfig() {
 
   if (Object.values(args).some((arg) => arg === undefined)) {
     console.log(
-      "Please enter the following configuration values (or press Enter to use defaults):"
+      "Please enter the following configuration values (or press Enter to use defaults):",
     );
-    args.class = await prompt(`Class (default: Double): `) || "Double";
-    args.season = await prompt(`Season (default: Atom02): `) || "Atom02";
-    args.collectionNo = await prompt(`Collection Number (default: 314Z): `) || "314Z";
-    args.picSet = await prompt(`Picture Set to update (default: picSet1): `) || "picSet1";
+    args.class = (await prompt(`Class (default: Double): `)) || "Double";
+    args.season = (await prompt(`Season (default: Binary02): `)) || "Binary02";
+    args.collectionNo =
+      (await prompt(`Collection Number (default: 301A): `)) || "301A";
+    args.picSet =
+      (await prompt(`Picture Set to update (default: picSet1): `)) || "picSet1";
   }
 
   return args;
@@ -64,7 +66,7 @@ Found ${data.objekts.length} objekts in the response.`);
       if (objekt.member && objekt.frontImage) {
         memberImageMap[objekt.member] = objekt.frontImage.replace(
           "/original",
-          "/2x"
+          "/2x",
         );
       }
     });
@@ -84,10 +86,16 @@ Found ${data.objekts.length} objekts in the response.`);
       }
     }
 
-    const newMemberDataString = JSON.stringify(memberData, null, 2).replace(/"(\w+)":/g, "$1:");
+    const newMemberDataString = JSON.stringify(memberData, null, 2).replace(
+      /"(\w+)":/g,
+      "$1:",
+    );
     let sorterContent = fs.readFileSync(sorterFilePath, "utf8");
     const memberDataRegex = /export const memberData = ({[^;]*});/;
-    sorterContent = sorterContent.replace(memberDataRegex, `export const memberData = ${newMemberDataString};`);
+    sorterContent = sorterContent.replace(
+      memberDataRegex,
+      `export const memberData = ${newMemberDataString};`,
+    );
 
     fs.writeFileSync(sorterFilePath, sorterContent);
 
