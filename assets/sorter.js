@@ -267,6 +267,20 @@ async function animateCardUpdate(
     // Swap content behind the scenes
     updateOptionContent(card, nextMemberName, nextMemberIndex);
 
+    // If the new image is not cached, wait a tiny bit for it to fetch
+    // so we don't flip a blank card over. We use a Promise that resolves
+    // immediately if cached, or races against a short timeout.
+    const newImage = card.querySelector(".photocard-image");
+    if (newImage && !newImage.complete) {
+      await new Promise((resolve) => {
+        const timeout = setTimeout(resolve, 300); // Max wait 300ms so we don't freeze the app forever
+        newImage.onload = newImage.onerror = () => {
+          clearTimeout(timeout);
+          resolve();
+        };
+      });
+    }
+
     // Prep the start position for flipping in
     card.classList.remove("flip-out");
     card.classList.add("flip-ready");
