@@ -1,31 +1,31 @@
 :root {
-  /* Cute K-pop Color System */
-  /* Pastel Base Palette */
-  --bg-gradient-start: #A2D2D2;
-  --bg-gradient-mid: #F5C3B8;
-  --bg-gradient-end: #FBF3D5;
-  --surface-white: rgba(255, 255, 255, 0.75);
-  --text-dark: #2d2d2d;
-  --text-muted: #666666;
+  /* Elegant K-pop Girl Group Aesthetic */
+  /* Elegant Soft Palette (Light Mode) */
+  --bg-gradient-start: #f8f9fa;
+  --bg-gradient-mid: #ffd6e0;
+  --bg-gradient-end: #e2eafc;
+  --surface-white: rgba(255, 255, 255, 0.85);
+  --text-dark: #3a3a3a;
+  --text-muted: #828282;
 
-  /* Vibrant Accent Colors */
-  --primary-pink: #ff70a6;
-  --secondary-purple: #c471ed;
-  --tertiary-blue: #70a6ff;
-  --success-mint: #70ffb3;
+  /* Accent Colors */
+  --primary-pink: #ff4d85;
+  --secondary-purple: #9b72cf;
+  --tertiary-blue: #5c9eff;
+  --success-mint: #4ade80;
 
-  /* Dark Mode Variants */
-  --dark-bg-gradient-start: #2A2A2A;
-  --dark-bg-gradient-mid: #2A2525;
-  --dark-bg-gradient-end: #252A25;
-  --dark-surface: rgba(45, 45, 45, 0.9);
-  --dark-text: #e4e4e4;
-  --dark-text-muted: #a0a0a0;
+  /* Chic Dark Mode Variants */
+  --dark-bg-gradient-start: #0f1016;
+  --dark-bg-gradient-mid: #1f121d;
+  --dark-bg-gradient-end: #161824;
+  --dark-surface: rgba(30, 30, 38, 0.85);
+  --dark-text: #f0f0f5;
+  --dark-text-muted: #a1a1aa;
 
   /* Shadows and Effects */
-  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
-  --glow-effect: 0 0 20px;
+  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 20px 60px rgba(255, 77, 133, 0.15);
+  --glow-effect: 0 0 25px;
 }
 
 * {
@@ -36,16 +36,32 @@
 
 body {
   color: var(--text-dark);
-  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-start),
+    var(--bg-gradient-mid),
+    var(--bg-gradient-end)
+  );
   background-attachment: fixed;
   margin: 0;
-  font-family: "Quicksand", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    "Nunito",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   font-weight: 600;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
   min-height: 100vh;
   padding-bottom: 50px;
 }
@@ -56,11 +72,14 @@ body {
   }
 }
 
-
-
 body.dark-mode {
   color: var(--dark-text);
-  background: linear-gradient(135deg, var(--dark-bg-gradient-start), var(--dark-bg-gradient-mid), var(--dark-bg-gradient-end));
+  background: linear-gradient(
+    135deg,
+    var(--dark-bg-gradient-start),
+    var(--dark-bg-gradient-mid),
+    var(--dark-bg-gradient-end)
+  );
   background-attachment: fixed;
 }
 
@@ -134,16 +153,20 @@ h2 {
   transition: background 0.3s ease;
 }
 
-
 .page-header h1 {
   font-family: "Nunito", sans-serif;
   font-weight: 800;
   font-size: 1.8rem;
-  background: linear-gradient(135deg, #5a8a8a, #8a6a6a, #8a7a5a);
+  background: linear-gradient(
+    135deg,
+    var(--primary-pink),
+    var(--secondary-purple)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.8rem;
+  letter-spacing: -0.5px;
 }
 
 .page-header p {
@@ -205,78 +228,82 @@ body.dark-mode .sorter-header {
 }
 
 .sorter-header strong {
-  color: #8a6a6a;
-  font-weight: 600;
+  color: var(--primary-pink);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 body.dark-mode .sorter-header strong {
-  color: #8a6a6a;
+  color: var(--primary-pink);
 }
 
 /* Photocard Component */
 .sorter-option {
   cursor: pointer;
-  /* Fallback for browsers without color-mix support */
   background: var(--surface-white);
   border-radius: 16px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: var(--card-shadow);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
   transform: scale(1);
   backface-visibility: hidden;
-  will-change: transform, opacity;
+  will-change: transform, box-shadow;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
   --member-color: var(--primary-pink);
-  min-height: 300px;
   /* Prevent collapse before content loads */
 }
 
-/* Enhanced background for browsers that support color-mix */
-@supports (background: color-mix(in srgb, red, blue)) {
+@media screen and (min-width: 500px) {
   .sorter-option {
-    background: color-mix(in srgb, var(--member-color) 12%, var(--surface-white) 88%);
+    border-radius: 20px;
+    min-height: 300px;
   }
 }
 
 .sorter-option::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  /* Fallback gradient for browsers without color-mix */
-  background: linear-gradient(135deg,
-      rgba(255, 112, 166, 0.1),
-      rgba(255, 112, 166, 0.03));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--member-color) 15%, transparent 85%),
+    color-mix(in srgb, var(--member-color) 5%, transparent 95%)
+  );
   border-radius: 16px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Enhanced gradient for browsers that support color-mix */
-@supports (background: color-mix(in srgb, red, blue)) {
+@media screen and (min-width: 500px) {
   .sorter-option::before {
-    background: linear-gradient(135deg,
-        color-mix(in srgb, var(--member-color) 10%, transparent 90%),
-        color-mix(in srgb, var(--member-color) 3%, transparent 97%));
+    border-radius: 20px;
   }
 }
 
 .sorter-option:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: var(--card-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.9);
 }
 
 .sorter-option:active {
-  transform: translateY(-2px) scale(0.98);
+  transform: scale(0.98);
+}
+
+.song-sorter.is-animating .sorter-option {
+  pointer-events: none;
 }
 
 .photocard-image-container {
@@ -293,6 +320,7 @@ body.dark-mode .sorter-header strong {
   border-radius: 12px;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .photocard-image.is-loading {
@@ -301,25 +329,28 @@ body.dark-mode .sorter-header strong {
 
 .member-badge {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  font-weight: 600;
-  font-size: 10px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  backdrop-filter: blur(4px);
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-dark);
+  font-weight: 800;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
   z-index: 1;
+  letter-spacing: 0.5px;
 }
 
 body.dark-mode .member-badge {
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--text-dark);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--dark-text);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .photocard-info {
-  padding: 12px 16px 12px 16px;
+  padding: 16px 12px;
   text-align: center;
   background: transparent;
   position: relative;
@@ -327,47 +358,47 @@ body.dark-mode .member-badge {
 }
 
 .member-name {
-  font-family: "Quicksand", sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 800;
-  font-size: 18px;
+  font-size: 20px;
   margin: 0;
-  color: var(--text-dark);
+  color: var(--text-dark); /* fallback */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   position: relative;
   z-index: 2;
+  letter-spacing: -0.3px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+body.dark-mode .member-name {
+  color: var(--dark-text); /* fallback */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .member-name::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: -4px;
-  left: -12px;
-  right: -12px;
-  bottom: -4px;
-  background: rgba(30, 30, 30, 0.85);
-  border-radius: 12px;
+  top: -6px;
+  left: -14px;
+  right: -14px;
+  bottom: -6px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
   z-index: -1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
-
-/* Use CSS color-mix to create adaptive background based on member color */
-@supports (background: color-mix(in srgb, red, blue)) {
-  .member-name::before {
-    /* https://til.jakelazaroff.com/css/swap-between-black-and-white-text-based-on-background-color/ */
-    --computed-light-bg: lch(from var(--member-color) calc((49.44 - l) * infinity) 0 0 / 50%);
-    background: color-mix(in srgb, var(--member-color) 35%, var(--computed-light-bg));
-  }
-}
-
-
 
 /* Selection animations with member colors */
 .sorter-option.selected-glow {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: var(--glow-effect) var(--member-color, var(--primary-pink));
-  filter: brightness(1.1);
+  transform: scale(1.02);
+  box-shadow:
+    0 0 35px var(--member-color, var(--primary-pink)),
+    inset 0 0 0 3px var(--member-color, var(--primary-pink)) !important;
+  filter: brightness(1.05);
+  border-color: var(--member-color, var(--primary-pink)) !important;
 }
 
 .sorter-option.not-selected {
@@ -403,49 +434,26 @@ body.dark-mode .member-badge {
 }
 
 body.dark-mode .sorter-option {
-  /* Fallback for browsers without color-mix support */
   background: var(--dark-surface);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 body.dark-mode .sorter-option::before {
-  /* Fallback gradient for browsers without color-mix */
-  background: linear-gradient(135deg,
-      rgba(255, 112, 166, 0.18),
-      rgba(255, 112, 166, 0.06));
-}
-
-/* Enhanced dark mode colors for browsers that support color-mix */
-@supports (background: color-mix(in srgb, red, blue)) {
-  body.dark-mode .sorter-option {
-    background: color-mix(in srgb, var(--member-color) 12%, var(--dark-surface) 88%);
-  }
-
-  body.dark-mode .sorter-option::before {
-    background: linear-gradient(135deg,
-        color-mix(in srgb, var(--member-color) 18%, transparent 82%),
-        color-mix(in srgb, var(--member-color) 6%, transparent 94%));
-  }
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--member-color) 20%, transparent 80%),
+    color-mix(in srgb, var(--member-color) 8%, transparent 92%)
+  );
 }
 
 body.dark-mode .photocard-info {
   background: transparent;
 }
 
-body.dark-mode .member-name {
-  color: var(--dark-text);
-}
-
 body.dark-mode .member-name::before {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(30, 30, 38, 0.95);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
-
-/* Dark mode: adaptive background using color-mix */
-@supports (background: color-mix(in srgb, red, blue)) {
-  body.dark-mode .member-name::before {
-    background: color-mix(in srgb, var(--member-color) 20%, rgba(0, 0, 0, 0.8));
-  }
-}
-
 
 .song-sorter .sorter-option {
   display: flex;
@@ -491,7 +499,6 @@ body.dark-mode .member-name::before {
     align-content: center;
     justify-content: center;
   }
-
 }
 
 /* Disable highlight on click */
@@ -520,19 +527,57 @@ a:focus {
 /* Mobile and desktop responsive design for photocards */
 .sorter-option#optionA,
 .sorter-option#optionB {
-  width: 49%;
-  max-width: 280px;
+  width: 48%;
+  max-width: 320px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 500px) {
   .main-battle {
-    gap: 2rem;
+    gap: 0.5rem;
   }
 
   .sorter-option#optionA,
   .sorter-option#optionB {
-    width: 300px;
-    max-width: 300px;
+    width: 49%;
+    max-width: none;
+    min-height: unset;
+  }
+
+  .member-name {
+    font-size: 13px;
+    gap: 4px;
+    letter-spacing: -0.5px;
+  }
+
+  .photocard-info {
+    padding: 8px 4px 10px 4px;
+  }
+
+  .member-name::before {
+    top: -4px;
+    left: -6px;
+    right: -6px;
+    bottom: -4px;
+    border-radius: 8px;
+  }
+
+  .member-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+    top: 6px;
+    left: 6px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .main-battle {
+    gap: 3rem;
+  }
+
+  .sorter-option#optionA,
+  .sorter-option#optionB {
+    width: 340px;
+    max-width: 340px;
   }
 }
 
@@ -541,12 +586,18 @@ a:focus {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-weight: 600;
-  font-size: 1.5rem;
-  color: #8a6a6a;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--text-muted);
+  letter-spacing: 4px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+body.dark-mode .versus {
+  color: var(--dark-text-muted);
 }
 
 @media screen and (min-width: 768px) {
@@ -627,36 +678,64 @@ body.dark-mode .result-btn {
 }
 
 .result-btn-primary {
-  background: linear-gradient(135deg, #5a8a8a, #8a6a6a, #8a7a5a);
+  background: linear-gradient(
+    135deg,
+    var(--primary-pink),
+    var(--secondary-purple)
+  );
   color: white;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .result-btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: var(--card-shadow-hover), 0 4px 20px rgba(138, 106, 106, 0.3);
+  box-shadow: 0 8px 20px rgba(255, 77, 133, 0.3);
 }
 
 body.dark-mode .result-btn-primary {
-  background: linear-gradient(135deg, #5a8a8a, #8a6a6a, #8a7a5a);
+  background: linear-gradient(
+    135deg,
+    var(--primary-pink),
+    var(--secondary-purple)
+  );
   color: white;
 }
 
 /* Additional animation classes for JavaScript */
+
+.sorter-option.fade-in,
+.sorter-option.fade-out,
+.sorter-option.flip-out {
+  /* Use a smooth, fast transition for logic animations instead of the bouncy hover transition */
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.25s ease-out !important;
+}
 
 .sorter-option.fade-in {
   opacity: 1;
 }
 
 .sorter-option.flip-out {
-  transform: rotateY(90deg);
+  transform: rotateY(90deg) scale(0.95);
   opacity: 0;
-  /* Fade out during flip */
+}
+
+/* Base starting point for elements that will flip in */
+.sorter-option.flip-ready {
+  transform: rotateY(-90deg) scale(0.95);
+  opacity: 0;
+  transition: none !important; /* Jump instantly to -90deg without animating */
 }
 
 .sorter-option.flip-in {
-  transform: rotateY(0deg);
+  transform: rotateY(0deg) scale(1);
   opacity: 1;
-  /* Fade in after flip */
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.25s ease-out !important;
 }
 
 .page-footer {
@@ -697,7 +776,7 @@ body.dark-mode .page-footer {
 
 .footer-link:hover {
   transform: translateY(-2px);
-  color: #8a6a6a;
+  color: var(--primary-pink);
 }
 
 body.dark-mode .footer-link {
@@ -705,13 +784,13 @@ body.dark-mode .footer-link {
 }
 
 .footer-link::before {
-  content: "💫";
+  content: "✨";
   font-size: 0.9rem;
-  color: #8a6a6a;
+  color: var(--primary-pink);
 }
 
 .accent-text {
-  color: #8a6a6a;
+  color: var(--primary-pink);
   font-weight: bold;
 }
 
@@ -737,7 +816,6 @@ body.dark-mode .footer-link {
     gap: 0.3rem;
   }
 }
-
 
 /* Dark Mode Toggle */
 .theme-toggle {

@@ -95,8 +95,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function handleSort(preference) {
-  if (sorter.isComplete()) return;
+let isAnimating = false;
+
+async function handleSort(preference) {
+  if (sorter.isComplete() || isAnimating) return;
+  isAnimating = true;
+  document.body.classList.add("is-animating");
 
   if (preference === "A") {
     sorter.preferMemberA();
@@ -118,11 +122,12 @@ function handleSort(preference) {
     document.getElementById("battleNumber").innerHTML = str;
     showResult();
   } else {
-    // Pass the flag to showFinal - defer to allow interaction response to paint first
-    requestAnimationFrame(() => {
-      showFinal({ selectedFlag: preference });
-    });
+    // Pass the flag to showFinal and wait for animation to complete
+    await showFinal({ selectedFlag: preference });
   }
+
+  isAnimating = false;
+  document.body.classList.remove("is-animating");
 }
 
 function showResult({ full = false } = {}) {
@@ -202,14 +207,96 @@ function updateOptionContent(optionElement, memberName, memberIndex) {
 
 function animateElement(element, ...animationClasses) {
   return new Promise((resolve) => {
-    const onAnimationEnd = () => {
+    let resolved = false;
+    const doResolve = () => {
+      if (resolved) return;
+      resolved = true;
       element.removeEventListener("transitionend", onAnimationEnd);
       resolve();
     };
 
-    element.addEventListener("transitionend", onAnimationEnd, { once: true });
+    const onAnimationEnd = (e) => {
+      if (e.target !== element) return;
+      doResolve();
+    };
+
+    element.addEventListener("transitionend", onAnimationEnd);
     element.classList.add(...animationClasses);
+
+    // Fallback if no transition triggers (CSS transition is 350ms, give it a tiny buffer)
+    setTimeout(doResolve, 400);
   });
+}
+
+async function animateCardUpdate(
+  card,
+  nextMemberName,
+  nextMemberIndex,
+  isSelected,
+  forceUpdate = false,
+) {
+  const currentMemberIndex =
+    card.dataset.memberIndex != null
+      ? parseInt(card.dataset.memberIndex, 10)
+      : -1;
+  const contentChanged = forceUpdate || currentMemberIndex !== nextMemberIndex;
+
+  // 1. Cleanup old animation state
+  card.classList.remove(
+    "fade-out",
+    "fade-in",
+    "flip-out",
+    "flip-in",
+    "flip-ready",
+    "selected-glow",
+  );
+  card.style.opacity = "";
+  card.style.transform = "";
+
+  // 2. Show selection glow immediately
+  if (isSelected) {
+    card.classList.add("selected-glow");
+  }
+
+  // 3. Animate the transition
+  if (contentChanged && currentMemberIndex !== -1) {
+    // Animate out
+    await animateElement(card, "flip-out");
+    card.classList.remove("selected-glow"); // Never inherit glow to new member
+
+    // Swap content behind the scenes
+    updateOptionContent(card, nextMemberName, nextMemberIndex);
+
+    // Prep the start position for flipping in
+    card.classList.remove("flip-out");
+    card.classList.add("flip-ready");
+
+    // Force browser to fully compute layout for flip-ready BEFORE we apply flip-in
+    // We get bounding client rect to force a harder reflow than offsetWidth
+    card.getBoundingClientRect();
+
+    // Animate back in
+    card.classList.remove("flip-ready");
+    await animateElement(card, "flip-in");
+  } else {
+    // If the card didn't change (the winner) or it's the first load
+    if (currentMemberIndex === -1) {
+      // First load: instantly show
+      updateOptionContent(card, nextMemberName, nextMemberIndex);
+      card.style.visibility = "visible";
+      card.style.opacity = 1;
+    } else {
+      // Winner: Just sit there and glow while the other card flips out and in.
+      // Wait for exactly the time it takes the other card to finish so we
+      // clean up our selected-glow exactly when the new card appears.
+      await new Promise((resolve) => setTimeout(resolve, 700));
+    }
+  }
+
+  // 4. Final cleanup for the next round
+  card.classList.remove("selected-glow", "flip-out", "flip-in", "flip-ready");
+  card.style.opacity = "";
+  card.style.transform = "";
 }
 
 async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
@@ -221,97 +308,27 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
   const optionB = document.getElementById("optionB");
   const comparison = sorter.getCurrentComparison();
 
-  const currentMemberIndexA = optionA.dataset.memberIndex != null
-    ? parseInt(optionA.dataset.memberIndex, 10)
-    : -1;
-  const currentMemberIndexB = optionB.dataset.memberIndex != null
-    ? parseInt(optionB.dataset.memberIndex, 10)
-    : -1;
+  // If we are skipping the increment (like a theme toggle), we should force the
+  // cards to re-render and flip even if the member data didn't change.
+  const forceUpdate = skipIncrement;
 
-  const nextMemberIndexA = comparison.memberA;
-  const nextMemberIndexB = comparison.memberB;
-
-  // Cleanup classes and styles
-  optionA.classList.remove(
-    "fade-out",
-    "fade-in",
-    "flip-out",
-    "flip-in",
-    "selected-glow",
-  );
-  optionA.style.cssText = ""; // Clear all inline styles at once
-
-  optionB.classList.remove(
-    "fade-out",
-    "fade-in",
-    "flip-out",
-    "flip-in",
-    "selected-glow",
-  );
-  optionB.style.cssText = ""; // Clear all inline styles at once
-
-  if (selectedFlag === "") {
-    updateOptionContent(optionA, comparison.memberAName, nextMemberIndexA);
-    updateOptionContent(optionB, comparison.memberBName, nextMemberIndexB);
-    optionA.style.visibility = "visible";
-    optionA.style.opacity = 1;
-    optionB.style.visibility = "visible";
-    optionB.style.opacity = 1;
-    return;
-  }
-
-  const optionAContentChanged = currentMemberIndexA !== nextMemberIndexA;
-  const optionBContentChanged = currentMemberIndexB !== nextMemberIndexB;
-
-  const animationPromises = [];
-
-  if (optionAContentChanged) {
-    animationPromises.push(animateElement(optionA, "flip-out"));
-  }
-  if (optionBContentChanged) {
-    animationPromises.push(animateElement(optionB, "flip-out"));
-  }
-
-  if (selectedFlag === "A") {
-    optionA.classList.add("selected-glow");
-  } else {
-    optionB.classList.add("selected-glow");
-  }
-
-  await Promise.all(animationPromises);
-
-  if (optionAContentChanged) {
-    updateOptionContent(optionA, comparison.memberAName, nextMemberIndexA);
-  }
-  if (optionBContentChanged) {
-    updateOptionContent(optionB, comparison.memberBName, nextMemberIndexB);
-  }
-
-  const inAnimationPromises = [];
-  if (optionAContentChanged) {
-    inAnimationPromises.push(animateElement(optionA, "flip-in"));
-  } else {
-    inAnimationPromises.push(animateElement(optionA, "fade-in"));
-  }
-
-  if (optionBContentChanged) {
-    inAnimationPromises.push(animateElement(optionB, "flip-in"));
-  } else {
-    inAnimationPromises.push(animateElement(optionB, "fade-in"));
-  }
-
-  await Promise.all(inAnimationPromises);
-
-  // Pause to ensure the glow is visible
-  await new Promise((resolve) => setTimeout(resolve, 200));
-
-  optionA.classList.remove("selected-glow", "flip-in", "fade-in");
-  optionB.classList.remove("selected-glow", "flip-in", "fade-in");
-
-  optionA.style.opacity = 1;
-  optionB.style.opacity = 1;
-  optionA.style.transform = "scale(1)";
-  optionB.style.transform = "scale(1)";
+  // Animate both cards independently but in parallel
+  await Promise.all([
+    animateCardUpdate(
+      optionA,
+      comparison.memberAName,
+      comparison.memberA,
+      selectedFlag === "A",
+      forceUpdate,
+    ),
+    animateCardUpdate(
+      optionB,
+      comparison.memberBName,
+      comparison.memberB,
+      selectedFlag === "B",
+      forceUpdate,
+    ),
+  ]);
 }
 
 function toNameFace(mem) {
