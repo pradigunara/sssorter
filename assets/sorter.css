@@ -362,7 +362,10 @@ body.dark-mode .member-badge {
   font-weight: 800;
   font-size: 20px;
   margin: 0;
-  color: var(--text-dark); /* fallback */
+  color: var(
+    --member-color,
+    var(--text-dark)
+  ); /* fallback to dark if no member color */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -374,7 +377,10 @@ body.dark-mode .member-badge {
 }
 
 body.dark-mode .member-name {
-  color: var(--dark-text); /* fallback */
+  color: var(
+    --member-color,
+    var(--dark-text)
+  ); /* fallback to light if no member color */
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 

@@ -352,7 +352,7 @@ function toNameFace(mem) {
       <div class='member-badge'>${memberData[mem].sNumber}</div>
     </div>
     <div class='photocard-info'>
-      <div class='member-name' style='color: ${memberData[mem].color};'>${mem} ${memberData[mem].emoji || ""}</div>
+      <div class='member-name'>${mem} ${memberData[mem].emoji || ""}</div>
     </div>
   `;
 
