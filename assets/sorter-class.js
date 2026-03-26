@@ -267,7 +267,3 @@ export default class TripleSBiasSorter {
     this.#nrec = 0;
   }
 }
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = TripleSBiasSorter;
-}

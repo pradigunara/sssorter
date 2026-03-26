@@ -700,15 +700,6 @@ body.dark-mode .result-btn {
   box-shadow: 0 8px 20px rgba(255, 77, 133, 0.3);
 }
 
-body.dark-mode .result-btn-primary {
-  background: linear-gradient(
-    135deg,
-    var(--primary-pink),
-    var(--secondary-purple)
-  );
-  color: white;
-}
-
 /* Additional animation classes for JavaScript */
 
 .sorter-option.fade-in,
