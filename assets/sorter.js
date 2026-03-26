@@ -1,7 +1,9 @@
 import TripleSBiasSorter from "./sorter-class.js";
 import { memberData } from "./member-data.js";
 
-// Optimization: preload initial member images
+const html = (strings, ...values) =>
+  strings.reduce((acc, str, i) => acc + str + (values[i] ?? ""), "");
+
 for (const member of [memberData.SeoYeon, memberData.JiYeon]) {
   for (let i = 1; i <= 4; i++) {
     const img = new Image();
@@ -12,6 +14,11 @@ for (const member of [memberData.SeoYeon, memberData.JiYeon]) {
 const memberNames = Object.keys(memberData);
 let sorter = new TripleSBiasSorter(memberNames, memberData);
 let memberPicId = {};
+
+const SUN_SVG =
+  '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+const MOON_SVG =
+  '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -24,7 +31,6 @@ function initMemberPic() {
   }
 }
 
-// Preload images for the rest of the members
 function preloadImages() {
   for (const memberName of memberNames) {
     for (let i = 1; i <= 4; i++) {
@@ -34,28 +40,38 @@ function preloadImages() {
   }
 }
 
-// Dark mode functionality
+function setThemeIcon(isDarkMode) {
+  document.querySelector(".theme-toggle-icon svg").innerHTML = isDarkMode
+    ? SUN_SVG
+    : MOON_SVG;
+}
+
 function toggleDarkMode() {
-  const body = document.body;
-  const isDarkMode = body.classList.toggle("dark-mode");
-  const themeToggleText = document.querySelector(".theme-toggle-text");
-  const themeToggleIcon = document.querySelector(".theme-toggle-icon svg");
+  const isDarkMode = document.body.classList.toggle("dark-mode");
+  document.querySelector(".theme-toggle-text").textContent = isDarkMode
+    ? "Light Mode"
+    : "#DarkMode";
+  setThemeIcon(isDarkMode);
 
-  // Update toggle text and icon
-  if (isDarkMode) {
-    themeToggleText.textContent = "Light Mode";
-    themeToggleIcon.innerHTML =
-      '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
-  } else {
-    themeToggleText.textContent = "#DarkMode";
-    themeToggleIcon.innerHTML =
-      '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
-  }
-
-  // Save preference to localStorage
   localStorage.setItem("darkMode", isDarkMode);
   initMemberPic();
   showFinal({ skipIncrement: true });
+}
+
+function toNameFace(mem) {
+  return html`<div class="photocard-image-container">
+      <img
+        src="${memberPicId[mem]}"
+        alt="${mem}"
+        class="photocard-image"
+        width="582"
+        height="900"
+      />
+      <div class="member-badge">${memberData[mem].sNumber}</div>
+    </div>
+    <div class="photocard-info">
+      <div class="member-name">${mem} ${memberData[mem].emoji || ""}</div>
+    </div>`;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -65,8 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (savedDarkMode === "true") {
     document.body.classList.add("dark-mode");
     document.querySelector(".theme-toggle-text").textContent = "Light Mode";
-    document.querySelector(".theme-toggle-icon svg").innerHTML =
-      '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+    setThemeIcon(true);
   }
 
   sorter.reset();
@@ -111,18 +126,9 @@ async function handleSort(preference) {
   }
 
   if (sorter.isComplete()) {
-    const progress = sorter.getProgress();
-    const heartCount = 5;
-    const filledHearts = Math.floor(
-      (progress.progressPercent / 100) * heartCount,
-    );
-    const heartDisplay =
-      "♥".repeat(filledHearts) + "♡".repeat(heartCount - filledHearts);
-    const str = `<strong>Gravity #${progress.currentQuestion}</strong><br>${heartDisplay} ${progress.progressPercent}% sorted`;
-    document.getElementById("battleNumber").innerHTML = str;
+    updateProgressDisplay(sorter.getProgress());
     showResult();
   } else {
-    // Pass the flag to showFinal and wait for animation to complete
     await showFinal({ selectedFlag: preference });
   }
 
@@ -133,19 +139,21 @@ async function handleSort(preference) {
 function showResult({ full = false } = {}) {
   let ranking = 1;
   let sameRank = 1;
-  let str = "";
   const listResult = [];
   const sortedMembers = sorter.getSortedMembers();
 
   const iterCount = full ? sortedMembers.length : sortedMembers.length / 2;
 
-  str += "<div class='results-list'><h2>Bias Ranking Result</h2><ul>";
+  let str = html`<div class="results-list">
+    <h2>Bias Ranking Result</h2>
+    <ul></ul>
+  </div>`;
   for (let i = 0; i < iterCount; i++) {
     const mem = sortedMembers[i];
     const disp = `${mem}${memberData[mem].emoji}`;
     listResult.push(disp);
 
-    str += "<li><span class='number'>" + ranking + "</span> " + disp + "</li>";
+    str += html`<li><span class="number">${ranking}</span> ${disp}</li>`;
 
     if (i < iterCount - 1) {
       if (sorter.equal[i] == i + 1) {
@@ -157,7 +165,7 @@ function showResult({ full = false } = {}) {
     }
   }
 
-  str += "</ul>";
+  str += html`</ul></div>`;
   document.getElementById("battleResult").innerHTML = str;
   document.getElementById("page-sorter").style.display = "none";
 
@@ -192,8 +200,9 @@ function updateProgressDisplay(progress) {
   );
   const heartDisplay =
     "♥".repeat(filledHearts) + "♡".repeat(heartCount - filledHearts);
-  const str = `<strong>Gravity #${progress.currentQuestion}</strong><br>${heartDisplay} ${progress.progressPercent}% sorted`;
-  document.getElementById("battleNumber").innerHTML = str;
+  document.getElementById("battleNumber").innerHTML = html`<strong
+      >Gravity #${progress.currentQuestion}</strong
+    ><br />${heartDisplay} ${progress.progressPercent}% sorted`;
 }
 
 function updateOptionContent(optionElement, memberName, memberIndex) {
@@ -223,7 +232,6 @@ function animateElement(element, ...animationClasses) {
     element.addEventListener("transitionend", onAnimationEnd);
     element.classList.add(...animationClasses);
 
-    // Fallback if no transition triggers (CSS transition is 350ms, give it a tiny buffer)
     setTimeout(doResolve, 400);
   });
 }
@@ -241,7 +249,6 @@ async function animateCardUpdate(
       : -1;
   const contentChanged = forceUpdate || currentMemberIndex !== nextMemberIndex;
 
-  // 1. Cleanup old animation state
   card.classList.remove(
     "fade-out",
     "fade-in",
@@ -253,27 +260,20 @@ async function animateCardUpdate(
   card.style.opacity = "";
   card.style.transform = "";
 
-  // 2. Show selection glow immediately
   if (isSelected) {
     card.classList.add("selected-glow");
   }
 
-  // 3. Animate the transition
   if (contentChanged && currentMemberIndex !== -1) {
-    // Animate out
     await animateElement(card, "flip-out");
-    card.classList.remove("selected-glow"); // Never inherit glow to new member
+    card.classList.remove("selected-glow");
 
-    // Swap content behind the scenes
     updateOptionContent(card, nextMemberName, nextMemberIndex);
 
-    // If the new image is not cached, wait a tiny bit for it to fetch
-    // so we don't flip a blank card over. We use a Promise that resolves
-    // immediately if cached, or races against a short timeout.
     const newImage = card.querySelector(".photocard-image");
     if (newImage && !newImage.complete) {
       await new Promise((resolve) => {
-        const timeout = setTimeout(resolve, 300); // Max wait 300ms so we don't freeze the app forever
+        const timeout = setTimeout(resolve, 300);
         newImage.onload = newImage.onerror = () => {
           clearTimeout(timeout);
           resolve();
@@ -281,33 +281,23 @@ async function animateCardUpdate(
       });
     }
 
-    // Prep the start position for flipping in
     card.classList.remove("flip-out");
     card.classList.add("flip-ready");
 
-    // Force browser to fully compute layout for flip-ready BEFORE we apply flip-in
-    // We get bounding client rect to force a harder reflow than offsetWidth
     card.getBoundingClientRect();
 
-    // Animate back in
     card.classList.remove("flip-ready");
     await animateElement(card, "flip-in");
   } else {
-    // If the card didn't change (the winner) or it's the first load
     if (currentMemberIndex === -1) {
-      // First load: instantly show
       updateOptionContent(card, nextMemberName, nextMemberIndex);
       card.style.visibility = "visible";
       card.style.opacity = 1;
     } else {
-      // Winner: Just sit there and glow while the other card flips out and in.
-      // Wait for exactly the time it takes the other card to finish so we
-      // clean up our selected-glow exactly when the new card appears.
       await new Promise((resolve) => setTimeout(resolve, 700));
     }
   }
 
-  // 4. Final cleanup for the next round
   card.classList.remove("selected-glow", "flip-out", "flip-in", "flip-ready");
   card.style.opacity = "";
   card.style.transform = "";
@@ -322,11 +312,8 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
   const optionB = document.getElementById("optionB");
   const comparison = sorter.getCurrentComparison();
 
-  // If we are skipping the increment (like a theme toggle), we should force the
-  // cards to re-render and flip even if the member data didn't change.
   const forceUpdate = skipIncrement;
 
-  // Animate both cards independently but in parallel
   await Promise.all([
     animateCardUpdate(
       optionA,
@@ -343,18 +330,4 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
       forceUpdate,
     ),
   ]);
-}
-
-function toNameFace(mem) {
-  const disp = `
-    <div class='photocard-image-container'>
-      <img src='${memberPicId[mem]}' alt='${mem}' class='photocard-image' width="582" height="900"/>
-      <div class='member-badge'>${memberData[mem].sNumber}</div>
-    </div>
-    <div class='photocard-info'>
-      <div class='member-name'>${mem} ${memberData[mem].emoji || ""}</div>
-    </div>
-  `;
-
-  return disp;
 }

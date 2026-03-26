@@ -1,8 +1,18 @@
-/**
- * TripleSBiasSorter - A clean, reusable class for sorting tripleS members
- * using pairwise comparison algorithm
- */
 export default class TripleSBiasSorter {
+  #lstMember = [];
+  #parent = [];
+  #equal = [];
+  #rec = [];
+  #cmp1 = 0;
+  #cmp2 = 0;
+  #head1 = 0;
+  #head2 = 0;
+  #nrec = 0;
+  #numQuestion = 0;
+  #totalSize = 0;
+  #finishSize = 0;
+  #finishFlag = 0;
+
   constructor(memberNames, memberData = {}) {
     if (!Array.isArray(memberNames)) {
       throw new Error("Member names must be an array");
@@ -14,125 +24,70 @@ export default class TripleSBiasSorter {
     this.memberNames = [...memberNames];
     this.memberData = memberData;
 
-    // Internal state
-    this.lstMember = []; // The actual sorting lists
-    this.parent = []; // Parent indices for tree structure
-    this.equal = []; // Equal relationships
-    this.rec = []; // Temporary recording array
-    this.cmp1 = 0; // Current comparison list 1 index
-    this.cmp2 = 0; // Current comparison list 2 index
-    this.head1 = 0; // Current position in list 1
-    this.head2 = 0; // Current position in list 2
-    this.nrec = 0; // Record counter
-    this.numQuestion = 0; // Question counter
-    this.totalSize = 0; // Total comparisons needed
-    this.finishSize = 0; // Completed comparisons
-    this.finishFlag = 0; // Completion flag
-
     this.initialize();
   }
 
-  /**
-   * Initialize the sorting structure
-   */
+  get equal() {
+    return this.#equal;
+  }
+
   initialize() {
-    // Handle cases with 0 or 1 members
     if (this.memberNames.length <= 1) {
-      this.finishFlag = 1;
-      this.lstMember = [this.memberNames.map((_, i) => i)];
-      this.totalSize = 0;
-      this.finishSize = 0;
-      this.numQuestion = 0;
+      this.#finishFlag = 1;
+      this.#lstMember = [this.memberNames.map((_, i) => i)];
+      this.#totalSize = 0;
+      this.#finishSize = 0;
+      this.#numQuestion = 0;
       return;
     }
 
-    // --- Start of new logic ---
-
-    // 1. Create a randomly shuffled list of member indices.
     const shuffledIndices = [...Array(this.memberNames.length).keys()];
-    shuffledIndices.sort(() => 0.5 - Math.random());
+    this.#shuffle(shuffledIndices);
 
-    // 2. Temporarily build the sort tree to find the initial comparison pair.
-    let tempList = [shuffledIndices];
-    for (let i = 0; i < tempList.length; i++) {
-      if (tempList[i].length >= 2) {
-        const mid = Math.ceil(tempList[i].length / 2);
-        tempList.push(tempList[i].slice(0, mid));
-        tempList.push(tempList[i].slice(mid));
-      }
+    if (this.memberNames.length > 23) {
+      const tempTree = this.#buildTree(shuffledIndices);
+      const firstA = tempTree.tree[tempTree.tree.length - 2][0];
+      const firstB = tempTree.tree[tempTree.tree.length - 1][0];
+
+      const pos0 = shuffledIndices.indexOf(0);
+      const pos23 = shuffledIndices.indexOf(23);
+      const posA = shuffledIndices.indexOf(firstA);
+      const posB = shuffledIndices.indexOf(firstB);
+
+      [shuffledIndices[pos0], shuffledIndices[posA]] = [
+        shuffledIndices[posA],
+        shuffledIndices[pos0],
+      ];
+      const newPos23 = shuffledIndices.indexOf(23);
+      [shuffledIndices[newPos23], shuffledIndices[posB]] = [
+        shuffledIndices[posB],
+        shuffledIndices[newPos23],
+      ];
     }
 
-    // 3. Identify the members in the first comparison.
-    const firstToCompareA = tempList[tempList.length - 2][0];
-    const firstToCompareB = tempList[tempList.length - 1][0];
+    const result = this.#buildTree(shuffledIndices);
+    this.#lstMember = result.tree;
+    this.#parent = result.parent;
+    this.#totalSize = result.totalSize;
 
-    // 4. Find the positions of our target members (0 and 23) and the first-pair members.
-    const pos0 = shuffledIndices.indexOf(0);
-    const pos23 = shuffledIndices.indexOf(23);
-    const posA = shuffledIndices.indexOf(firstToCompareA);
-    const posB = shuffledIndices.indexOf(firstToCompareB);
+    this.#rec = new Array(this.memberNames.length).fill(0);
+    this.#nrec = 0;
+    this.#equal = new Array(this.memberNames.length + 1).fill(-1);
 
-    // 5. Swap our target members into the positions of the first-pair members.
-    // This ensures 0 and 23 will be the first to be compared.
-    [shuffledIndices[pos0], shuffledIndices[posA]] = [shuffledIndices[posA], shuffledIndices[pos0]];
-    // After the first swap, the position of member 23 might have changed if it was at posA.
-    const newPos23 = shuffledIndices.indexOf(23);
-    [shuffledIndices[newPos23], shuffledIndices[posB]] = [shuffledIndices[posB], shuffledIndices[newPos23]];
-
-    // --- End of new logic ---
-
-    // 6. Now, build the definitive sort tree with the modified list.
-    const initialMembers = shuffledIndices;
-
-    this.lstMember = [initialMembers];
-    this.parent = [-1];
-    this.totalSize = 0;
-
-    let n = 1;
-
-    // Build the binary tree structure
-    for (let i = 0; i < this.lstMember.length; i++) {
-      if (this.lstMember[i].length >= 2) {
-        const mid = Math.ceil(this.lstMember[i].length / 2);
-
-        // Left half
-        this.lstMember[n] = this.lstMember[i].slice(0, mid);
-        this.totalSize += this.lstMember[n].length;
-        this.parent[n] = i;
-        n++;
-
-        // Right half
-        this.lstMember[n] = this.lstMember[i].slice(mid);
-        this.totalSize += this.lstMember[n].length;
-        this.parent[n] = i;
-        n++;
-      }
-    }
-
-    // Initialize arrays
-    this.rec = new Array(this.memberNames.length).fill(0);
-    this.nrec = 0;
-    this.equal = new Array(this.memberNames.length + 1).fill(-1);
-
-    // Set up initial comparison
-    this.cmp1 = this.lstMember.length - 2;
-    this.cmp2 = this.lstMember.length - 1;
-    this.head1 = 0;
-    this.head2 = 0;
-    this.numQuestion = 1;
-    this.finishSize = 0;
-    this.finishFlag = 0;
+    this.#cmp1 = this.#lstMember.length - 2;
+    this.#cmp2 = this.#lstMember.length - 1;
+    this.#head1 = 0;
+    this.#head2 = 0;
+    this.#numQuestion = 1;
+    this.#finishSize = 0;
+    this.#finishFlag = 0;
   }
 
-  /**
-   * Get the current comparison pair
-   * @returns {Object} - Object with memberA and memberB indices
-   */
   getCurrentComparison() {
-    if (this.cmp1 < 0) return null;
+    if (this.#cmp1 < 0) return null;
 
-    const memberAIndex = this.lstMember[this.cmp1][this.head1];
-    const memberBIndex = this.lstMember[this.cmp2][this.head2];
+    const memberAIndex = this.#lstMember[this.#cmp1][this.#head1];
+    const memberBIndex = this.#lstMember[this.#cmp2][this.#head2];
 
     return {
       memberA: memberAIndex,
@@ -142,197 +97,177 @@ export default class TripleSBiasSorter {
     };
   }
 
-  /**
-   * Apply the result of a comparison by indicating the preferred member.
-   */
   preferMemberA() {
-    this._applyComparisonResult(-1);
+    this.#applyComparisonResult(-1);
   }
 
-  /**
-   * Apply the result of a comparison by indicating the preferred member.
-   */
   preferMemberB() {
-    this._applyComparisonResult(1);
+    this.#applyComparisonResult(1);
   }
 
-  /**
-   * Apply the result of a comparison by declaring it a tie.
-   */
   declareTie() {
-    this._applyComparisonResult(0);
+    this.#applyComparisonResult(0);
   }
 
-  /**
-   * Internal method to apply the result of a comparison
-   * @param {number} flag - -1 if memberA is preferred, 1 if memberB is preferred, 0 if equal
-   * @private
-   */
-  _applyComparisonResult(flag) {
+  getSortedMembers() {
+    if (!this.isComplete()) return [];
+
+    return this.#lstMember[0].map((index) => this.memberNames[index]);
+  }
+
+  isComplete() {
+    return this.#finishFlag === 1 || this.memberNames.length <= 1;
+  }
+
+  getProgress() {
+    const progressPercent = Math.floor(
+      (this.#finishSize * 100) / this.#totalSize,
+    );
+    return {
+      currentQuestion: this.#numQuestion,
+      progressPercent,
+      completedComparisons: this.#finishSize,
+      totalComparisons: this.#totalSize,
+      isComplete: this.isComplete(),
+    };
+  }
+
+  reset() {
+    this.initialize();
+  }
+
+  #shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  #buildTree(indices) {
+    const tree = [indices];
+    const parent = [-1];
+    let totalSize = 0;
+    let n = 1;
+
+    for (let i = 0; i < tree.length; i++) {
+      if (tree[i].length >= 2) {
+        const mid = Math.ceil(tree[i].length / 2);
+
+        tree[n] = tree[i].slice(0, mid);
+        totalSize += tree[n].length;
+        parent[n] = i;
+        n++;
+
+        tree[n] = tree[i].slice(mid);
+        totalSize += tree[n].length;
+        parent[n] = i;
+        n++;
+      }
+    }
+
+    return { tree, parent, totalSize };
+  }
+
+  #recordMember(memberIndex) {
+    this.#rec[this.#nrec] = memberIndex;
+    this.#nrec++;
+  }
+
+  #drainList(listIndex) {
+    const list = this.#lstMember[listIndex];
+    let head = listIndex === this.#cmp1 ? this.#head1 : this.#head2;
+
+    this.#recordMember(list[head]);
+    head++;
+    this.#finishSize++;
+
+    while (this.#equal[this.#rec[this.#nrec - 1]] !== -1) {
+      this.#recordMember(list[head]);
+      head++;
+      this.#finishSize++;
+    }
+
+    if (listIndex === this.#cmp1) this.#head1 = head;
+    else this.#head2 = head;
+  }
+
+  #flushRemaining(listIndex) {
+    const isCmp1 = listIndex === this.#cmp1;
+    const head = isCmp1 ? this.#head1 : this.#head2;
+    const otherHead = isCmp1 ? this.#head2 : this.#head1;
+    const list = this.#lstMember[listIndex];
+    const otherList = this.#lstMember[isCmp1 ? this.#cmp2 : this.#cmp1];
+
+    if (head < list.length && otherHead === otherList.length) {
+      let h = head;
+      while (h < list.length) {
+        this.#recordMember(list[h]);
+        h++;
+        this.#finishSize++;
+      }
+      if (isCmp1) this.#head1 = h;
+      else this.#head2 = h;
+    }
+  }
+
+  #applyComparisonResult(flag) {
     if (this.isComplete()) return;
 
     if (![-1, 0, 1].includes(flag)) {
       throw new Error("Invalid flag: must be -1, 0, or 1");
     }
 
-    if (flag < 0) {
-      this._recordMember(this.lstMember[this.cmp1][this.head1]);
-      this.head1++;
-      this.finishSize++;
-
-      while (this.equal[this.rec[this.nrec - 1]] !== -1) {
-        this._recordMember(this.lstMember[this.cmp1][this.head1]);
-        this.head1++;
-        this.finishSize++;
-      }
-    } else if (flag > 0) {
-      this._recordMember(this.lstMember[this.cmp2][this.head2]);
-      this.head2++;
-      this.finishSize++;
-
-      while (this.equal[this.rec[this.nrec - 1]] !== -1) {
-        this._recordMember(this.lstMember[this.cmp2][this.head2]);
-        this.head2++;
-        this.finishSize++;
-      }
+    if (flag === 0) {
+      this.#drainList(this.#cmp1);
+      this.#equal[this.#rec[this.#nrec - 1]] =
+        this.#lstMember[this.#cmp2][this.#head2];
+      this.#drainList(this.#cmp2);
     } else {
-      this._recordMember(this.lstMember[this.cmp1][this.head1]);
-      this.head1++;
-      this.finishSize++;
-
-      while (this.equal[this.rec[this.nrec - 1]] !== -1) {
-        this._recordMember(this.lstMember[this.cmp1][this.head1]);
-        this.head1++;
-        this.finishSize++;
-      }
-
-      this.equal[this.rec[this.nrec - 1]] =
-        this.lstMember[this.cmp2][this.head2];
-      this._recordMember(this.lstMember[this.cmp2][this.head2]);
-      this.head2++;
-      this.finishSize++;
-
-      while (this.equal[this.rec[this.nrec - 1]] !== -1) {
-        this._recordMember(this.lstMember[this.cmp2][this.head2]);
-        this.head2++;
-        this.finishSize++;
-      }
+      this.#drainList(flag < 0 ? this.#cmp1 : this.#cmp2);
     }
 
-    // Handle remaining members when one list is exhausted
+    this.#flushRemaining(this.#cmp1);
+    this.#flushRemaining(this.#cmp2);
+
     if (
-      this.head1 < this.lstMember[this.cmp1].length &&
-      this.head2 === this.lstMember[this.cmp2].length
+      this.#head1 === this.#lstMember[this.#cmp1].length &&
+      this.#head2 === this.#lstMember[this.#cmp2].length
     ) {
-      while (this.head1 < this.lstMember[this.cmp1].length) {
-        this._recordMember(this.lstMember[this.cmp1][this.head1]);
-        this.head1++;
-        this.finishSize++;
-      }
-    } else if (
-      this.head1 === this.lstMember[this.cmp1].length &&
-      this.head2 < this.lstMember[this.cmp2].length
-    ) {
-      while (this.head2 < this.lstMember[this.cmp2].length) {
-        this._recordMember(this.lstMember[this.cmp2][this.head2]);
-        this.head2++;
-        this.finishSize++;
-      }
+      this.#mergeLists();
     }
 
-    // Check if this comparison is complete
-    if (
-      this.head1 === this.lstMember[this.cmp1].length &&
-      this.head2 === this.lstMember[this.cmp2].length
-    ) {
-      this._mergeLists();
-    }
+    this.#numQuestion++;
 
-    this.numQuestion++;
-
-    if (this.cmp1 < 0) {
-      this.finishFlag = 1;
+    if (this.#cmp1 < 0) {
+      this.#finishFlag = 1;
     }
   }
 
-  /**
-   * Get the final sorted member list
-   * @returns {Array} - Array of member names in sorted order
-   */
-  getSortedMembers() {
-    if (!this.isComplete()) return [];
+  #mergeLists() {
+    const parentIndex = this.#parent[this.#cmp1];
 
-    return this.lstMember[0].map((index) => this.memberNames[index]);
-  }
-
-  /**
-   * Check if sorting is complete
-   * @returns {boolean}
-   */
-  isComplete() {
-    return this.finishFlag === 1 || this.memberNames.length <= 1;
-  }
-
-  /**
-   * Get progress information
-   * @returns {Object} - Progress data
-   */
-  getProgress() {
-    const progressPercent = Math.floor(
-      (this.finishSize * 100) / this.totalSize,
-    );
-    return {
-      currentQuestion: this.numQuestion,
-      progressPercent,
-      completedComparisons: this.finishSize,
-      totalComparisons: this.totalSize,
-      isComplete: this.isComplete(),
-    };
-  }
-
-  /**
-   * Reset the sorter to initial state
-   */
-  reset() {
-    this.initialize();
-  }
-
-  // Private helper methods
-  _recordMember(memberIndex) {
-    this.rec[this.nrec] = memberIndex;
-    this.nrec++;
-  }
-
-  _mergeLists() {
-    const parentIndex = this.parent[this.cmp1];
-
-    // Copy the sorted results to the parent list
     for (
       let i = 0;
-      i < this.lstMember[this.cmp1].length + this.lstMember[this.cmp2].length;
+      i <
+      this.#lstMember[this.#cmp1].length + this.#lstMember[this.#cmp2].length;
       i++
     ) {
-      this.lstMember[parentIndex][i] = this.rec[i];
+      this.#lstMember[parentIndex][i] = this.#rec[i];
     }
 
-    // Remove the two child lists
-    this.lstMember.pop();
-    this.lstMember.pop();
-    this.parent.pop();
-    this.parent.pop();
+    this.#lstMember.pop();
+    this.#lstMember.pop();
+    this.#parent.pop();
+    this.#parent.pop();
 
-    // Update comparison indices
-    this.cmp1 -= 2;
-    this.cmp2 -= 2;
-    this.head1 = 0;
-    this.head2 = 0;
-
-    // Reset recording array for the next merge
-    this.nrec = 0;
+    this.#cmp1 -= 2;
+    this.#cmp2 -= 2;
+    this.#head1 = 0;
+    this.#head2 = 0;
+    this.#nrec = 0;
   }
 }
 
-// Export for use in other modules
 if (typeof module !== "undefined" && module.exports) {
   module.exports = TripleSBiasSorter;
 }
