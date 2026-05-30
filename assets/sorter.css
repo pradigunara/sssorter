@@ -864,3 +864,374 @@ body.dark-mode .theme-toggle-icon {
   font-size: 14px;
   font-weight: bold;
 }
+
+/* Auth Bar */
+.auth-bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.auth-buttons {
+  position: relative;
+  display: inline-block;
+}
+
+.auth-user {
+  position: relative;
+  display: inline-block;
+}
+
+.auth-btn {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.auth-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.auth-btn-signin {
+  background: var(--primary-pink);
+  color: #fff;
+}
+
+.auth-btn-user {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  color: var(--text-dark);
+  border: 1px solid var(--text-muted);
+  font-size: 0.8rem;
+  padding: 6px 14px;
+}
+
+body.dark-mode .auth-btn-user {
+  color: var(--dark-text);
+  border-color: var(--dark-text-muted);
+}
+
+.user-arrow {
+  font-size: 0.65rem;
+  margin-left: 2px;
+}
+
+.auth-dropdown-item:hover {
+  background: rgba(255, 77, 133, 0.1);
+}
+
+/* Auth Dropdown */
+.auth-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  background: var(--surface-white);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  min-width: 140px;
+  z-index: 101;
+}
+
+body.dark-mode .auth-dropdown {
+  background: var(--dark-surface);
+}
+
+.auth-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-dark);
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+body.dark-mode .auth-dropdown-item {
+  color: var(--dark-text);
+}
+
+@media screen and (max-width: 500px) {
+  .auth-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+}
+
+/* History Page */
+.history-page {
+  margin-top: 0;
+}
+
+.history-back {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary-pink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-bottom: 0.75rem;
+}
+
+.history-back:hover {
+  opacity: 0.8;
+}
+
+.sort-again-link {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary-pink);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.sort-again-link:hover {
+  opacity: 0.8;
+}
+
+.history-chart-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.history-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.history-title-row h2 {
+  margin: 0;
+}
+
+.history-month-select {
+  position: relative;
+}
+
+.month-toggle-btn {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 5px 14px;
+  border: 2px solid var(--text-muted);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+body.dark-mode .month-toggle-btn {
+  border-color: var(--dark-text-muted);
+  color: var(--dark-text);
+}
+
+.month-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--surface-white);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  min-width: 140px;
+  z-index: 50;
+}
+
+body.dark-mode .month-dropdown {
+  background: var(--dark-surface);
+}
+
+.month-dropdown .history-pill {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-radius: 0;
+}
+
+/* Month Pills */
+.history-months {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.history-pill {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 8px 16px;
+  border: 2px solid var(--text-muted);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+body.dark-mode .history-pill {
+  border-color: var(--dark-text-muted);
+  color: var(--dark-text-muted);
+}
+
+.history-pill:hover {
+  border-color: var(--primary-pink);
+  color: var(--primary-pink);
+}
+
+.history-pill-active {
+  background: var(--primary-pink);
+  border-color: var(--primary-pink);
+  color: #fff;
+}
+
+body.dark-mode .history-pill-active {
+  color: #fff;
+}
+
+/* Bump chart wrapper */
+.bump-chart-wrap {
+  margin-top: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.bump-chart-wrap:hover .bump-chart-inner {
+  opacity: 0.85;
+}
+
+.bump-chart-wrap::after {
+  content: "Click to expand";
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+body.dark-mode .bump-chart-wrap::after {
+  color: var(--dark-text-muted);
+}
+
+.bump-chart-inner .bump-chart {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Chart Modal */
+.chart-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-modal-content {
+  background: var(--surface-white);
+  border-radius: 16px;
+  padding: 1rem;
+  max-width: 90vw;
+  width: 860px;
+}
+
+body.dark-mode .chart-modal-content {
+  background: var(--dark-surface);
+}
+
+.chart-modal-content .bump-chart {
+  max-width: 100%;
+  height: auto;
+}
+
+.chart-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 301;
+  line-height: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .chart-modal {
+    background: rgba(0, 0, 0, 0.92);
+    align-items: flex-start;
+  }
+
+  .chart-modal-content {
+    max-width: 100vw;
+    width: 100%;
+    border-radius: 0;
+    padding: 4px;
+    margin-top: 6vh;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chart-modal-content .bump-chart {
+    min-width: 800px;
+    width: 100%;
+    height: auto;
+  }
+
+  .chart-modal-close {
+    top: 8px;
+    right: 12px;
+    font-size: 2rem;
+  }
+}
+
+/* Results subtitle */
+.results-subtitle {
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+body.dark-mode .results-subtitle {
+  color: var(--dark-text-muted);
+}

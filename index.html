@@ -105,6 +105,12 @@
       }
     </script>
 
+    <script>
+      window.__SUPABASE_CONFIG__ = {
+        url: "__SUPABASE_URL__",
+        key: "__SUPABASE_KEY__",
+      };
+    </script>
     <script type="module" src="/assets/sorter.js"></script>
   </head>
 
@@ -125,6 +131,25 @@
         >
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
+      </div>
+    </div>
+    <div id="auth-bar" class="auth-bar">
+      <div id="auth-buttons" class="auth-buttons">
+        <button id="btn-signin" class="auth-btn auth-btn-signin">Sign in</button>
+        <div id="auth-dropdown" class="auth-dropdown" style="display:none">
+          <button id="btn-signin-x" class="auth-dropdown-item">with X</button>
+          <button id="btn-signin-discord" class="auth-dropdown-item">with Discord</button>
+        </div>
+      </div>
+      <div id="auth-user" class="auth-user" style="display:none">
+        <button id="btn-user-menu" class="auth-btn auth-btn-user">
+          <span id="auth-username"></span>
+          <span class="user-arrow">▾</span>
+        </button>
+        <div id="user-dropdown" class="auth-dropdown" style="display:none">
+          <button id="btn-history" class="auth-dropdown-item">Ranking History</button>
+          <button id="btn-signout" class="auth-dropdown-item">Sign out</button>
+        </div>
       </div>
     </div>
     <header class="page-header container">
@@ -199,7 +224,7 @@
       </div>
     </main>
 
-    <section class="page-result">
+    <section class="page-result" id="page-result">
       <div class="container">
         <div id="battleResult"></div>
         <a id="showMore" style="display: none; cursor: pointer">Show More</a>
@@ -228,6 +253,19 @@
         made with ♡ by <span class="accent-text">@celdaris</span>
       </a>
     </footer>
+
+    <div id="chart-modal" class="chart-modal" style="display:none">
+      <button id="btn-chart-close" class="chart-modal-close">&times;</button>
+      <div id="chart-modal-content" class="chart-modal-content"></div>
+    </div>
+
+    <div id="history-page" class="history-page" style="display:none">
+      <div class="container">
+        <button id="btn-history-back" class="history-back">← Back to sorter</button>
+        <div id="history-chart" class="history-chart-wrap"></div>
+        <div id="history-result" class="history-result"></div>
+      </div>
+    </div>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"

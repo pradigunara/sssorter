@@ -3,3 +3,5 @@ node_modules
 result.js
 dist/
 songs/
+.env
+.env.local
