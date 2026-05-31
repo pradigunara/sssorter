@@ -47,14 +47,6 @@ export async function signInWithDiscord() {
 export async function signOut() {
   const sb = await getClient();
   if (!sb) return;
-
-  // Clear cached rankings for current user
-  const session = await getSession();
-  if (session) {
-    cacheDel(`${session.user.id}:rankings`);
-    cacheDel(`${session.user.id}:${currentMonth()}`);
-  }
-
   await sb.auth.signOut();
 }
 
@@ -75,33 +67,6 @@ export async function getSession() {
 }
 
 // --- Rankings ---
-
-const CACHE_PREFIX = "ss_";
-
-function cacheGet(key) {
-  try {
-    const raw = localStorage.getItem(CACHE_PREFIX + key);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function cacheSet(key, value) {
-  try {
-    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify(value));
-  } catch {
-    /* quota exceeded — silently skip */
-  }
-}
-
-function cacheDel(key) {
-  try {
-    localStorage.removeItem(CACHE_PREFIX + key);
-  } catch {
-    /* noop */
-  }
-}
 
 export function currentMonth() {
   const d = new Date();
@@ -129,10 +94,6 @@ export async function saveRanking(memberNames, memberData) {
       },
       { onConflict: "user_id,month" },
     );
-
-  // Invalidate caches so next load fetches fresh data
-  cacheDel(`${userId}:rankings`);
-  cacheDel(`${userId}:${currentMonth()}`);
 
   // Keep only the most recent 12 months
   const { data: all } = await sb
@@ -162,46 +123,14 @@ function buildSNumberLookup(memberData) {
   }
 }
 
-export async function loadCurrentMonthRanking(memberData) {
-  const session = await getSession();
-  if (!session) return null;
-
-  const userId = session.user.id;
-  const month = currentMonth();
-  const cacheKey = `${userId}:${month}`;
-  const cached = cacheGet(cacheKey);
-  if (cached) return cached;
-
-  const sb = await getClient();
-  if (!sb) return null;
-
-  const { data, error } = await sb
-    .from("rankings")
-    .select("ranking")
-    .eq("user_id", userId)
-    .eq("month", month)
-    .maybeSingle();
-
-  if (error || !data) return null;
-
-  buildSNumberLookup(memberData);
-  const result = data.ranking.map((sNum) => sNumberToNameCache[sNum] ?? sNum);
-  cacheSet(cacheKey, result);
-  return result;
-}
-
 export async function loadAllRankings() {
   const session = await getSession();
   if (!session) return [];
 
-  const userId = session.user.id;
-  const cacheKey = `${userId}:rankings`;
-  const cached = cacheGet(cacheKey);
-  if (cached) return cached;
-
   const sb = await getClient();
   if (!sb) return [];
 
+  const userId = session.user.id;
   const { data, error } = await sb
     .from("rankings")
     .select("month,ranking")
@@ -209,8 +138,6 @@ export async function loadAllRankings() {
     .order("month", { ascending: false });
 
   if (error || !data) return [];
-
-  cacheSet(cacheKey, data);
   return data;
 }
 

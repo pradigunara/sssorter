@@ -206,6 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   initAuth(els, history.refreshRankings, () => {
+    els.historyPage.classList.add("is-hidden");
     history.setRankings([]);
     restartSorter();
   });
