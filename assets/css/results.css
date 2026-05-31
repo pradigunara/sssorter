@@ -1,0 +1,102 @@
+.page-result {
+  padding: 20px 1em 60px 1em;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.results-list ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.results-list li:not(:last-child) {
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px #e1e4e8;
+  transition: border-color 0.3s ease;
+}
+
+body.dark-mode .results-list li:not(:last-child) {
+  border-bottom: solid 1px #444;
+}
+
+.number {
+  display: inline-block;
+  width: 20px;
+  text-align: right;
+  margin-right: 10px;
+  color: #959da5;
+}
+
+.result-btn {
+  width: fit-content;
+  border: none;
+  color: var(--text-dark);
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: var(--surface-white);
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.result-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+body.dark-mode .result-btn {
+  color: var(--dark-text);
+  background: var(--dark-surface);
+}
+
+.result-btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--primary-pink),
+    var(--secondary-purple)
+  );
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.result-btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(255, 77, 133, 0.3);
+}
+
+.sort-again-link {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary-pink);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.sort-again-link:hover {
+  opacity: 0.8;
+}
+
+.results-subtitle {
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+body.dark-mode .results-subtitle {
+  color: var(--dark-text-muted);
+}

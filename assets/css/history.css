@@ -1,0 +1,56 @@
+.history-page {
+  margin-top: 0;
+}
+
+.history-back {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary-pink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-bottom: 0.75rem;
+}
+
+.history-back:hover {
+  opacity: 0.8;
+}
+
+.history-chart-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.history-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.history-title-row h2 {
+  margin: 0;
+}
+
+.history-month-select {
+  position: relative;
+}
+
+.month-dropdown {
+  right: 0;
+}
+
+.history-months {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.history-pill-active {
+  background: var(--primary-pink) !important;
+  color: #fff !important;
+}

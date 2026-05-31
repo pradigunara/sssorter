@@ -114,41 +114,43 @@
     <script type="module" src="/assets/sorter.js"></script>
   </head>
 
-  <body class="song-sorter">
-    <div class="theme-toggle">
-      <span class="theme-toggle-text">#DarkMode</span>
-      <div class="theme-toggle-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </div>
-    </div>
-    <div id="auth-bar" class="auth-bar">
-      <div id="auth-buttons" class="auth-buttons">
-        <button id="btn-signin" class="auth-btn auth-btn-signin">Sign in</button>
-        <div id="auth-dropdown" class="auth-dropdown" style="display:none">
-          <button id="btn-signin-x" class="auth-dropdown-item">with X</button>
-          <button id="btn-signin-discord" class="auth-dropdown-item">with Discord</button>
+  <body class="bias-sorter">
+    <div class="top-bar">
+      <div id="auth-bar" class="auth-bar">
+        <div id="auth-buttons" class="auth-buttons">
+          <button id="btn-signin" class="auth-btn auth-btn-signin">Sign in</button>
+          <div id="auth-dropdown" class="dropdown-menu is-hidden">
+            <button id="btn-signin-x" class="dropdown-item">with X</button>
+            <button id="btn-signin-discord" class="dropdown-item">with Discord</button>
+          </div>
+        </div>
+        <div id="auth-user" class="auth-user is-hidden">
+          <button id="btn-user-menu" class="pill-toggle">
+            <span id="auth-username"></span>
+            <span class="user-arrow">▾</span>
+          </button>
+          <div id="user-dropdown" class="dropdown-menu is-hidden">
+            <button id="btn-history" class="dropdown-item">Ranking History</button>
+            <button id="btn-signout" class="dropdown-item">Sign out</button>
+          </div>
         </div>
       </div>
-      <div id="auth-user" class="auth-user" style="display:none">
-        <button id="btn-user-menu" class="auth-btn auth-btn-user">
-          <span id="auth-username"></span>
-          <span class="user-arrow">▾</span>
-        </button>
-        <div id="user-dropdown" class="auth-dropdown" style="display:none">
-          <button id="btn-history" class="auth-dropdown-item">Ranking History</button>
-          <button id="btn-signout" class="auth-dropdown-item">Sign out</button>
+      <div class="theme-toggle">
+        <span class="theme-toggle-text">#DarkMode</span>
+        <div class="theme-toggle-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
         </div>
       </div>
     </div>
@@ -227,20 +229,18 @@
     <section class="page-result" id="page-result">
       <div class="container">
         <div id="battleResult"></div>
-        <a id="showMore" style="display: none; cursor: pointer">Show More</a>
+        <a id="showMore" class="is-hidden" style="cursor: pointer">Show More</a>
         <br />
         <a
           id="tweet-button"
-          class="result-btn result-btn-primary"
-          style="display: none"
+          class="result-btn result-btn-primary is-hidden"
           href=""
         >
           Share to X
         </a>
         <a
           id="sssongs-button"
-          class="result-btn"
-          style="display: none"
+          class="result-btn is-hidden"
           href="https://sssorter.pages.dev/songs"
         >
           Try Song Sorter!
@@ -254,12 +254,12 @@
       </a>
     </footer>
 
-    <div id="chart-modal" class="chart-modal" style="display:none">
+    <div id="chart-modal" class="chart-modal is-hidden">
       <button id="btn-chart-close" class="chart-modal-close">&times;</button>
       <div id="chart-modal-content" class="chart-modal-content"></div>
     </div>
 
-    <div id="history-page" class="history-page" style="display:none">
+    <div id="history-page" class="history-page is-hidden">
       <div class="container">
         <button id="btn-history-back" class="history-back">← Back to sorter</button>
         <div id="history-chart" class="history-chart-wrap"></div>

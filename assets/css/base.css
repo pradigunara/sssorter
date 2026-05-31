@@ -1,0 +1,133 @@
+:root {
+  --bg-gradient-start: #f8f9fa;
+  --bg-gradient-mid: #ffd6e0;
+  --bg-gradient-end: #e2eafc;
+  --surface-white: rgba(255, 255, 255, 0.85);
+  --text-dark: #3a3a3a;
+  --text-muted: #828282;
+
+  --primary-pink: #ff4d85;
+  --secondary-purple: #9b72cf;
+  --tertiary-blue: #5c9eff;
+  --success-mint: #4ade80;
+
+  --dark-bg-gradient-start: #0f1016;
+  --dark-bg-gradient-mid: #1f121d;
+  --dark-bg-gradient-end: #161824;
+  --dark-surface: rgba(30, 30, 38, 0.85);
+  --dark-text: #f0f0f5;
+  --dark-text-muted: #a1a1aa;
+
+  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 20px 60px rgba(255, 77, 133, 0.15);
+  --glow-effect: 0 0 25px;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text-dark);
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-start),
+    var(--bg-gradient-mid),
+    var(--bg-gradient-end)
+  );
+  background-attachment: fixed;
+  margin: 0;
+  font-family:
+    "Nunito",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    padding-bottom: 80px;
+  }
+}
+
+body.dark-mode {
+  color: var(--dark-text);
+  background: linear-gradient(
+    135deg,
+    var(--dark-bg-gradient-start),
+    var(--dark-bg-gradient-mid),
+    var(--dark-bg-gradient-end)
+  );
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--tertiary-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-pink);
+}
+
+body.dark-mode a {
+  color: var(--tertiary-blue);
+}
+
+body.dark-mode a:hover {
+  color: var(--primary-pink);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: normal;
+  font-size: 1.5em;
+  color: #959da5;
+}
+
+.container {
+  width: 95%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (min-width: 500px) {
+  .container {
+    width: 80%;
+  }
+}
+
+/* Utility: show/hide */
+.is-hidden {
+  display: none !important;
+}
+
+.is-visible {
+  display: flex !important;
+}
