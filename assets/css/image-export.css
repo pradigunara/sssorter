@@ -1,0 +1,197 @@
+/* Image export modal — eagerly loaded (small footprint) so the modal HTML
+   is styled as soon as it appears in the DOM. The export JS module that
+   renders templates into the previews is lazy-loaded separately. */
+
+.image-export-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.image-export-modal.is-visible {
+  display: flex !important;
+}
+
+.image-export-modal .modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 16, 22, 0.82);
+  cursor: pointer;
+}
+
+.image-export-modal .modal-panel {
+  position: relative;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px 28px 24px;
+  max-width: min(1280px, 96vw);
+  width: 100%;
+  max-height: 94vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  z-index: 1;
+}
+body.dark-mode .image-export-modal .modal-panel {
+  background: #1f1d2a;
+  color: #f0f0f5;
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.9rem;
+  color: #1c1424;
+  cursor: pointer;
+  line-height: 1;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  font-family: system-ui, sans-serif;
+}
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+body.dark-mode .modal-close {
+  color: #f0f0f5;
+}
+body.dark-mode .modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modal-title {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  color: #1c1424;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+body.dark-mode .modal-title {
+  color: #f0f0f5;
+}
+
+.modal-sub {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #6b5e7a;
+  margin: 0 0 24px;
+}
+body.dark-mode .modal-sub {
+  color: #a1a1aa;
+}
+
+.export-templates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .export-templates {
+    grid-template-columns: 1fr;
+  }
+}
+
+.export-template {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.template-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.template-name {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: #1c1424;
+  letter-spacing: -0.005em;
+}
+body.dark-mode .template-name {
+  color: #f0f0f5;
+}
+
+.template-tag {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9890a4;
+}
+body.dark-mode .template-tag {
+  color: #6b6a78;
+}
+
+.template-preview {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(40, 24, 60, 0.14);
+  background: #f6f4f8;
+  isolation: isolate;
+}
+
+/* The mockup injected by export-templates.js fills the preview. The
+   .mockup-canvas is 1080×1080 in absolute pixels and gets scaled to fit
+   the preview frame via --mockup-scale (set by JS). */
+.template-preview .mockup {
+  width: 100%;
+  height: 100%;
+}
+.template-preview .mockup-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.template-download {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(120deg, #ff4d85, #9b72cf);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  box-shadow: 0 4px 12px rgba(255, 77, 133, 0.25);
+}
+.template-download:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 77, 133, 0.35);
+}
+.template-download:active:not(:disabled) {
+  transform: translateY(0);
+}
+.template-download:disabled,
+.template-download.is-loading {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+  box-shadow: 0 2px 6px rgba(255, 77, 133, 0.15);
+}
+body.dark-mode .template-download {
+  box-shadow: 0 4px 14px rgba(255, 77, 133, 0.4);
+}

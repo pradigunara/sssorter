@@ -136,6 +136,33 @@ export default class TripleSBiasSorter {
     this.initialize();
   }
 
+  markCompleteWithOrder(orderNames) {
+    const indexOfName = new Map();
+    this.memberNames.forEach((name, idx) => indexOfName.set(name, idx));
+
+    const indices = orderNames.map((name) => {
+      const idx = indexOfName.get(name);
+      if (idx === undefined) {
+        throw new Error(`markCompleteWithOrder: unknown member "${name}"`);
+      }
+      return idx;
+    });
+
+    this.#lstMember = [indices];
+    this.#parent = [-1];
+    this.#finishFlag = 1;
+    this.#numQuestion = 0;
+    this.#totalSize = 0;
+    this.#finishSize = 0;
+    this.#cmp1 = 0;
+    this.#cmp2 = 0;
+    this.#head1 = 0;
+    this.#head2 = 0;
+    this.#rec = new Array(this.memberNames.length).fill(0);
+    this.#nrec = 0;
+    this.#equal = new Array(this.memberNames.length + 1).fill(-1);
+  }
+
   #shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
