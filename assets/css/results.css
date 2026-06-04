@@ -50,7 +50,7 @@ body.dark-mode .results-list li:not(:last-child) {
   box-shadow: var(--card-shadow-hover);
 }
 
-body.dark-mode .result-btn {
+body.dark-mode .result-btn:not(.result-btn-primary) {
   color: var(--dark-text);
   background: var(--dark-surface);
 }
@@ -70,6 +70,10 @@ body.dark-mode .result-btn {
 .result-btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 8px 20px rgba(255, 77, 133, 0.3);
+}
+
+body.dark-mode .result-btn-primary {
+  color: white;
 }
 
 .sort-again-link {

@@ -118,10 +118,14 @@
     <div class="top-bar">
       <div id="auth-bar" class="auth-bar">
         <div id="auth-buttons" class="auth-buttons">
-          <button id="btn-signin" class="auth-btn auth-btn-signin">Sign in</button>
+          <button id="btn-signin" class="auth-btn auth-btn-signin">
+            Sign in
+          </button>
           <div id="auth-dropdown" class="dropdown-menu is-hidden">
             <button id="btn-signin-x" class="dropdown-item">with X</button>
-            <button id="btn-signin-discord" class="dropdown-item">with Discord</button>
+            <button id="btn-signin-discord" class="dropdown-item">
+              with Discord
+            </button>
           </div>
         </div>
         <div id="auth-user" class="auth-user is-hidden">
@@ -130,7 +134,9 @@
             <span class="user-arrow">▾</span>
           </button>
           <div id="user-dropdown" class="dropdown-menu is-hidden">
-            <button id="btn-history" class="dropdown-item">Ranking History</button>
+            <button id="btn-history" class="dropdown-item">
+              Ranking History
+            </button>
             <button id="btn-signout" class="dropdown-item">Sign out</button>
           </div>
         </div>
@@ -182,7 +188,7 @@
             >
               <div class="photocard-image-container">
                 <img
-                  src="https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/a5dd9af2-dbc5-42c8-11c3-6c6cdfc05d00/2x"
+                  src="__S1_PICSET1_URL__"
                   alt="SeoYeon"
                   class="photocard-image is-loading"
                   width="582"
@@ -203,7 +209,7 @@
             >
               <div class="photocard-image-container">
                 <img
-                  src="https://imagedelivery.net/qQuMkbHJ-0s6rwu8vup_5w/cb9c4823-dbe6-4abc-b755-6eb53efba500/2x"
+                  src="__S24_PICSET1_URL__"
                   alt="JiYeon"
                   class="photocard-image is-loading"
                   width="582"
@@ -232,10 +238,13 @@
         <a id="showMore" class="is-hidden" style="cursor: pointer">Show More</a>
         <br />
         <a
-          id="tweet-button"
+          id="export-image-button"
           class="result-btn result-btn-primary is-hidden"
           href=""
         >
+          Download Image
+        </a>
+        <a id="tweet-button" class="result-btn is-hidden" href="">
           Share to X
         </a>
         <a
@@ -259,9 +268,62 @@
       <div id="chart-modal-content" class="chart-modal-content"></div>
     </div>
 
+    <section
+      id="image-export-modal"
+      class="image-export-modal is-hidden"
+      aria-hidden="true"
+    >
+      <div class="modal-backdrop" data-close></div>
+      <div
+        class="modal-panel"
+        role="dialog"
+        aria-labelledby="export-modal-title"
+      >
+        <button class="modal-close" data-close aria-label="Close">
+          &times;
+        </button>
+        <h2 class="modal-title" id="export-modal-title">Share your ranking</h2>
+        <p class="modal-sub">Pick a template to download!</p>
+        <div class="export-templates">
+          <article class="export-template" data-layout="f1">
+            <div class="template-meta">
+              <span class="template-name">Bubbles</span>
+              <span class="template-tag">playful</span>
+            </div>
+            <div class="template-preview" id="export-preview-f1"></div>
+            <button class="template-download" data-layout="f1" type="button">
+              Download
+            </button>
+          </article>
+          <article class="export-template" data-layout="f2">
+            <div class="template-meta">
+              <span class="template-name">Polaroid</span>
+              <span class="template-tag">elegant</span>
+            </div>
+            <div class="template-preview" id="export-preview-f2"></div>
+            <button class="template-download" data-layout="f2" type="button">
+              Download
+            </button>
+          </article>
+          <article class="export-template" data-layout="f3">
+            <div class="template-meta">
+              <span class="template-name">Confetti</span>
+              <span class="template-tag">festive</span>
+            </div>
+            <div class="template-preview" id="export-preview-f3"></div>
+            <button class="template-download" data-layout="f3" type="button">
+              Download
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <div id="history-page" class="history-page is-hidden">
       <div class="container">
-        <button id="btn-history-back" class="history-back">← Back to sorter</button>
+        <button id="btn-history-back" class="history-back">
+          ← Back to sorter
+        </button>
         <div id="history-chart" class="history-chart-wrap"></div>
         <div id="history-result" class="history-result"></div>
       </div>
