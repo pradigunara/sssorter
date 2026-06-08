@@ -110,24 +110,33 @@ function handleHistoryBack() {
 
 // --- Sorting ---
 
-async function handleSort(preference) {
+function handleSort(preference) {
   if (sorter.isComplete() || isAnimating) return;
   isAnimating = true;
   document.body.classList.add("is-animating");
 
-  if (preference === "A") sorter.preferMemberA();
-  else if (preference === "B") sorter.preferMemberB();
-  else sorter.declareTie();
+  // Show selection glow immediately, then yield so browser can paint it
+  const selectedCard =
+    preference === "A" ? els.optionA : preference === "B" ? els.optionB : null;
+  if (selectedCard) selectedCard.classList.add("selected-glow");
 
-  if (sorter.isComplete()) {
-    updateProgressDisplay(sorter.getProgress());
-    showResult();
-  } else {
-    await showFinal({ selectedFlag: preference });
-  }
+  requestAnimationFrame(() => {
+    if (preference === "A") sorter.preferMemberA();
+    else if (preference === "B") sorter.preferMemberB();
+    else sorter.declareTie();
 
-  isAnimating = false;
-  document.body.classList.remove("is-animating");
+    if (sorter.isComplete()) {
+      updateProgressDisplay(sorter.getProgress());
+      showResult();
+      isAnimating = false;
+      document.body.classList.remove("is-animating");
+    } else {
+      showFinal({ selectedFlag: preference }).then(() => {
+        isAnimating = false;
+        document.body.classList.remove("is-animating");
+      });
+    }
+  });
 }
 
 function showResult({ full = false } = {}) {
