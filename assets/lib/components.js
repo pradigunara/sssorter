@@ -1,8 +1,10 @@
 import { html } from "./html.js";
 
 export function renderCard(memberName, memberPicId, memberData) {
+  const src2x = memberPicId[memberName];
+  const src1x = src2x.replace(/\/2x$/, "/1x");
   return html`<div class="photocard-image-container">
-      <img src="${memberPicId[memberName]}" alt="${memberName}" class="photocard-image" width="582" height="900" />
+      <img src="${src2x}" srcset="${src1x} 1x, ${src2x} 2x" sizes="(max-width: 768px) 49vw, 340px" alt="${memberName}" class="photocard-image" width="582" height="900" decoding="async" />
       <div class="member-badge">${memberData[memberName].sNumber}</div>
     </div>
     <div class="photocard-info">

@@ -19,6 +19,7 @@ import { saveRanking, loadAllRankings } from "./supabase.js";
 const memberNames = Object.keys(memberData);
 let sorter = new TripleSBiasSorter(memberNames, memberData);
 let memberPicId = {};
+let activePicSet = "";
 let showingFullResults = false;
 let isAnimating = false;
 
@@ -68,19 +69,22 @@ function cacheElements() {
 function initMemberPic() {
   const isDarkMode = localStorage.getItem("darkMode") === "true";
   const picSet = isDarkMode ? `picSet${rand(3, 4)}` : `picSet${rand(1, 2)}`;
+  activePicSet = picSet;
   memberPicId = {};
   for (const memberName of memberNames) {
     memberPicId[memberName] = memberData[memberName][picSet];
   }
 }
 
-function preloadImages() {
+function preloadPicSet(picSet) {
   for (const memberName of memberNames) {
-    for (let i = 1; i <= 4; i++) {
-      const img = new Image();
-      img.src = memberData[memberName][`picSet${i}`];
-    }
+    const img = new Image();
+    img.src = memberData[memberName][picSet];
   }
+}
+
+function preloadImages() {
+  preloadPicSet(activePicSet);
 }
 
 // --- Card content ---
@@ -218,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initTheme(els, () => {
     initMemberPic();
+    preloadPicSet(activePicSet);
     if (!sorter.isComplete()) showFinal({ skipIncrement: true });
   });
 
@@ -291,6 +296,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const initialImgs = document.querySelectorAll(".photocard-image.is-loading");
   const reveal = (img) => img.classList.remove("is-loading");
   initialImgs.forEach((img) => {
+    if (img.src && !img.srcset) {
+      img.srcset = img.src.replace(/\/2x$/, "/1x") + " 1x, " + img.src + " 2x";
+      img.sizes = "(max-width: 768px) 49vw, 340px";
+      img.decoding = "async";
+    }
     if (img.complete && img.naturalHeight !== 0) {
       reveal(img);
     } else {
