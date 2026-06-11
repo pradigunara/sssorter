@@ -83,9 +83,6 @@ function preloadPicSet(picSet) {
   }
 }
 
-function preloadImages() {
-  preloadPicSet(activePicSet);
-}
 
 // --- Card content ---
 
@@ -216,7 +213,7 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
 
 // --- Init ---
 
-document.addEventListener("DOMContentLoaded", function () {
+function init() {
   initMemberPic();
   cacheElements();
 
@@ -230,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sorter.reset();
   if (!sorter.isComplete()) showFinal({ skipIncrement: true });
+  preloadPicSet(activePicSet);
 
   // check test mode
   setTimeout(() => {
@@ -292,25 +290,6 @@ document.addEventListener("DOMContentLoaded", function () {
     history.setRankings([]);
     restartSorter();
   });
+}
 
-  const initialImgs = document.querySelectorAll(".photocard-image.is-loading");
-  const reveal = (img) => img.classList.remove("is-loading");
-  initialImgs.forEach((img) => {
-    if (img.src && !img.srcset) {
-      img.srcset = img.src.replace(/\/2x$/, "/1x") + " 1x, " + img.src + " 2x";
-      img.sizes = "(max-width: 768px) 49vw, 340px";
-      img.decoding = "async";
-    }
-    if (img.complete && img.naturalHeight !== 0) {
-      reveal(img);
-    } else {
-      img.addEventListener("load", () => reveal(img), { once: true });
-      img.addEventListener("error", () => reveal(img), { once: true });
-    }
-  });
-  const first = initialImgs[0];
-  if (first) {
-    if (first.complete) preloadImages();
-    else first.addEventListener("load", preloadImages, { once: true });
-  }
-});
+document.addEventListener("DOMContentLoaded", init);
