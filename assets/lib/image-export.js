@@ -160,7 +160,6 @@ async function downloadTemplate(preview, button) {
     if (!blob) throw new Error("toBlob returned null");
     triggerDownload(blob, makeFilename());
   } catch (err) {
-    console.error("Failed to generate image:", err);
     button.textContent = "Failed — try again";
     setTimeout(() => restoreButton(button, originalLabel), 2000);
     return;

@@ -288,16 +288,19 @@ body.dark-mode .member-name::before {
 }
 
 .sorter-option:active,
-.sorter-option:focus,
 button:active,
-button:focus,
-a:active,
-a:focus {
-  outline: none !important;
+a:active {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+.sorter-option:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--primary-pink, #ff4d85);
+  outline-offset: 2px;
 }
 
 .main-battle {

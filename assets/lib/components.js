@@ -19,28 +19,6 @@ export function renderProgressHeader(progress) {
   return html`<strong>Gravity #${progress.currentQuestion}</strong><br />${hearts} ${progress.progressPercent}% sorted`;
 }
 
-export function renderResultItems(sortedMembers, memberData, count) {
-  let rank = 1, sameRank = 1;
-  const listResult = [];
-  const items = [];
-
-  for (let i = 0; i < count; i++) {
-    const mem = sortedMembers[i];
-    listResult.push(`${mem}${memberData[mem].emoji}`);
-    items.push(html`<li><span class="number">${rank}</span> ${mem}${memberData[mem].emoji}</li>`);
-
-    if (i < count - 1) {
-      if (memberData._equalRef && memberData._equalRef[i] == i + 1) {
-        sameRank++;
-      } else {
-        rank += sameRank;
-        sameRank = 1;
-      }
-    }
-  }
-  return { items, listResult };
-}
-
 export function renderResultPage(sortedMembers, memberData, equal, full) {
   const count = full ? sortedMembers.length : Math.ceil(sortedMembers.length / 2);
   let rank = 1, sameRank = 1;

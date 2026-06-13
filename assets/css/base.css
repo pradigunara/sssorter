@@ -8,7 +8,7 @@
 
   --primary-pink: #ff4d85;
   --secondary-purple: #9b72cf;
-  --tertiary-blue: #5c9eff;
+  --tertiary-blue: #3b82f6;
   --success-mint: #4ade80;
 
   --dark-bg-gradient-start: #0f1016;
@@ -107,7 +107,7 @@ h2 {
   letter-spacing: 1px;
   font-weight: normal;
   font-size: 1.5em;
-  color: #959da5;
+  color: #6b7280;
 }
 
 .container {

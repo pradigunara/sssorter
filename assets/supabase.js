@@ -31,7 +31,7 @@ export async function signInWithX() {
     provider: "x",
     options: { redirectTo: window.location.origin },
   });
-  if (error) console.error("X sign in failed:", error.message);
+  if (error) return { error: error.message };
 }
 
 export async function signInWithDiscord() {
@@ -41,7 +41,7 @@ export async function signInWithDiscord() {
     provider: "discord",
     options: { redirectTo: window.location.origin },
   });
-  if (error) console.error("Discord sign in failed:", error.message);
+  if (error) return { error: error.message };
 }
 
 export async function signOut() {

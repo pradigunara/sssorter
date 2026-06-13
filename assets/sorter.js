@@ -90,6 +90,7 @@ function updateOptionContent(optEl, memberName, memberIndex) {
   optEl.innerHTML = renderCard(memberName, memberPicId, memberData);
   optEl.style.setProperty("--member-color", memberData[memberName].color);
   optEl.dataset.memberIndex = memberIndex;
+  optEl.setAttribute("aria-label", `Choose ${memberName}`);
 }
 
 // --- Page state ---
@@ -245,6 +246,12 @@ function init() {
 
   els.optionA.addEventListener("click", () => handleSort("A"));
   els.optionB.addEventListener("click", () => handleSort("B"));
+  els.optionA.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleSort("A"); }
+  });
+  els.optionB.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleSort("B"); }
+  });
   els.showMore.addEventListener("click", toggleResult);
 
   els.btnHistory.addEventListener("click", () => {
@@ -278,7 +285,7 @@ function init() {
         equal: sorter.equal,
       });
     } catch (err) {
-      console.error("Failed to open export modal:", err);
+      // Image export failed — user sees button revert
     } finally {
       els.exportImageButton.classList.remove("is-loading");
       els.exportImageButton.textContent = originalText;

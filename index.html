@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' https://imagedelivery.net data: blob:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; script-src 'self' 'unsafe-inline';" />
 
     <!-- Primary Meta Tags -->
     <title>
@@ -141,7 +142,7 @@
           </div>
         </div>
       </div>
-      <div class="theme-toggle">
+      <div class="theme-toggle" role="switch" tabindex="0" aria-checked="false" aria-label="Toggle dark mode">
         <span class="theme-toggle-text">#DarkMode</span>
         <div class="theme-toggle-icon">
           <svg
@@ -175,7 +176,7 @@
     </header>
     <main class="page-sorter" id="page-sorter">
       <div class="container">
-        <h2 id="battleNumber" class="sorter-header">
+        <h2 id="battleNumber" class="sorter-header" aria-live="polite" aria-atomic="true">
           <strong>Gravity #1</strong><br />♡♡♡♡♡ 0% sorted
         </h2>
 
@@ -184,6 +185,9 @@
             <div
               id="optionA"
               class="sorter-option"
+              role="button"
+              tabindex="0"
+              aria-label="Choose this member"
               style="--member-color: #21aefe"
             >
               <div class="photocard-image-container">
@@ -205,6 +209,9 @@
             <div
               id="optionB"
               class="sorter-option"
+              role="button"
+              tabindex="0"
+              aria-label="Choose this member"
               style="--member-color: #ffab64"
             >
               <div class="photocard-image-container">

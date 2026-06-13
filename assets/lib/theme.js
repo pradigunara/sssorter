@@ -5,18 +5,30 @@ const MOON_SVG =
 
 export function initTheme(els, onThemeChange) {
   const savedDarkMode = localStorage.getItem("darkMode");
+  const toggle = document.querySelector(".theme-toggle");
+
   if (savedDarkMode === "true") {
     document.body.classList.add("dark-mode");
     els.themeToggleText.textContent = "Light Mode";
     setThemeIcon(true);
+    toggle.setAttribute("aria-checked", "true");
   }
 
-  document.querySelector(".theme-toggle").addEventListener("click", () => {
+  function handleToggle() {
     const isDarkMode = document.body.classList.toggle("dark-mode");
     els.themeToggleText.textContent = isDarkMode ? "Light Mode" : "#DarkMode";
     setThemeIcon(isDarkMode);
+    toggle.setAttribute("aria-checked", String(isDarkMode));
     localStorage.setItem("darkMode", isDarkMode);
     onThemeChange(isDarkMode);
+  }
+
+  toggle.addEventListener("click", handleToggle);
+  toggle.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleToggle();
+    }
   });
 }
 

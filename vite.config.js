@@ -17,15 +17,11 @@ function findMemberBySNumber(sNumber) {
 const s1Member = findMemberBySNumber("S1");
 const s24Member = findMemberBySNumber("S24");
 
-console.log(`loadMemberData: S1=${s1Member.picSet1 ? "OK" : "MISSING"} S24=${s24Member.picSet1 ? "OK" : "MISSING"}`);
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
 
   const url = env.VITE_SUPABASE_URL || "";
   const key = env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY || "";
-
-  console.log(`loadEnv: VITE_SUPABASE_URL=${url || "NOT SET"}`);
 
   return {
     root: ".",
