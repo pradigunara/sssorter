@@ -1,9 +1,9 @@
 @import "./css/base.css";
 @import "./css/layout.css";
 @import "./css/cards.css";
-@import "./css/results.css";
-@import "./css/theme.css";
 @import "./css/auth.css";
+@import "./css/theme.css";
+@import "./css/results.css";
 @import "./css/history.css";
 @import "./css/modal.css";
 @import "./css/image-export.css";

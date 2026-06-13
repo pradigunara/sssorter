@@ -70,8 +70,12 @@
 
     <!-- Preconnect for faster image loading -->
     <link rel="preconnect" href="https://imagedelivery.net" crossorigin />
-    <link rel="stylesheet" href="/assets/sorter.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" /></noscript>
     <link rel="icon" type="image/png" href="/assets/cube.png" />
+    <link rel="stylesheet" href="/assets/sorter.css" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -236,6 +240,7 @@
           <!--   it’s a tie! -->
           <!-- </div> -->
         </div>
+        <p class="keyboard-hint" aria-hidden="true">← → to aim · Enter / Space to choose</p>
       </div>
     </main>
 
@@ -336,14 +341,6 @@
       </div>
     </div>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
-      rel="preload"
-      as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      "
-    />
+
   </body>
 </html>

@@ -77,9 +77,19 @@ function initMemberPic() {
 }
 
 function preloadPicSet(picSet) {
-  for (const memberName of memberNames) {
-    const img = new Image();
-    img.src = memberData[memberName][picSet];
+  const urls = memberNames.map((name) => memberData[name][picSet]);
+
+  const loadAll = () => {
+    for (const src of urls) {
+      const img = new Image();
+      img.src = src;
+    }
+  };
+
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(loadAll, { timeout: 5000 });
+  } else {
+    setTimeout(loadAll, 200);
   }
 }
 
@@ -117,12 +127,13 @@ function handleSort(preference) {
   isAnimating = true;
   document.body.classList.add("is-animating");
 
-  // Show selection glow immediately, then yield so browser can paint it
+  // Glow immediately, then rAF lets the browser paint it before heavy work
   const selectedCard =
     preference === "A" ? els.optionA : preference === "B" ? els.optionB : null;
   if (selectedCard) selectedCard.classList.add("selected-glow");
 
   requestAnimationFrame(() => {
+    // Phase 1: sorting computation (pure JS, no DOM)
     if (preference === "A") sorter.preferMemberA();
     else if (preference === "B") sorter.preferMemberB();
     else sorter.declareTie();
@@ -130,15 +141,19 @@ function handleSort(preference) {
     if (sorter.isComplete()) {
       updateProgressDisplay(sorter.getProgress());
       showResult();
-      isAnimating = false;
-      document.body.classList.remove("is-animating");
+      finishSort();
     } else {
-      showFinal({ selectedFlag: preference }).then(() => {
-        isAnimating = false;
-        document.body.classList.remove("is-animating");
-      });
+      // Yield so browser can paint progress update before starting animations
+      setTimeout(() => {
+        showFinal({ selectedFlag: preference }).then(finishSort);
+      }, 0);
     }
   });
+
+  function finishSort() {
+    isAnimating = false;
+    document.body.classList.remove("is-animating");
+  }
 }
 
 function showResult({ full = false } = {}) {
@@ -231,18 +246,16 @@ function init() {
   preloadPicSet(activePicSet);
 
   // check test mode
-  setTimeout(() => {
-    const testMode = new URLSearchParams(window.location.search).get("test");
-    if (testMode === "random") {
-      const shuffled = [...memberNames];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      sorter.markCompleteWithOrder(shuffled);
-      showResult();
+  const testMode = new URLSearchParams(window.location.search).get("test");
+  if (testMode === "random") {
+    const shuffled = [...memberNames];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-  }, 3000);
+    sorter.markCompleteWithOrder(shuffled);
+    showResult();
+  }
 
   els.optionA.addEventListener("click", () => handleSort("A"));
   els.optionB.addEventListener("click", () => handleSort("B"));
@@ -251,6 +264,11 @@ function init() {
   });
   els.optionB.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleSort("B"); }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (isAnimating || sorter.isComplete()) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); els.optionA.focus(); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); els.optionB.focus(); }
   });
   els.showMore.addEventListener("click", toggleResult);
 

@@ -14,6 +14,7 @@ export function isLoggedInUser() {
 }
 
 export function initAuth(els, onSignIn, onSignOut) {
+  // Set up click handlers immediately (no Supabase needed)
   els.btnSignin.addEventListener("click", () => {
     els.authDropdown.classList.toggle("is-hidden");
   });
@@ -43,16 +44,34 @@ export function initAuth(els, onSignIn, onSignOut) {
     }
   });
 
-  onAuthChange(async (session) => {
-    updateAuthUI(els, session);
-    if (session) onSignIn();
-    else onSignOut();
-  });
+  // Defer the Supabase-heavy auth check to idle time
+  const initSession = () => {
+    onAuthChange(async (session) => {
+      updateAuthUI(els, session);
+      if (session) onSignIn();
+      else onSignOut();
+    });
 
-  const session = getSession();
-  return session.then((s) => {
-    updateAuthUI(els, s);
-    return s;
+    return getSession().then((s) => {
+      updateAuthUI(els, s);
+      return s;
+    });
+  };
+
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(initSession, { timeout: 3000 });
+  } else {
+    setTimeout(initSession, 200);
+  }
+
+  // Return a promise that resolves when session is known
+  return new Promise((r) => {
+    const check = () => getSession().then(r);
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(check, { timeout: 3000 });
+    } else {
+      setTimeout(check, 200);
+    }
   });
 }
 

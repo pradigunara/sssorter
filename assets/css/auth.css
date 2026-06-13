@@ -40,6 +40,8 @@
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
   -webkit-tap-highlight-color: transparent;
+  min-height: 32px;
+  min-width: 80px;
 }
 
 .auth-btn:hover {
@@ -68,6 +70,7 @@
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
   line-height: normal;
+  min-height: 32px;
 }
 
 .pill-toggle:hover {
