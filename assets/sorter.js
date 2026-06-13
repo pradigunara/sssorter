@@ -67,8 +67,13 @@ function cacheElements() {
 // --- Member pics ---
 
 function initMemberPic() {
-  const isDarkMode = localStorage.getItem("darkMode") === "true";
-  const picSet = isDarkMode ? `picSet${rand(3, 4)}` : `picSet${rand(1, 2)}`;
+  let picSet;
+  if (window.__PICSET__) {
+    picSet = window.__PICSET__;
+    window.__PICSET__ = null; // use once, then fall back to random on theme toggle
+  } else {
+    picSet = localStorage.getItem("darkMode") === "true" ? `picSet${rand(3, 4)}` : `picSet${rand(1, 2)}`;
+  }
   activePicSet = picSet;
   memberPicId = {};
   for (const memberName of memberNames) {

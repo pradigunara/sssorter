@@ -50,9 +50,14 @@
 }
 
 .auth-btn-signin {
-  background: var(--primary-pink);
-  color: #fff;
-  border: 2px solid var(--primary-pink);
+  background: var(--surface-white);
+  color: var(--text-dark);
+  border: 2px solid var(--text-muted);
+}
+
+.auth-btn-signin:hover {
+  border-color: var(--primary-pink);
+  color: var(--primary-pink);
 }
 
 .pill-toggle {
@@ -79,6 +84,12 @@
 }
 
 body.dark-mode .pill-toggle {
+  color: var(--dark-text);
+  border-color: var(--dark-text-muted);
+}
+
+body.dark-mode .auth-btn-signin {
+  background: var(--dark-surface);
   color: var(--dark-text);
   border-color: var(--dark-text-muted);
 }

@@ -38,9 +38,34 @@ export default defineConfig(({ mode }) => {
       {
         name: "inject-member-photocards",
         transformIndexHtml(html) {
-          return html
+          // Inject all picSet URLs for S1 and S24 so the inline preload script can pick the right one
+          let result = html
             .replace("__S1_PICSET1_URL__", s1Member.picSet1)
             .replace("__S24_PICSET1_URL__", s24Member.picSet1);
+
+          // Build a JSON map of S1/S24 picSet URLs for the preload script
+          const picSets = {
+            S1: { picSet1: s1Member.picSet1, picSet2: s1Member.picSet2, picSet3: s1Member.picSet3, picSet4: s1Member.picSet4 },
+            S24: { picSet1: s24Member.picSet1, picSet2: s24Member.picSet2, picSet3: s24Member.picSet3, picSet4: s24Member.picSet4 },
+          };
+
+          const preloadScript = `<script>
+(function(){
+  var d=localStorage.getItem("darkMode")==="true";
+  var p=d?["picSet3","picSet4"]:["picSet1","picSet2"];
+  var pick=p[Math.random()<.5?0:1];
+  window.__PICSET__=pick;
+  var m=${JSON.stringify(picSets)};
+  ["S1","S24"].forEach(function(s){var i=new Image();i.src=m[s][pick];});
+})();</script>`;
+
+          // Insert the preload script right before the supabase config script
+          result = result.replace(
+            '<script>\n      window.__SUPABASE_CONFIG__',
+            `${preloadScript}\n    <script>\n      window.__SUPABASE_CONFIG__`,
+          );
+
+          return result;
         },
       },
       {
