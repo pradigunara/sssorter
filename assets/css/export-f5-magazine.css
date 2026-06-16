@@ -1,0 +1,455 @@
+/* ═══ P10 — Magazine Spread ═══ */
+.layout-p10 {
+  background:
+    radial-gradient(ellipse 720px 520px at 12% 8%, rgba(196, 168, 130, 0.14) 0%, transparent 68%),
+    radial-gradient(ellipse 640px 480px at 92% 94%, rgba(180, 168, 148, 0.12) 0%, transparent 65%),
+    linear-gradient(168deg, #ece8e0 0%, #e4dfd6 42%, #ddd8cf 100%);
+  overflow: hidden;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: #1a1816;
+}
+
+.layout-p10 .p10-paper {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.layout-p10 .p10-page {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  right: 32px;
+  bottom: 32px;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255, 255, 255, 0.72) 0%, transparent 58%),
+    linear-gradient(180deg, #faf8f4 0%, #f6f3ed 52%, #f2efe8 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85),
+    inset 0 0 64px rgba(120, 108, 88, 0.06),
+    0 18px 48px rgba(28, 24, 20, 0.14);
+  z-index: 2;
+  overflow: hidden;
+}
+
+.layout-p10 .p10-masthead {
+  position: absolute;
+  top: 36px;
+  left: 44px;
+  right: 44px;
+  z-index: 8;
+}
+
+.layout-p10 .p10-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #1a1816 8%, #1a1816 92%, transparent 100%);
+  opacity: 0.88;
+}
+
+.layout-p10 .p10-rule--top {
+  margin-bottom: 14px;
+}
+
+.layout-p10 .p10-rule--bottom {
+  margin-top: 14px;
+}
+
+.layout-p10 .p10-masthead-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 16px;
+}
+
+.layout-p10 .p10-issue,
+.layout-p10 .p10-tagline {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(26, 24, 22, 0.42);
+  padding-bottom: 8px;
+}
+
+.layout-p10 .p10-tagline {
+  text-align: right;
+}
+
+.layout-p10 .title {
+  text-align: center;
+}
+
+.layout-p10 .title .t1 {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 52px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #1a1816;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.layout-p10 .title .t1 span {
+  display: inline;
+  font-weight: 800;
+  font-size: 0.88em;
+  letter-spacing: -0.02em;
+  margin-left: 0.1em;
+  color: #1a1816;
+  text-transform: uppercase;
+  vertical-align: baseline;
+}
+
+.layout-p10 .title .t2 {
+  margin-top: 10px;
+  font-family: "Fragment Mono", monospace;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(26, 24, 22, 0.38);
+}
+
+.layout-p10 .p10-spread {
+  position: absolute;
+  top: 148px;
+  left: 44px;
+  right: 44px;
+  height: 548px;
+  display: grid;
+  grid-template-columns: 1.42fr 0.88fr;
+  gap: 18px;
+  z-index: 7;
+}
+
+.layout-p10 .p10-hero {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-p10 .p10-hero-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #e8e4dc;
+  box-shadow:
+    inset 0 0 0 1px rgba(26, 24, 22, 0.08),
+    0 10px 28px rgba(28, 24, 20, 0.1);
+}
+
+.layout-p10 .p10-hero-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.layout-p10 .p10-hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 24, 22, 0.02) 0%,
+    transparent 42%,
+    rgba(26, 24, 22, 0.18) 78%,
+    rgba(26, 24, 22, 0.52) 100%
+  );
+  pointer-events: none;
+}
+
+.layout-p10 .p10-hero-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 24px 22px;
+  z-index: 3;
+}
+
+.layout-p10 .p10-kicker {
+  display: block;
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 252, 246, 0.72);
+  margin-bottom: 8px;
+}
+
+.layout-p10 .p10-rank {
+  display: inline-block;
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: none;
+}
+
+.layout-p10 .p10-name {
+  margin: 6px 0 0;
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layout-p10 .p10-sidebar {
+  display: grid;
+  grid-template-rows: 1fr 1px 1fr;
+  gap: 0;
+  min-height: 0;
+}
+
+.layout-p10 .p10-sidebar-divider {
+  background: linear-gradient(90deg, transparent, #1a1816 12%, #1a1816 88%, transparent);
+  opacity: 0.22;
+}
+
+.layout-p10 .p10-feature {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+}
+
+.layout-p10 .p10-feature-img {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #e8e4dc;
+  box-shadow: inset 0 0 0 1px rgba(26, 24, 22, 0.06);
+}
+
+.layout-p10 .p10-feature-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.layout-p10 .p10-feature-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(26, 24, 22, 0.12) 100%);
+  pointer-events: none;
+}
+
+.layout-p10 .p10-feature-cap {
+  position: relative;
+  padding: 6px 2px 2px;
+  border-top: 1px solid rgba(26, 24, 22, 0.1);
+}
+
+.layout-p10 .p10-feature-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.layout-p10 .p10-feature-cap .p10-rank {
+  flex-shrink: 0;
+  font-size: 24px;
+  color: #1a1816;
+  text-shadow: none;
+  line-height: 1;
+}
+
+.layout-p10 .p10-feature-cap .p10-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 17px;
+  color: #1a1816;
+  text-shadow: none;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sidebar features: narrow photo frame; captions sit outside the photo */
+.layout-p10 .p10-feature.is-rank-2 .p10-feature-img,
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-img {
+  background: transparent;
+  box-shadow: none;
+}
+
+.layout-p10 .p10-feature.is-rank-2 .p10-feature-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  object-position: left top;
+  background: #e8e4dc;
+  box-shadow: inset 0 0 0 1px rgba(26, 24, 22, 0.06);
+}
+
+.layout-p10 .p10-feature.is-rank-2 .p10-feature-veil,
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-veil {
+  display: none;
+}
+
+.layout-p10 .p10-feature.is-rank-2 .p10-feature-cap {
+  padding-right: 20%;
+}
+
+.layout-p10 .p10-feature.is-rank-2 .p10-feature-line {
+  justify-content: flex-start;
+}
+
+.layout-p10 .p10-feature.is-rank-2 .p10-feature-cap .p10-rank {
+  color: #2a2622;
+}
+
+.layout-p10 .p10-feature.is-rank-3 {
+  grid-template-rows: auto 1fr;
+}
+
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-img img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100%;
+  object-position: right top;
+  background: #e8e4dc;
+  box-shadow: inset 0 0 0 1px rgba(26, 24, 22, 0.06);
+}
+
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-cap {
+  padding: 2px 0 6px;
+  padding-left: 20%;
+  border-top: none;
+  border-bottom: 1px solid rgba(26, 24, 22, 0.1);
+}
+
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-line {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-cap .p10-rank {
+  color: #3a3632;
+}
+
+.layout-p10 .p10-feature.is-rank-3 .p10-feature-cap .p10-name {
+  flex: 0 1 auto;
+}
+
+.layout-p10 .p10-strip-label {
+  position: absolute;
+  top: 708px;
+  left: 48px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(26, 24, 22, 0.42);
+  z-index: 8;
+}
+
+.layout-p10 .p10-mosaic {
+  position: absolute;
+  top: 732px;
+  left: 44px;
+  right: 44px;
+  bottom: 52px;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 8px;
+  z-index: 7;
+}
+
+.layout-p10 .p10-cell {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.layout-p10 .p10-cell.is-empty .p10-cell-img {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(220, 214, 204, 0.22) 100%);
+  box-shadow: inset 0 0 0 1px rgba(26, 24, 22, 0.08);
+}
+
+.layout-p10 .p10-cell-img {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #e4e0d8;
+  box-shadow:
+    inset 0 0 0 1px rgba(26, 24, 22, 0.1),
+    0 2px 8px rgba(28, 24, 20, 0.06);
+}
+
+.layout-p10 .p10-cell-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.layout-p10 .p10-cell-rank {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  min-width: 22px;
+  height: 18px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fragment Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: rgba(26, 24, 22, 0.78);
+}
+
+.layout-p10 .p10-cell-name {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 8px;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: #2a2622;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layout-p10 .footer {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #b3a8c2;
+  z-index: 9;
+}

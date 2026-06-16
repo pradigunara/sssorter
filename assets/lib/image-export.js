@@ -3,14 +3,44 @@
 // into its own chunk and only loaded when the user reaches the result screen.
 
 import * as htmlToImage from "html-to-image";
-import { renderF1, renderF2, renderF3, injectTemplateCSS } from "./export-templates.js";
+import {
+  injectTemplateCSS,
+  templatePreviewIds,
+  templateRenderers,
+} from "./export-template-registry.js";
 
 const FONT_HREF =
-  "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Fragment+Mono&family=Nunito:wght@400;600;700;800;900&display=swap";
+  "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Caveat:wght@500;600;700&family=Fragment+Mono&family=Nunito:wght@400;600;700;800;900&display=swap";
 const FONT_LINK_ID = "export-template-fonts";
 
-const RENDERERS = { f1: renderF1, f2: renderF2, f3: renderF3 };
-const PREVIEW_IDS = { f1: "export-preview-f1", f2: "export-preview-f2", f3: "export-preview-f3" };
+/** Explicit loads so export capture never falls back to generic cursive/monospace. */
+const EXPORT_FONT_LOADS = [
+  '700 52px "Caveat"',
+  '600 26px "Caveat"',
+  '700 10px "Fragment Mono"',
+  '400 12px "Fragment Mono"',
+  '800 48px "Bricolage Grotesque"',
+  '700 22px "Bricolage Grotesque"',
+  '900 62px "Nunito"',
+  '800 14px "Nunito"',
+];
+
+const GENERIC_FAMILIES = new Set([
+  "serif",
+  "sans-serif",
+  "monospace",
+  "cursive",
+  "fantasy",
+  "system-ui",
+  "ui-serif",
+  "ui-sans-serif",
+  "ui-monospace",
+]);
+
+let cachedExportFontEmbedCSS = null;
+
+const RENDERERS = templateRenderers();
+const PREVIEW_IDS = templatePreviewIds();
 
 let modalEls = null;
 let downloadHandlersWired = false;
@@ -26,7 +56,7 @@ function cacheModalEls() {
 
 export async function openExportModal({ sortedMembers, memberData }) {
   injectTemplateCSS();
-  await ensureFontsLoaded();
+  await ensureFontStylesheet();
 
   if (!modalEls) modalEls = cacheModalEls();
   wireCloseHandlers();
@@ -44,6 +74,7 @@ export async function openExportModal({ sortedMembers, memberData }) {
     await waitForPreviewImages();
   }
 
+  await ensureFontsLoaded(modalEls.modal);
   showModal();
   fitMockupScales();
 }
@@ -87,28 +118,112 @@ function wireDownloadButtons() {
   downloadHandlersWired = true;
 }
 
-async function ensureFontsLoaded() {
-  if (!document.getElementById(FONT_LINK_ID)) {
-    const link = document.createElement("link");
-    link.id = FONT_LINK_ID;
-    link.rel = "stylesheet";
-    link.href = FONT_HREF;
-    document.head.appendChild(link);
+function ensureFontLink() {
+  let link = document.getElementById(FONT_LINK_ID);
+  if (link) return link;
+  link = document.createElement("link");
+  link.id = FONT_LINK_ID;
+  link.rel = "stylesheet";
+  link.href = FONT_HREF;
+  document.head.appendChild(link);
+  return link;
+}
+
+async function ensureFontStylesheet() {
+  const link = ensureFontLink();
+  if (link.sheet) return;
+  await new Promise((resolve, reject) => {
+    link.addEventListener("load", resolve, { once: true });
+    link.addEventListener(
+      "error",
+      () => reject(new Error("export template fonts failed to load")),
+      { once: true },
+    );
+  });
+}
+
+function primaryFontFamily(fontFamily) {
+  const families = fontFamily.split(",").map((face) => face.trim().replace(/^["']|["']$/g, ""));
+  return families.find((face) => !GENERIC_FAMILIES.has(face.toLowerCase())) ?? families[0] ?? fontFamily;
+}
+
+function fontLoadDescriptor({ fontWeight, fontSize, fontFamily }) {
+  return `${fontWeight} ${fontSize} "${primaryFontFamily(fontFamily)}"`;
+}
+
+function loadExplicitExportFonts() {
+  return EXPORT_FONT_LOADS.map((desc) => document.fonts.load(desc).catch(() => {}));
+}
+
+function loadComputedFonts(root) {
+  const seen = new Set();
+  const loads = [];
+  const walk = (el) => {
+    if (!(el instanceof Element)) return;
+    const style = getComputedStyle(el);
+    const desc = fontLoadDescriptor(style);
+    if (!seen.has(desc)) {
+      seen.add(desc);
+      loads.push(document.fonts.load(desc).catch(() => {}));
+    }
+    for (const child of el.children) walk(child);
+  };
+  walk(root);
+  return loads;
+}
+
+async function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function inlineFontAssetUrls(cssText, baseUrl) {
+  const urls = new Set();
+  for (const match of cssText.matchAll(/url\((['"]?)([^'")]+)\1\)/g)) {
+    const url = match[2];
+    if (!url.startsWith("data:")) urls.add(url);
   }
-  await Promise.all([
-    document.fonts.load('900 62px "Nunito"'),
-    document.fonts.load('900 18px "Nunito"'),
-    document.fonts.load('800 14px "Nunito"'),
-    document.fonts.load('800 15px "Nunito"'),
-    document.fonts.load('800 17px "Nunito"'),
-    document.fonts.load('700 17px "Nunito"'),
-    document.fonts.load('600 12px "Nunito"'),
-    document.fonts.load('400 12px "Nunito"'),
-    document.fonts.load('700 14px "Bricolage Grotesque"'),
-    document.fonts.load('700 18px "Bricolage Grotesque"'),
-    document.fonts.load('400 12px "Fragment Mono"'),
-    document.fonts.ready,
-  ]);
+
+  for (const url of urls) {
+    const absolute = url.startsWith("https://") ? url : new URL(url, baseUrl).href;
+    try {
+      const res = await fetch(absolute);
+      if (!res.ok) continue;
+      const dataUrl = await blobToDataURL(await res.blob());
+      cssText = cssText.replaceAll(url, dataUrl);
+    } catch {
+      // Keep the remote URL if a single asset fails.
+    }
+  }
+
+  return cssText;
+}
+
+/** Embed every export @font-face — avoids html-to-image missing Caveat on F4 titles. */
+async function getExportFontEmbedCSS() {
+  if (cachedExportFontEmbedCSS) return cachedExportFontEmbedCSS;
+  const res = await fetch(FONT_HREF);
+  if (!res.ok) throw new Error("export fonts css fetch failed");
+  let cssText = await res.text();
+  cssText = await inlineFontAssetUrls(cssText, FONT_HREF);
+  cachedExportFontEmbedCSS = cssText;
+  return cssText;
+}
+
+async function ensureFontsLoaded(root = document.getElementById("image-export-modal") || document.body) {
+  await ensureFontStylesheet();
+  await Promise.all([...loadComputedFonts(root), ...loadExplicitExportFonts(), document.fonts.ready]);
+}
+
+async function prepareExportFonts(canvas) {
+  await ensureFontStylesheet();
+  await Promise.all([...loadComputedFonts(canvas), ...loadExplicitExportFonts(), document.fonts.ready]);
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  return getExportFontEmbedCSS();
 }
 
 function fitMockupScales() {
@@ -121,10 +236,8 @@ function fitMockupScales() {
   });
 }
 
-function waitForPreviewImages() {
-  const imgs = Array.from(
-    document.querySelectorAll("#image-export-modal .template-preview img")
-  );
+function waitForImages(root) {
+  const imgs = Array.from(root.querySelectorAll("img"));
   return Promise.all(
     imgs.map((img) => {
       if (img.complete && img.naturalWidth > 0) return Promise.resolve();
@@ -132,8 +245,12 @@ function waitForPreviewImages() {
         img.addEventListener("load", resolve, { once: true });
         img.addEventListener("error", resolve, { once: true });
       });
-    })
+    }),
   );
+}
+
+function waitForPreviewImages() {
+  return waitForImages(document.getElementById("image-export-modal") || document.body);
 }
 
 async function downloadTemplate(preview, button) {
@@ -150,12 +267,17 @@ async function downloadTemplate(preview, button) {
   }
 
   const prevScale = canvas.style.getPropertyValue("--mockup-scale");
+  canvas.classList.add("is-export-capture");
   canvas.style.setProperty("--mockup-scale", "1");
 
   try {
+    await waitForImages(canvas);
+    const fontEmbedCSS = await prepareExportFonts(canvas);
+
     const blob = await htmlToImage.toBlob(canvas, {
       pixelRatio: 1,
       cacheBust: true,
+      fontEmbedCSS,
     });
     if (!blob) throw new Error("toBlob returned null");
     triggerDownload(blob, makeFilename());
@@ -164,8 +286,10 @@ async function downloadTemplate(preview, button) {
     setTimeout(() => restoreButton(button, originalLabel), 2000);
     return;
   } finally {
+    canvas.classList.remove("is-export-capture");
     if (prevScale) canvas.style.setProperty("--mockup-scale", prevScale);
     else canvas.style.removeProperty("--mockup-scale");
+    fitMockupScales();
   }
 
   restoreButton(button, originalLabel);

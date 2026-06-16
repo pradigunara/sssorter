@@ -46,10 +46,10 @@ export function initAuth(els, onSignIn, onSignOut) {
 
   // Defer the Supabase-heavy auth check to idle time
   const initSession = () => {
-    onAuthChange(async (session) => {
+    onAuthChange(async (session, event) => {
       updateAuthUI(els, session);
       if (session) onSignIn();
-      else onSignOut();
+      else if (event === "SIGNED_OUT") onSignOut();
     });
 
     return getSession().then((s) => {

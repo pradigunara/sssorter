@@ -1,0 +1,38 @@
+/* === F1 — S1 + faint bubbles === */
+.layout-f1 { background: radial-gradient(900px 700px at 30% 20%, #ffd6e7 0%, transparent 55%), radial-gradient(700px 500px at 80% 80%, #d8c8f7 0%, transparent 55%), linear-gradient(170deg, #fff5fa 0%, #f0e9fb 100%); }
+.layout-f1::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 8% 12%, #ff4d85 0 16px, transparent 17px), radial-gradient(circle at 92% 18%, #9b72cf 0 14px, transparent 15px), radial-gradient(circle at 14% 38%, #5c9eff 0 12px, transparent 13px), radial-gradient(circle at 88% 42%, #ff4d85 0 14px, transparent 15px), radial-gradient(circle at 6% 68%, #9b72cf 0 12px, transparent 13px), radial-gradient(circle at 94% 72%, #ff4d85 0 16px, transparent 17px), radial-gradient(circle at 22% 92%, #5c9eff 0 12px, transparent 13px), radial-gradient(circle at 78% 96%, #9b72cf 0 14px, transparent 15px), radial-gradient(circle at 20% 30%, transparent 70px, rgba(255,77,133,0.13) 72px, transparent 74px), radial-gradient(circle at 78% 28%, transparent 60px, rgba(155,114,207,0.13) 62px, transparent 64px), radial-gradient(circle at 30% 58%, transparent 80px, rgba(92,158,255,0.11) 82px, transparent 84px), radial-gradient(circle at 82% 62%, transparent 64px, rgba(255,77,133,0.11) 66px, transparent 68px), radial-gradient(circle at 48% 50%, transparent 86px, rgba(155,114,207,0.08) 88px, transparent 90px); pointer-events: none; opacity: 0.75; }
+.layout-f1 .sticker-deco { position: absolute; pointer-events: none; z-index: 1; color: #fff; }
+.layout-f1 .sticker-deco.s1 { top: 40px; left: 60px; font-size: 150px; transform: rotate(-15deg); }
+.layout-f1 .sticker-deco.s2 { top: 90px; right: 80px; font-size: 120px; transform: rotate(20deg); }
+.layout-f1 .sticker-deco.s3 { bottom: 180px; left: 50px; font-size: 130px; transform: rotate(12deg); }
+.layout-f1 .sticker-deco.s4 { bottom: 160px; right: 60px; font-size: 110px; transform: rotate(-18deg); }
+.layout-f1 .title { position: absolute; top: 70px; left: 0; right: 0; text-align: center; z-index: 2; }
+.layout-f1 .title .t1 { font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 62px; letter-spacing: -0.02em; color: #1c1424; line-height: 1; text-shadow: 0 4px 0 #fff, 0 6px 12px rgba(40,24,60,0.15); }
+.layout-f1 .title .t1 span { display: inline-block; background: linear-gradient(120deg, #ff4d85, #9b72cf); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.layout-f1 .title .t2 { margin-top: 14px; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.3em; text-transform: uppercase; color: #9890a4; }
+.layout-f1 .hero-cluster { position: absolute; top: 220px; left: 0; right: 0; height: 320px; }
+.layout-f1 .sticker { position: absolute; border-radius: 50%; overflow: visible; }
+.layout-f1 .sticker .img { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; border: 8px solid #fff; box-shadow: 0 0 0 3px rgba(0,0,0,0.06), 0 12px 30px rgba(40,24,60,0.2); }
+.layout-f1 .sticker .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.layout-f1 .sticker .rank-tag { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 28px; color: #fff; z-index: 3; }
+.layout-f1 .sticker .name-tag { position: absolute; top: -36px; left: 50%; transform: translateX(-50%); background: #fff; padding: 8px 18px; border-radius: 999px; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 17px; color: #1c1424; white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,0.12); z-index: 3; }
+.layout-f1 .sticker .emoji { position: absolute; top: -10px; right: -10px; width: 54px; height: 54px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 6px 14px rgba(0,0,0,0.15); z-index: 3; }
+.layout-f1 .sticker.s1 .name-tag { left: calc(50% - 28px); }
+.layout-f1 .sticker.s1 .emoji { right: 20px; }
+.layout-f1 .sticker.s2 .emoji { right: auto; left: -10px; }
+.layout-f1 .sticker.s1 { width: 240px; height: 240px; left: 50%; top: 0; transform: translateX(-50%) rotate(-3deg); z-index: 3; }
+.layout-f1 .sticker.s2 { width: 190px; height: 190px; left: calc(50% - 280px); top: 60px; transform: rotate(8deg); z-index: 2; }
+.layout-f1 .sticker.s3 { width: 190px; height: 190px; left: calc(50% + 90px); top: 60px; transform: rotate(-6deg); z-index: 2; }
+.layout-f1 .sticker.s1 .rank-tag { background: #ff4d85; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); width: 70px; height: 70px; }
+.layout-f1 .sticker.s2 .rank-tag { background: #9b72cf; width: 60px; height: 60px; }
+.layout-f1 .sticker.s3 .rank-tag { background: #5c9eff; width: 56px; height: 56px; }
+.layout-f1 .sticker-grid { position: absolute; top: 500px; left: 0; right: 0; padding: 0 50px; }
+.layout-f1 .sticker-grid .row { display: flex; justify-content: space-evenly; margin-bottom: 20px; }
+.layout-f1 .sticker-grid .row:last-child { margin-bottom: 0; }
+.layout-f1 .sticker-grid .mini { position: relative; width: 150px; height: 150px; flex: 0 0 150px; }
+.layout-f1 .sticker-grid .mini .img { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; border: 5px solid #fff; box-shadow: 0 8px 20px rgba(40,24,60,0.15); }
+.layout-f1 .sticker-grid .mini .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.layout-f1 .sticker-grid .mini .num { position: absolute; bottom: -4px; right: 0; width: 36px; height: 36px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 16px; color: #1c1424; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.layout-f1 .sticker-grid .mini.r1 { transform: rotate(-4deg); } .layout-f1 .sticker-grid .mini.r2 { transform: rotate(5deg); } .layout-f1 .sticker-grid .mini.r3 { transform: rotate(-3deg); } .layout-f1 .sticker-grid .mini.r4 { transform: rotate(7deg); } .layout-f1 .sticker-grid .mini.r5 { transform: rotate(-5deg); } .layout-f1 .sticker-grid .mini.r6 { transform: rotate(4deg); } .layout-f1 .sticker-grid .mini.r7 { transform: rotate(-6deg); } .layout-f1 .sticker-grid .mini.r8 { transform: rotate(3deg); } .layout-f1 .sticker-grid .mini.r9 { transform: rotate(-2deg); }
+.layout-f1 .sticker-grid .mini.empty { background: rgba(255,255,255,0.35); border-radius: 50%; border: 5px solid #fff; box-shadow: 0 8px 20px rgba(40,24,60,0.1); }
+.layout-f1 .footer { position: absolute; bottom: 36px; left: 0; right: 0; text-align: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #b3a8c2; }

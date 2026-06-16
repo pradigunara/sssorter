@@ -22,8 +22,17 @@ let memberPicId = {};
 let activePicSet = "";
 let showingFullResults = false;
 let isAnimating = false;
+let skipRankingSave = false;
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+function runWhenIdle(fn) {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(fn, { timeout: 3000 });
+  } else {
+    setTimeout(fn, 200);
+  }
+}
 
 // --- Element cache ---
 
@@ -111,12 +120,14 @@ function updateOptionContent(optEl, memberName, memberIndex) {
 // --- Page state ---
 
 function restartSorter() {
+  skipRankingSave = false;
   els.battleResult.innerHTML = "";
   els.showMore.classList.add("is-hidden");
   els.tweetButton.classList.add("is-hidden");
   els.exportImageButton.classList.add("is-hidden");
   els.sssongsButton.classList.add("is-hidden");
   els.pageSorter.classList.remove("is-hidden");
+  els.pageResult.classList.add("is-hidden");
   sorter.reset();
   showFinal();
 }
@@ -180,6 +191,7 @@ function showResult({ full = false } = {}) {
       </ul>
     </div>`;
   els.pageSorter.classList.add("is-hidden");
+  els.pageResult.classList.remove("is-hidden");
   els.showMore.classList.remove("is-hidden");
 
   document
@@ -191,7 +203,7 @@ function showResult({ full = false } = {}) {
   els.exportImageButton.classList.remove("is-hidden");
   els.sssongsButton.classList.remove("is-hidden");
 
-  if (isLoggedInUser()) {
+  if (!skipRankingSave && isLoggedInUser()) {
     saveRanking(sortedMembers, memberData).then(() => {
       loadAllRankings().then((r) => history.setRankings(r));
     });
@@ -246,13 +258,28 @@ function init() {
 
   hideSigninIfUnconfigured(els);
 
+  const testMode = new URLSearchParams(window.location.search).get("test");
+  const isTestRandom = testMode === "random";
+  const isTestLast = testMode === "last";
+
   sorter.reset();
-  if (!sorter.isComplete()) showFinal({ skipIncrement: true });
   preloadPicSet(activePicSet);
 
-  // check test mode
-  const testMode = new URLSearchParams(window.location.search).get("test");
-  if (testMode === "random") {
+  if (isTestLast) {
+    skipRankingSave = true;
+    if (!sorter.isComplete()) showFinal({ skipIncrement: true });
+    runWhenIdle(() => {
+      import("./supabase.js")
+        .then(({ loadLastRanking }) => loadLastRanking(memberData))
+        .then((names) => {
+          if (names?.length) {
+            sorter.markCompleteWithOrder(names);
+            showResult();
+          }
+        })
+        .catch(() => {});
+    });
+  } else if (isTestRandom) {
     const shuffled = [...memberNames];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -260,6 +287,8 @@ function init() {
     }
     sorter.markCompleteWithOrder(shuffled);
     showResult();
+  } else if (!sorter.isComplete()) {
+    showFinal({ skipIncrement: true });
   }
 
   els.optionA.addEventListener("click", () => handleSort("A"));

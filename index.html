@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://static.cloudflareinsights.com https://cloudflareinsights.com; img-src 'self' https://imagedelivery.net data: blob:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://static.cloudflareinsights.com https://cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' https://imagedelivery.net data: blob:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com;" />
 
     <!-- Primary Meta Tags -->
     <title>
@@ -247,7 +247,7 @@
       </div>
     </main>
 
-    <section class="page-result" id="page-result">
+    <section class="page-result is-hidden" id="page-result">
       <div class="container">
         <div id="battleResult"></div>
         <a id="showMore" class="is-hidden" style="cursor: pointer">Show More</a>
@@ -327,6 +327,36 @@
             </div>
             <div class="template-preview" id="export-preview-f3"></div>
             <button class="template-download" data-layout="f3" type="button">
+              Download
+            </button>
+          </article>
+          <article class="export-template" data-layout="f4">
+            <div class="template-meta">
+              <span class="template-name">Case Board</span>
+              <span class="template-tag">detective</span>
+            </div>
+            <div class="template-preview" id="export-preview-f4"></div>
+            <button class="template-download" data-layout="f4" type="button">
+              Download
+            </button>
+          </article>
+          <article class="export-template" data-layout="f5">
+            <div class="template-meta">
+              <span class="template-name">Magazine</span>
+              <span class="template-tag">editorial</span>
+            </div>
+            <div class="template-preview" id="export-preview-f5"></div>
+            <button class="template-download" data-layout="f5" type="button">
+              Download
+            </button>
+          </article>
+          <article class="export-template" data-layout="f6">
+            <div class="template-meta">
+              <span class="template-name">Stamp Album</span>
+              <span class="template-tag">vintage</span>
+            </div>
+            <div class="template-preview" id="export-preview-f6"></div>
+            <button class="template-download" data-layout="f6" type="button">
               Download
             </button>
           </article>

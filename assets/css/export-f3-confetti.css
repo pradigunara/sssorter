@@ -1,0 +1,40 @@
+/* === F3 — S7 + grid === */
+.layout-f3 { background: #FAFAF5; }
+.layout-f3::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.06) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.06) 2px, transparent 2px), linear-gradient(45deg, #ff4d85 0 34px, transparent 34px), linear-gradient(-25deg, #9b72cf 0 26px, transparent 26px), linear-gradient(60deg, #5c9eff 0 20px, transparent 20px), linear-gradient(15deg, #c8e860 0 30px, transparent 30px), linear-gradient(80deg, #ffb84a 0 22px, transparent 22px), linear-gradient(-60deg, #ff7eb3 0 28px, transparent 28px), radial-gradient(circle, #ff4d85 0 16px, transparent 17px), radial-gradient(circle, #9b72cf 0 14px, transparent 15px), radial-gradient(circle, #5c9eff 0 12px, transparent 13px), radial-gradient(circle, #c8e860 0 14px, transparent 15px); background-size: 80px 80px, 80px 80px, 300px 300px, 400px 400px, 260px 260px, 380px 380px, 300px 300px, 360px 360px, 180px 180px, 200px 200px, 240px 240px, 190px 190px; background-position: 0 0, 0 0, 80px 100px, 780px 80px, 50px 520px, 850px 480px, 880px 760px, 140px 880px, 480px 140px, 920px 340px, 40px 720px, 520px 940px; background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat; pointer-events: none; opacity: 0.65; }
+.layout-f3 .confetti-piece { position: absolute; pointer-events: none; z-index: 1; }
+.layout-f3 .confetti-piece.k1 { top: 5%; left: 4%; width: 40px; height: 56px; background: #ff4d85; transform: rotate(25deg); border-radius: 4px; }
+.layout-f3 .confetti-piece.k2 { top: 6%; right: 5%; width: 48px; height: 28px; background: #9b72cf; transform: rotate(-15deg); border-radius: 50%; }
+.layout-f3 .confetti-piece.k3 { top: 22%; left: 3%; width: 32px; height: 32px; background: #5c9eff; transform: rotate(45deg); }
+.layout-f3 .confetti-piece.k4 { top: 18%; right: 4%; width: 42px; height: 24px; background: #c8e860; transform: rotate(70deg); border-radius: 4px; }
+.layout-f3 .confetti-piece.k5 { top: 52%; left: 2%; width: 30px; height: 44px; background: #ffb84a; transform: rotate(-30deg); border-radius: 4px; }
+.layout-f3 .confetti-piece.k6 { top: 55%; right: 2%; width: 38px; height: 38px; background: #ff7eb3; transform: rotate(20deg); border-radius: 50%; }
+.layout-f3 .confetti-piece.k7 { bottom: 8%; left: 7%; width: 32px; height: 24px; background: #9b72cf; transform: rotate(-50deg); border-radius: 4px; }
+.layout-f3 .confetti-piece.k8 { bottom: 5%; right: 8%; width: 48px; height: 28px; background: #5c9eff; transform: rotate(35deg); border-radius: 4px; }
+.layout-f3 .title { position: absolute; top: 70px; left: 0; right: 0; text-align: center; z-index: 2; }
+.layout-f3 .title .t1 { font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 62px; letter-spacing: -0.02em; color: #1c1424; line-height: 1; text-shadow: 0 4px 0 #fff, 0 6px 12px rgba(40,24,60,0.15); }
+.layout-f3 .title .t1 span { display: inline-block; background: linear-gradient(120deg, #ff4d85, #c8e860); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.layout-f3 .title .t2 { margin-top: 14px; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.3em; text-transform: uppercase; color: #9890a4; }
+.layout-f3 .hero-cluster { position: absolute; top: 220px; left: 0; right: 0; height: 320px; }
+.layout-f3 .sticker { position: absolute; }
+.layout-f3 .sticker .img { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; border: 10px solid #fff; box-shadow: 0 0 0 4px #1c1424, 0 14px 32px rgba(40,24,60,0.25); }
+.layout-f3 .sticker .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.layout-f3 .sticker .rank-tag { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); width: 64px; height: 64px; border-radius: 50%; background: #ff4d85; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 28px; color: #fff; box-shadow: 0 0 0 3px #fff, 0 0 0 5px #1c1424, 0 8px 16px rgba(0,0,0,0.2); z-index: 3; }
+.layout-f3 .sticker.s2 .rank-tag { background: #9b72cf; } .layout-f3 .sticker.s3 .rank-tag { background: #5c9eff; }
+.layout-f3 .sticker .name-tag { position: absolute; top: -36px; left: 50%; transform: translateX(-50%); background: #1c1424; color: #fff; padding: 8px 18px; border-radius: 999px; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 17px; white-space: nowrap; z-index: 3; }
+.layout-f3 .sticker .emoji { position: absolute; top: -10px; right: -10px; width: 54px; height: 54px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 0 0 3px #1c1424, 0 6px 14px rgba(0,0,0,0.2); z-index: 3; }
+.layout-f3 .sticker.s1 .name-tag { left: calc(50% - 28px); }
+.layout-f3 .sticker.s1 .emoji { right: 20px; }
+.layout-f3 .sticker.s2 .emoji { right: auto; left: -10px; }
+.layout-f3 .sticker.s1 { width: 240px; height: 240px; left: 50%; top: 0; transform: translateX(-50%) rotate(-3deg); z-index: 3; }
+.layout-f3 .sticker.s2 { width: 190px; height: 190px; left: calc(50% - 280px); top: 60px; transform: rotate(8deg); z-index: 2; }
+.layout-f3 .sticker.s3 { width: 190px; height: 190px; left: calc(50% + 90px); top: 60px; transform: rotate(-6deg); z-index: 2; }
+.layout-f3 .sticker-grid { position: absolute; top: 500px; left: 0; right: 0; padding: 0 50px; }
+.layout-f3 .sticker-grid .row { display: flex; justify-content: space-evenly; margin-bottom: 20px; }
+.layout-f3 .sticker-grid .row:last-child { margin-bottom: 0; }
+.layout-f3 .sticker-grid .mini { position: relative; width: 150px; height: 150px; flex: 0 0 150px; }
+.layout-f3 .sticker-grid .mini .img { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; border: 6px solid #fff; box-shadow: 0 0 0 2px #1c1424, 0 8px 20px rgba(40,24,60,0.18); }
+.layout-f3 .sticker-grid .mini .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.layout-f3 .sticker-grid .mini .num { position: absolute; bottom: -4px; right: 0; width: 36px; height: 36px; border-radius: 50%; background: #1c1424; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.layout-f3 .sticker-grid .mini.r1 { transform: rotate(-4deg); } .layout-f3 .sticker-grid .mini.r2 { transform: rotate(5deg); } .layout-f3 .sticker-grid .mini.r3 { transform: rotate(-3deg); } .layout-f3 .sticker-grid .mini.r4 { transform: rotate(7deg); } .layout-f3 .sticker-grid .mini.r5 { transform: rotate(-5deg); } .layout-f3 .sticker-grid .mini.r6 { transform: rotate(4deg); } .layout-f3 .sticker-grid .mini.r7 { transform: rotate(-6deg); } .layout-f3 .sticker-grid .mini.r8 { transform: rotate(3deg); } .layout-f3 .sticker-grid .mini.r9 { transform: rotate(-2deg); }
+.layout-f3 .sticker-grid .mini.empty { background: rgba(255,255,255,0.5); border-radius: 50%; border: 6px solid #fff; box-shadow: 0 0 0 2px #1c1424, 0 8px 20px rgba(40,24,60,0.12); }
+.layout-f3 .footer { position: absolute; bottom: 36px; left: 0; right: 0; text-align: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #b3a8c2; }

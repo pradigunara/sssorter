@@ -53,8 +53,8 @@ export async function signOut() {
 export async function onAuthChange(callback) {
   const sb = await getClient();
   if (!sb) return { unsubscribe: () => {} };
-  const { data } = sb.auth.onAuthStateChange((_event, session) => {
-    callback(session);
+  const { data } = sb.auth.onAuthStateChange((event, session) => {
+    callback(session, event);
   });
   return data.subscription;
 }
@@ -139,6 +139,26 @@ export async function loadAllRankings() {
 
   if (error || !data) return [];
   return data;
+}
+
+/** Most recently saved ranking for the signed-in user (by updated_at). */
+export async function loadLastRanking(memberData) {
+  const sb = await getClient();
+  if (!sb) return null;
+
+  const session = await getSession();
+  if (!session) return null;
+
+  const { data, error } = await sb
+    .from("rankings")
+    .select("month,ranking,updated_at")
+    .eq("user_id", session.user.id)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data?.ranking?.length) return null;
+  return convertRankingToNames(data.ranking, memberData);
 }
 
 export function convertRankingToNames(ranking, memberData) {
