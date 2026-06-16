@@ -12,9 +12,8 @@ import {
   initAuth,
   isLoggedInUser,
   hideSigninIfUnconfigured,
+  clearAuthUI,
 } from "./lib/auth.js";
-import * as history from "./lib/history.js";
-import { saveRanking, loadAllRankings } from "./supabase.js";
 
 const memberNames = Object.keys(memberData);
 let sorter = new TripleSBiasSorter(memberNames, memberData);
@@ -25,6 +24,12 @@ let isAnimating = false;
 let skipRankingSave = false;
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+let historyMod = null;
+function loadHistory() {
+  if (!historyMod) historyMod = import("./lib/history.js");
+  return historyMod;
+}
 
 function runWhenIdle(fn) {
   if (typeof requestIdleCallback === "function") {
@@ -110,7 +115,7 @@ function preloadPicSet(picSet) {
 
 // --- Card content ---
 
-function updateOptionContent(optEl, memberName, memberIndex) {
+function updateOptionContent(optEl, memberName, memberIndex, _forcePhotoUpdate = false) {
   optEl.innerHTML = renderCard(memberName, memberPicId, memberData);
   optEl.style.setProperty("--member-color", memberData[memberName].color);
   optEl.dataset.memberIndex = memberIndex;
@@ -133,7 +138,9 @@ function restartSorter() {
 }
 
 function handleHistoryBack() {
-  history.hideHistoryPage(els, memberData, memberNames, restartSorter);
+  loadHistory().then((history) => {
+    history.hideHistoryPage(els, memberData, memberNames, restartSorter);
+  });
 }
 
 // --- Sorting ---
@@ -204,9 +211,17 @@ function showResult({ full = false } = {}) {
   els.sssongsButton.classList.remove("is-hidden");
 
   if (!skipRankingSave && isLoggedInUser()) {
-    saveRanking(sortedMembers, memberData).then(() => {
-      loadAllRankings().then((r) => history.setRankings(r));
-    });
+    Promise.all([import("./supabase.js"), loadHistory()]).then(
+      ([{ saveRanking, loadAllRankings }, history]) => {
+        saveRanking(sortedMembers, memberData).then((result) => {
+          if (result?.error) {
+            if (result.error === "Not authenticated") clearAuthUI(els);
+            return;
+          }
+          loadAllRankings().then((r) => history.setRankings(r));
+        });
+      },
+    );
   }
 }
 
@@ -308,7 +323,13 @@ function init() {
 
   els.btnHistory.addEventListener("click", () => {
     els.userDropdown.classList.add("is-hidden");
-    history.showHistoryPage(els, memberData, memberNames);
+    loadHistory().then(async (history) => {
+      try {
+        await history.showHistoryPage(els, memberData, memberNames);
+      } catch {
+        history.showHistoryError(els, "Could not load history. Please try again.");
+      }
+    });
   });
   els.btnHistoryBack.addEventListener("click", handleHistoryBack);
 
@@ -344,10 +365,14 @@ function init() {
     }
   });
 
-  initAuth(els, history.refreshRankings, () => {
-    els.historyPage.classList.add("is-hidden");
-    history.setRankings([]);
-    restartSorter();
+  initAuth(els, () => {
+    loadHistory().then((history) => history.refreshRankings());
+  }, () => {
+    loadHistory().then((history) => {
+      els.historyPage.classList.add("is-hidden");
+      history.setRankings([]);
+      restartSorter();
+    });
   });
 }
 

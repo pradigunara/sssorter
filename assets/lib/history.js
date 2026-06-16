@@ -1,16 +1,17 @@
 import { html } from "./html.js";
 import { renderHistoryResult } from "./components.js";
 import { bumpChart, buildRankHistory } from "../sparkline.js";
-import {
-  loadAllRankings,
-  convertRankingToNames,
-  currentMonth,
-} from "../supabase.js";
 
 let allRankings = [];
 let historyMonth = null;
 let _cachedRankData = null;
 let closeMonthDropdown = null;
+let supabaseMod = null;
+
+async function getSupabase() {
+  if (!supabaseMod) supabaseMod = await import("../supabase.js");
+  return supabaseMod;
+}
 
 export function getRankings() {
   return allRankings;
@@ -25,11 +26,13 @@ export function getHistoryMonth() {
 }
 
 export async function refreshRankings() {
+  const { loadAllRankings } = await getSupabase();
   allRankings = await loadAllRankings();
 }
 
-export function getRankHistoryForSparklines(memberNames, memberData) {
+export async function getRankHistoryForSparklines(memberNames, memberData) {
   if (allRankings.length < 2) return null;
+  const { convertRankingToNames } = await getSupabase();
   const converted = allRankings.map((entry) => ({
     month: entry.month,
     ranking: convertRankingToNames(entry.ranking, memberData),
@@ -61,9 +64,20 @@ function openChartModal(els, memberData) {
   els.chartModal.classList.add("is-visible");
 }
 
-export function showHistoryPage(els, memberData, memberNames) {
+export function showHistoryError(els, message) {
+  els.historyPage.classList.remove("is-hidden");
+  els.pageSorter.classList.add("is-hidden");
+  els.pageResult.classList.add("is-hidden");
+  els.showMore.classList.add("is-hidden");
+  els.tweetButton.classList.add("is-hidden");
+  els.sssongsButton.classList.add("is-hidden");
+  els.historyChart.innerHTML = "";
+  els.historyResult.innerHTML = html`<p class="history-empty">${message}</p>`;
+}
+
+export async function showHistoryPage(els, memberData, memberNames) {
   if (allRankings.length === 0) return;
-  _cachedRankData = getRankHistoryForSparklines(memberNames, memberData);
+  _cachedRankData = await getRankHistoryForSparklines(memberNames, memberData);
 
   els.historyPage.classList.remove("is-hidden");
   els.pageSorter.classList.add("is-hidden");
@@ -72,7 +86,7 @@ export function showHistoryPage(els, memberData, memberNames) {
   els.tweetButton.classList.add("is-hidden");
   els.sssongsButton.classList.add("is-hidden");
 
-  // Pre-convert rankings for rendering
+  const { convertRankingToNames } = await getSupabase();
   const displayRankings = allRankings.map((entry) => ({
     ...entry,
     ranking: convertRankingToNames(entry.ranking, memberData),

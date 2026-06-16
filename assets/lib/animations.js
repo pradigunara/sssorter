@@ -32,7 +32,7 @@ export async function animateCardUpdate(
     card.classList.add("flip-out");
     await new Promise((r) => setTimeout(r, FLIP_MS));
     card.classList.remove("selected-glow");
-    updateContent(card, nextName, nextIdx);
+    updateContent(card, nextName, nextIdx, forceUpdate);
 
     await waitForImage(card.querySelector(".photocard-image"));
     await yieldToMain();

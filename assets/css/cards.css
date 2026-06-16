@@ -186,7 +186,6 @@ body.dark-mode .member-name {
   box-shadow:
     0 0 35px var(--member-color, var(--primary-pink)),
     inset 0 0 0 3px var(--member-color, var(--primary-pink)) !important;
-  filter: brightness(1.05);
   border-color: var(--member-color, var(--primary-pink)) !important;
 }
 
@@ -316,6 +315,8 @@ a:focus-visible {
 .sorter-option#optionB {
   width: 48%;
   max-width: 320px;
+  contain: layout style;
+  touch-action: manipulation;
 }
 
 @media screen and (max-width: 500px) {
