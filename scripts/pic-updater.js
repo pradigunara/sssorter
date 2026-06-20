@@ -1,9 +1,19 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
+/**
+ * Fetch new member photocards from apollo.cafe and update member-data.js.
+ *
+ * Usage: bun scripts/pic-updater.js [season] [collectionNo] [picSet]
+ *   season       e.g. Binary02 (default: Binary02)
+ *   collectionNo e.g. 301A (default: 301A)
+ *   picSet       e.g. picSet1 (default: picSet1)
+ *
+ * After running, execute `bun scripts/fetch-images.js` to download + optimize.
+ */
 
-const fs = require("fs");
-const https = require("https");
-const readline = require("readline");
-const { execSync } = require("child_process");
+import fs from "fs";
+import readline from "readline";
+import { execSync } from "child_process";
+import { join } from "path";
 
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
@@ -15,9 +25,7 @@ const rl = readline.createInterface({
 
 function prompt(question) {
   return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      resolve(answer);
-    });
+    rl.question(question, (answer) => resolve(answer));
   });
 }
 
@@ -29,9 +37,7 @@ async function getConfig() {
   };
 
   if (Object.values(args).some((arg) => arg === undefined)) {
-    console.log(
-      "Enter values (or press Enter for defaults):",
-    );
+    console.log("Enter values (or press Enter for defaults):");
     args.season = (await prompt(`Season (default: Binary02): `)) || "Binary02";
     args.collectionNo =
       (await prompt(`Collection Number (default: 301A): `)) || "301A";
@@ -52,15 +58,13 @@ async function processData() {
     console.log(`- Picture Set: ${args.picSet}`);
 
     const html = await fetchPage(args.season, args.collectionNo);
-    const memberImageMap = parseDehydratedData(html, args.season, args.collectionNo);
+    const memberImageMap = parseDehydratedData(html);
 
     if (Object.keys(memberImageMap).length === 0) {
       throw new Error("No member images found in page data");
     }
 
-    console.log(
-      `\nFound ${Object.keys(memberImageMap).length} member images.`,
-    );
+    console.log(`\nFound ${Object.keys(memberImageMap).length} member images.`);
     for (const [m, url] of Object.entries(memberImageMap)) {
       console.log(`  ${m}: ${url.substring(0, 60)}...`);
     }
@@ -68,10 +72,10 @@ async function processData() {
     const sorterFilePath = "assets/member-data.js";
     let sorterContent = fs.readFileSync(sorterFilePath, "utf8");
 
-    // Find the memberData object by tracking brace depth
     const startMarker = "export const memberData = ";
     const start = sorterContent.indexOf(startMarker);
-    if (start === -1) throw new Error("Could not find memberData in member-data.js");
+    if (start === -1)
+      throw new Error("Could not find memberData in member-data.js");
 
     let depth = 0;
     let end = -1;
@@ -80,7 +84,7 @@ async function processData() {
       else if (sorterContent[i] === "}") {
         depth--;
         if (depth === 0) {
-          end = i + 1; // include the closing brace
+          end = i + 1;
           break;
         }
       }
@@ -88,14 +92,31 @@ async function processData() {
     if (end === -1) throw new Error("Could not find end of memberData object");
 
     const jsObj = sorterContent.substring(start + startMarker.length, end);
-
-    // Evaluate the JS object (safe — we control the file)
     const memberData = new Function(`return (${jsObj})`)();
+
+    const sanitize = (name) => name.replace(/[^a-zA-Z0-9]/g, "");
 
     let updatedCount = 0;
     for (const member in memberImageMap) {
       if (memberData[member]) {
-        memberData[member][args.picSet] = memberImageMap[member];
+        const existing = memberData[member][args.picSet];
+        const oldUrl =
+          existing && typeof existing === "object"
+            ? existing.originalUrl
+            : existing;
+
+        if (oldUrl && oldUrl !== memberImageMap[member]) {
+          const memberDir = join("public/members", sanitize(member));
+          for (const suffix of ["1x", "2x"]) {
+            const localFile = join(memberDir, `${args.picSet}-${suffix}.webp`);
+            if (fs.existsSync(localFile)) {
+              fs.unlinkSync(localFile);
+              console.log(`  [stale] deleted ${localFile}`);
+            }
+          }
+        }
+
+        memberData[member][args.picSet] = { originalUrl: memberImageMap[member] };
         updatedCount++;
       } else {
         console.warn(`Warning: "${member}" not found in member-data.js`);
@@ -119,6 +140,10 @@ async function processData() {
     execSync(`npx prettier --write ${sorterFilePath}`);
     console.log("Done.");
 
+    console.log(
+      `\nNext: run \`bun scripts/fetch-images.js\` to download + optimize new images.`,
+    );
+
     rl.close();
   } catch (error) {
     console.error("Error:", error.message);
@@ -133,29 +158,14 @@ function fetchPage(season, collectionNo) {
   if (collectionNo) params.set("collectionNo", `["${collectionNo}"]`);
   const url = `https://apollo.cafe/?${params.toString()}`;
 
-  return new Promise((resolve, reject) => {
-    const doFetch = (targetUrl) => {
-      https
-        .get(targetUrl, { headers: { "User-Agent": UA } }, (res) => {
-          if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-            doFetch(res.headers.location);
-            return;
-          }
-          const chunks = [];
-          res.on("data", (chunk) => chunks.push(chunk));
-          res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-        })
-        .on("error", reject);
-    };
-    doFetch(url);
-  });
+  return fetch(url, { headers: { "User-Agent": UA }, redirect: "follow" }).then(
+    (res) => res.text(),
+  );
 }
 
-function parseDehydratedData(html, season, collectionNo) {
+function parseDehydratedData(html) {
   const map = {};
 
-  // TanStack Start dehydrates data with unquoted object keys.
-  // Format: member:"ShiOn" ... frontImage:"https://..."
   const memberRegex = /member:"([^"]+)"/g;
   const imageRegex = /frontImage:"([^"]+)"/g;
 
@@ -172,7 +182,6 @@ function parseDehydratedData(html, season, collectionNo) {
     images.push({ url: i[1], pos: i.index });
   }
 
-  // Match members to images by proximity (nearest image after each member)
   for (const member of members) {
     let bestImage = null;
     let bestDist = Infinity;

@@ -91,12 +91,14 @@ function initMemberPic() {
   activePicSet = picSet;
   memberPicId = {};
   for (const memberName of memberNames) {
-    memberPicId[memberName] = memberData[memberName][picSet];
+    memberPicId[memberName] = memberData[memberName][picSet].local2x;
   }
 }
 
 function preloadPicSet(picSet) {
-  const urls = memberNames.map((name) => memberData[name][picSet]);
+  const urls = memberNames.map(
+    (name) => memberData[name][picSet].local2x,
+  );
 
   const loadAll = () => {
     for (const src of urls) {
@@ -117,6 +119,12 @@ function preloadPicSet(picSet) {
 
 function updateOptionContent(optEl, memberName, memberIndex, _forcePhotoUpdate = false) {
   optEl.innerHTML = renderCard(memberName, memberPicId, memberData);
+  const img = optEl.querySelector(".photocard-image");
+  if (img && !img.complete) {
+    img.classList.add("is-loading");
+    img.addEventListener("load", () => img.classList.remove("is-loading"), { once: true });
+    img.addEventListener("error", () => img.classList.remove("is-loading"), { once: true });
+  }
   optEl.style.setProperty("--member-color", memberData[memberName].color);
   optEl.dataset.memberIndex = memberIndex;
   optEl.setAttribute("aria-label", `Choose ${memberName}`);

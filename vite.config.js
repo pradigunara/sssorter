@@ -40,13 +40,13 @@ export default defineConfig(({ mode }) => {
         transformIndexHtml(html) {
           // Inject all picSet URLs for S1 and S24 so the inline preload script can pick the right one
           let result = html
-            .replace("__S1_PICSET1_URL__", s1Member.picSet1)
-            .replace("__S24_PICSET1_URL__", s24Member.picSet1);
+            .replace("__S1_PICSET1_URL__", s1Member.picSet1.local2x)
+            .replace("__S24_PICSET1_URL__", s24Member.picSet1.local2x);
 
           // Build a JSON map of S1/S24 picSet URLs for the preload script
           const picSets = {
-            S1: { picSet1: s1Member.picSet1, picSet2: s1Member.picSet2, picSet3: s1Member.picSet3, picSet4: s1Member.picSet4 },
-            S24: { picSet1: s24Member.picSet1, picSet2: s24Member.picSet2, picSet3: s24Member.picSet3, picSet4: s24Member.picSet4 },
+            S1: { picSet1: s1Member.picSet1.local2x, picSet2: s1Member.picSet2.local2x, picSet3: s1Member.picSet3.local2x, picSet4: s1Member.picSet4.local2x },
+            S24: { picSet1: s24Member.picSet1.local2x, picSet2: s24Member.picSet2.local2x, picSet3: s24Member.picSet3.local2x, picSet4: s24Member.picSet4.local2x },
           };
 
           const preloadScript = `<script>
