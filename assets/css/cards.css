@@ -179,7 +179,7 @@ body.dark-mode .member-badge {
   font-weight: 800;
   font-size: 20px;
   margin: 0;
-  color: var(--member-color, var(--text-dark));
+  color: color-mix(in srgb, var(--member-color, var(--text-dark)) 55%, var(--ink-line));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,10 +187,14 @@ body.dark-mode .member-badge {
   position: relative;
   z-index: 2;
   letter-spacing: -0.3px;
+  padding: 4px 14px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--member-color) 18%, var(--surface-white));
 }
 
 body.dark-mode .member-name {
-  color: var(--member-color, var(--dark-text));
+  color: color-mix(in srgb, var(--member-color, var(--dark-text)) 45%, var(--dark-text));
+  background: color-mix(in srgb, var(--member-color) 22%, var(--dark-surface));
 }
 
 /* selected state: hard pink frame instead of soft glow */
@@ -355,6 +359,7 @@ a:focus-visible {
     font-size: 16px;
     gap: 4px;
     letter-spacing: -0.5px;
+    padding: 3px 10px;
   }
 
   .photocard-info {
