@@ -5,9 +5,9 @@ function yieldToMain() {
   return new Promise((r) => setTimeout(r, 0));
 }
 
-/** Wait for an image to load, but don't block longer than `ms`. */
-function waitForImage(img, ms = 150) {
-  if (img.complete) return Promise.resolve();
+/** Wait for an image to load. Uses naturalHeight to detect real load state. */
+function waitForImage(img, ms = 3000) {
+  if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
   return new Promise((r) => {
     const timer = setTimeout(r, ms);
     img.onload = img.onerror = () => { clearTimeout(timer); r(); };
@@ -21,7 +21,13 @@ export async function animateCardUpdate(
     ? parseInt(card.dataset.memberIndex, 10) : -1;
   const changed = forceUpdate || curIdx !== nextIdx;
 
-  // Reset state
+  // No change and already rendered — don't touch it, no shake
+  if (!changed && curIdx !== -1) {
+    await new Promise((r) => setTimeout(r, FLIP_MS * 2));
+    return;
+  }
+
+  // Reset state (only for cards that will animate)
   card.classList.remove("fade-out", "fade-in", "flip-out", "flip-in", "flip-ready", "selected-glow");
   card.style.opacity = "";
   card.style.transform = "";
@@ -46,13 +52,11 @@ export async function animateCardUpdate(
     card.classList.add("flip-in");
     await new Promise((r) => setTimeout(r, FLIP_MS));
   } else if (curIdx === -1) {
-    // First render — just show it
+    // First render — wait for image, then show it
     updateContent(card, nextName, nextIdx);
+    await waitForImage(card.querySelector(".photocard-image"));
     card.style.visibility = "visible";
     card.style.opacity = 1;
-  } else {
-    // No change — wait for the other card's animation
-    await new Promise((r) => setTimeout(r, FLIP_MS * 2));
   }
 
   card.classList.remove("selected-glow", "flip-out", "flip-in", "flip-ready");

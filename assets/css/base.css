@@ -1,26 +1,35 @@
 :root {
-  --bg-gradient-start: #f8f9fa;
-  --bg-gradient-mid: #ffd6e0;
-  --bg-gradient-end: #e2eafc;
-  --surface-white: rgba(255, 255, 255, 0.85);
-  --text-dark: #3a3a3a;
-  --text-muted: #828282;
+  /* Light: warm cream paper + punchy pink */
+  --bg-base: #fff5f0;
+  --bg-tint: #ffe8d6;
+  --surface-white: #ffffff;
+  --surface-soft: #fff8f3;
+  --text-dark: #2b2024;
+  --text-muted: #8a7a78;
 
   --primary-pink: #ff4d85;
-  --secondary-purple: #9b72cf;
-  --tertiary-blue: #3b82f6;
-  --success-mint: #4ade80;
+  --primary-pink-deep: #e03670;
+  --secondary-purple: #ff4d85; /* alias kept for compatibility, now pink */
+  --tertiary-blue: #2d7ae5;
+  --success-mint: #3ecf8e;
+  --ink-line: #2b2024;
 
-  --dark-bg-gradient-start: #0f1016;
-  --dark-bg-gradient-mid: #1f121d;
-  --dark-bg-gradient-end: #161824;
-  --dark-surface: rgba(30, 30, 38, 0.85);
-  --dark-text: #f0f0f5;
-  --dark-text-muted: #a1a1aa;
+  /* Dark: deep cocoa + neon pink pop */
+  --dark-bg-base: #141016;
+  --dark-bg-tint: #1f1820;
+  --dark-surface: #2a2026;
+  --dark-surface-soft: #33272e;
+  --dark-text: #fbf3ee;
+  --dark-text-muted: #c4b0b5;
+  --dark-ink-line: #8a7765;
 
-  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  --card-shadow-hover: 0 20px 60px rgba(255, 77, 133, 0.15);
-  --glow-effect: 0 0 25px;
+  /* Sticker-style hard shadows */
+  --card-shadow: 6px 6px 0 rgba(43, 32, 36, 0.12);
+  --card-shadow-hover: 10px 10px 0 var(--primary-pink);
+  --card-shadow-soft: 3px 3px 0 rgba(43, 32, 36, 0.1);
+  --card-border: 2.5px solid var(--ink-line);
+  --card-radius: 18px;
+  --glow-effect: 0 0 0;
 }
 
 * {
@@ -31,12 +40,17 @@
 
 body {
   color: var(--text-dark);
-  background: linear-gradient(
-    135deg,
-    var(--bg-gradient-start),
-    var(--bg-gradient-mid),
-    var(--bg-gradient-end)
-  );
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(circle at 12% 18%, var(--bg-tint) 0%, transparent 45%),
+    radial-gradient(circle at 88% 82%, #ffd9e4 0%, transparent 42%),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0,
+      transparent 22px,
+      rgba(255, 77, 133, 0.035) 22px,
+      rgba(255, 77, 133, 0.035) 23px
+    );
   background-attachment: fixed;
   margin: 0;
   font-family:
@@ -49,13 +63,13 @@ body {
     "Helvetica Neue",
     Arial,
     sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition:
-    background 0.3s ease,
+    background-color 0.3s ease,
     color 0.3s ease;
   min-height: 100vh;
   padding-bottom: 50px;
@@ -69,31 +83,38 @@ body {
 
 body.dark-mode {
   color: var(--dark-text);
-  background: linear-gradient(
-    135deg,
-    var(--dark-bg-gradient-start),
-    var(--dark-bg-gradient-mid),
-    var(--dark-bg-gradient-end)
-  );
+  background-color: var(--dark-bg-base);
+  background-image:
+    radial-gradient(circle at 12% 18%, var(--dark-bg-tint) 0%, transparent 50%),
+    radial-gradient(circle at 88% 82%, rgba(255, 77, 133, 0.12) 0%, transparent 45%),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0,
+      transparent 22px,
+      rgba(255, 255, 255, 0.015) 22px,
+      rgba(255, 255, 255, 0.015) 23px
+    );
   background-attachment: fixed;
 }
 
 a {
-  color: var(--tertiary-blue);
+  color: var(--primary-pink);
   text-decoration: none;
   transition: color 0.2s ease;
+  border-bottom: 1.5px solid transparent;
 }
 
 a:hover {
-  color: var(--primary-pink);
+  color: var(--primary-pink-deep);
+  border-bottom-color: currentColor;
 }
 
 body.dark-mode a {
-  color: var(--tertiary-blue);
+  color: var(--primary-pink);
 }
 
 body.dark-mode a:hover {
-  color: var(--primary-pink);
+  color: #ff8bb0;
 }
 
 h1,
@@ -105,9 +126,9 @@ p {
 h2 {
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: normal;
+  font-weight: 800;
   font-size: 1.5em;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .container {
@@ -115,6 +136,7 @@ h2 {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 }
 
 @media screen and (min-width: 500px) {

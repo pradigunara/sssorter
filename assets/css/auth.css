@@ -26,6 +26,7 @@
   vertical-align: top;
 }
 
+/* Chunky outlined sticker buttons */
 .auth-btn {
   display: inline-flex;
   align-items: center;
@@ -35,29 +36,45 @@
   font-size: 0.8rem;
   line-height: normal;
   padding: 6px 14px;
-  border: 2px solid transparent;
-  border-radius: 20px;
+  border: 2px solid var(--ink-line);
+  border-radius: 999px;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s;
   -webkit-tap-highlight-color: transparent;
   min-height: 32px;
   min-width: 80px;
+  background: var(--surface-white);
+  color: var(--text-dark);
+  box-shadow: var(--card-shadow-soft);
 }
 
 .auth-btn:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
+  /* hover moved to @media (hover: hover) */
+}
+
+.auth-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--primary-pink);
 }
 
 .auth-btn-signin {
   background: var(--surface-white);
   color: var(--text-dark);
-  border: 2px solid var(--text-muted);
 }
 
 .auth-btn-signin:hover {
-  border-color: var(--primary-pink);
-  color: var(--primary-pink);
+  /* hover moved to @media (hover: hover) */
+}
+
+@media (hover: hover) {
+  .auth-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--primary-pink);
+  }
+
+  .auth-btn-signin:hover {
+    color: var(--primary-pink);
+  }
 }
 
 .pill-toggle {
@@ -68,35 +85,41 @@
   font-weight: 800;
   font-size: 0.8rem;
   padding: 6px 14px;
-  border: 2px solid var(--text-muted);
-  border-radius: 20px;
-  background: transparent;
+  border: 2px solid var(--ink-line);
+  border-radius: 999px;
+  background: var(--surface-white);
   color: var(--text-dark);
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: transform 0.15s, box-shadow 0.15s, color 0.2s;
   line-height: normal;
   min-height: 32px;
+  box-shadow: var(--card-shadow-soft);
 }
 
 .pill-toggle:hover {
-  border-color: var(--primary-pink);
-  color: var(--primary-pink);
+  /* hover moved to @media (hover: hover) */
+}
+
+@media (hover: hover) {
+  .pill-toggle:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--primary-pink);
+    color: var(--primary-pink);
+  }
 }
 
 body.dark-mode .pill-toggle {
   color: var(--dark-text);
-  border-color: var(--dark-text-muted);
+  background: var(--dark-surface);
+  border-color: var(--dark-ink-line);
+  box-shadow: 3px 3px 0 var(--dark-ink-line);
 }
 
 body.dark-mode .auth-btn-signin {
   background: var(--dark-surface);
   color: var(--dark-text);
-  border-color: var(--dark-text-muted);
-}
-
-body.dark-mode .pill-toggle:hover {
-  border-color: var(--primary-pink);
-  color: var(--primary-pink);
+  border-color: var(--dark-ink-line);
+  box-shadow: 3px 3px 0 var(--dark-ink-line);
 }
 
 .user-arrow {
@@ -104,12 +127,13 @@ body.dark-mode .pill-toggle:hover {
   margin-left: 2px;
 }
 
-/* Shared dropdown for auth + month picker */
+/* Dropdown: bordered card, no glass */
 .dropdown-menu {
   position: absolute;
   top: 100%;
   margin-top: 6px;
   background: var(--surface-white);
+  border: 2px solid var(--ink-line);
   border-radius: 12px;
   box-shadow: var(--card-shadow);
   overflow: hidden;
@@ -119,6 +143,8 @@ body.dark-mode .pill-toggle:hover {
 
 body.dark-mode .dropdown-menu {
   background: var(--dark-surface);
+  border-color: var(--dark-ink-line);
+  box-shadow: 4px 4px 0 var(--dark-ink-line);
 }
 
 .dropdown-item {
@@ -133,11 +159,12 @@ body.dark-mode .dropdown-menu {
   font-size: 0.85rem;
   cursor: pointer;
   text-align: left;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .dropdown-item:hover {
-  background: rgba(255, 77, 133, 0.1);
+  background: var(--primary-pink);
+  color: var(--surface-white);
 }
 
 body.dark-mode .dropdown-item {
