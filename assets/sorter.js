@@ -14,6 +14,8 @@ import {
   hideSigninIfUnconfigured,
   clearAuthUI,
 } from "./lib/auth.js";
+import { initTouchTargets } from "./lib/touch-targets.js";
+import { memberPhotoUrl, selectPhotoVariant } from "./lib/photo-src.js";
 
 const memberNames = Object.keys(memberData);
 let sorter = new TripleSBiasSorter(memberNames, memberData);
@@ -96,8 +98,9 @@ function initMemberPic() {
 }
 
 function preloadPicSet(picSet) {
-  const urls = memberNames.map(
-    (name) => memberData[name][picSet].local2x,
+  const variant = selectPhotoVariant();
+  const urls = memberNames.map((name) =>
+    memberPhotoUrl(memberData, name, picSet, variant),
   );
 
   const loadAll = () => {
@@ -118,16 +121,35 @@ function preloadPicSet(picSet) {
 // --- Card content ---
 
 function updateOptionContent(optEl, memberName, memberIndex, _forcePhotoUpdate = false) {
-  optEl.innerHTML = renderCard(memberName, memberPicId, memberData);
+  const existingImg = optEl.querySelector(".photocard-image");
+  const sameMember =
+    !_forcePhotoUpdate &&
+    optEl.dataset.memberIndex === String(memberIndex) &&
+    existingImg?.alt === memberName;
+
+  if (!sameMember) {
+    optEl.innerHTML = renderCard(memberName, memberPicId, memberData);
+  }
+
   const img = optEl.querySelector(".photocard-image");
-  if (img && !img.complete) {
-    img.classList.add("is-loading");
-    img.addEventListener("load", () => img.classList.remove("is-loading"), { once: true });
-    img.addEventListener("error", () => img.classList.remove("is-loading"), { once: true });
+  if (img) {
+    const syncLoadingState = () => {
+      if (img.complete && img.naturalHeight > 0) {
+        img.classList.remove("is-loading");
+      } else {
+        img.classList.add("is-loading");
+        const reveal = () => img.classList.remove("is-loading");
+        img.addEventListener("load", reveal, { once: true });
+        img.addEventListener("error", reveal, { once: true });
+      }
+    };
+    requestAnimationFrame(syncLoadingState);
   }
   optEl.style.setProperty("--member-color", memberData[memberName].color);
   optEl.dataset.memberIndex = memberIndex;
   optEl.setAttribute("aria-label", `Choose ${memberName}`);
+  optEl.classList.remove("sorter-option--pending");
+  optEl.removeAttribute("aria-busy");
 }
 
 // --- Page state ---
@@ -196,7 +218,7 @@ function showResult({ full = false } = {}) {
     full,
   );
 
-  els.battleResult.innerHTML = html` <a class="sort-again-link" id="btn-replay"
+  els.battleResult.innerHTML = html` <a class="sort-again-link touch-target" id="btn-replay"
       >← Sort Again</a
     >
     <div class="results-list">
@@ -270,9 +292,9 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
 // --- Init ---
 
 function init() {
+  initTouchTargets();
   initMemberPic();
   cacheElements();
-
   initTheme(els, () => {
     initMemberPic();
     preloadPicSet(activePicSet);
@@ -313,6 +335,7 @@ function init() {
   } else if (!sorter.isComplete()) {
     showFinal({ skipIncrement: true });
   }
+
 
   els.optionA.addEventListener("click", () => handleSort("A"));
   els.optionB.addEventListener("click", () => handleSort("B"));

@@ -1,10 +1,12 @@
 import { html } from "./html.js";
 
+import { PHOTO_SIZES_ATTR } from "./photo-src.js";
 export function renderCard(memberName, memberPicId, memberData) {
   const src2x = memberPicId[memberName];
   const src1x = src2x.replace(/-2x\.webp$/, "-1x.webp");
+  const sizes = PHOTO_SIZES_ATTR;
   return html`<div class="photocard-image-container">
-      <img src="${src2x}" srcset="${src1x} 1x, ${src2x} 2x" sizes="(max-width: 768px) 49vw, 340px" alt="${memberName}" class="photocard-image" width="582" height="900" decoding="async" />
+      <img src="${src1x}" srcset="${src1x} 340w, ${src2x} 582w" sizes="${sizes}" alt="${memberName}" class="photocard-image" width="340" height="525" decoding="async" draggable="false" />
       <div class="member-badge">${memberData[memberName].sNumber}</div>
     </div>
     <div class="photocard-info">
@@ -56,7 +58,7 @@ export function renderHistoryResult(allRankings, historyMonth, memberData, chart
       const date = new Date(e.month + "-01");
       const label = date.toLocaleDateString("en-US", { year: "numeric", month: "short" });
       return html`<button
-        class="dropdown-item ${e.month === month ? "history-pill-active" : ""}"
+        class="dropdown-item touch-target ${e.month === month ? "history-pill-active" : ""}"
         data-month="${e.month}">${label}</button>`;
     })
     .join("");
@@ -72,7 +74,7 @@ export function renderHistoryResult(allRankings, historyMonth, memberData, chart
       <div class="history-title-row">
         <h2>Your Bias Ranking</h2>
         <div class="history-month-select">
-          <button id="btn-month-toggle" class="pill-toggle">${month} \u25BE</button>
+          <button id="btn-month-toggle" class="pill-toggle touch-target">${month} \u25BE</button>
           <div id="month-dropdown" class="dropdown-menu month-dropdown is-hidden">${pills}</div>
         </div>
       </div>

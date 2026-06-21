@@ -149,6 +149,14 @@
   }
 }
 
+@media (hover: none) {
+  .footer-link:active {
+    transform: translateY(-2px) rotate(-1deg);
+    color: var(--primary-pink);
+    box-shadow: 3px 3px 0 var(--primary-pink);
+  }
+}
+
 .footer-link::before {
   content: "\2728";
   font-size: 0.9rem;

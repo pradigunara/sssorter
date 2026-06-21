@@ -7,9 +7,9 @@
   --text-dark: #2b2024;
   --text-muted: #8a7a78;
 
-  --primary-pink: #ff4d85;
-  --primary-pink-deep: #e03670;
-  --secondary-purple: #ff4d85; /* alias kept for compatibility, now pink */
+  --primary-pink: #d42d68;
+  --primary-pink-deep: #c42d5f;
+  --secondary-purple: #d42d68; /* alias kept for compatibility, now pink */
   --tertiary-blue: #2d7ae5;
   --success-mint: #3ecf8e;
   --ink-line: #2b2024;
@@ -88,6 +88,7 @@ body {
   padding-bottom: 50px;
 }
 
+
 @media screen and (min-width: 768px) {
   body {
     padding-bottom: 80px;
@@ -122,6 +123,9 @@ body.dark-mode {
   --bg-primary: #141016;
   --divider-color: rgba(255, 255, 255, 0.15);
   --card-border: 2.5px solid #8a7765;
+  --primary-pink: #ff4d85;
+  --primary-pink-deep: #e03670;
+  --secondary-purple: #ff4d85;
   --link-hover-color: #ff8bb0;
   --close-hover-bg: rgba(255, 255, 255, 0.08);
   --download-shadow: 0 4px 14px rgba(255, 77, 133, 0.4);
@@ -134,9 +138,18 @@ a {
   border-bottom: 1.5px solid transparent;
 }
 
-a:hover {
-  color: var(--link-hover-color);
-  border-bottom-color: currentColor;
+@media (hover: hover) {
+  a:hover {
+    color: var(--link-hover-color);
+    border-bottom-color: currentColor;
+  }
+}
+
+@media (hover: none) {
+  a:active {
+    color: var(--link-hover-color);
+    border-bottom-color: currentColor;
+  }
 }
 
 h1,

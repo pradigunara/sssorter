@@ -40,7 +40,6 @@
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
-  -webkit-tap-highlight-color: transparent;
   min-height: 32px;
   min-width: 80px;
   background: var(--surface-primary);
@@ -70,6 +69,39 @@
   .auth-btn-signin:hover {
     color: var(--primary-pink);
   }
+
+  .pill-toggle:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--primary-pink);
+    color: var(--primary-pink);
+  }
+
+  .dropdown-item:hover {
+    background: var(--primary-pink);
+    color: var(--surface-white);
+  }
+}
+
+@media (hover: none) {
+  .auth-btn:active {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--primary-pink);
+  }
+
+  .auth-btn-signin:active {
+    color: var(--primary-pink);
+  }
+
+  .pill-toggle:active {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--primary-pink);
+    color: var(--primary-pink);
+  }
+
+  .dropdown-item:active {
+    background: var(--primary-pink);
+    color: var(--surface-white);
+  }
 }
 
 .pill-toggle {
@@ -91,17 +123,6 @@
   box-shadow: var(--card-shadow-soft);
 }
 
-.pill-toggle:hover {
-  /* hover moved to @media (hover: hover) */
-}
-
-@media (hover: hover) {
-  .pill-toggle:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0 var(--primary-pink);
-    color: var(--primary-pink);
-  }
-}
 
 .user-arrow {
   font-size: 0.65rem;
@@ -137,7 +158,3 @@
   transition: background 0.15s, color 0.15s;
 }
 
-.dropdown-item:hover {
-  background: var(--primary-pink);
-  color: var(--surface-white);
-}

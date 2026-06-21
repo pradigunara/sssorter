@@ -1,0 +1,22 @@
+# tripleS Bias Sorter
+
+> Interactive web app to rank all 24 tripleS (K-pop) members through pairwise battles. Optional sign-in saves ranking history. Hosted at https://sssorter.pages.dev/
+
+## Primary pages
+
+- [Bias sorter (home)](https://sssorter.pages.dev/): Main ranking experience — compare two members per round until a full bias list is produced; share results and export images.
+- [Song sorter](https://sssorter.pages.dev/songs): Separate app to rank tripleS discography (pairwise song battles).
+
+## Site map & discovery
+
+- [Sitemap](https://sssorter.pages.dev/sitemap.xml): Canonical URLs for crawlers.
+
+## For agents
+
+- Public, read-only browsing of the ranking UI is encouraged for describing how the sorter works.
+- Do not automate account sign-in or scrape authenticated ranking history without user consent.
+- Member photos and UI are fan-made tooling; tripleS and related trademarks belong to their rights holders.
+
+## Maintainer
+
+- [GitHub / contact](https://sssorter.pages.dev/): Site credits @celdaris in page metadata; open-source MIT (see repository README).

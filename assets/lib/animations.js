@@ -5,12 +5,23 @@ function yieldToMain() {
   return new Promise((r) => setTimeout(r, 0));
 }
 
-/** Wait for an image to load. Uses naturalHeight to detect real load state. */
+/** Wait for an image to load. Avoids reading naturalHeight in the same turn as DOM writes. */
 function waitForImage(img, ms = 3000) {
-  if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
-  return new Promise((r) => {
-    const timer = setTimeout(r, ms);
-    img.onload = img.onerror = () => { clearTimeout(timer); r(); };
+  if (!img) return Promise.resolve();
+  return new Promise((resolve) => {
+    const timer = setTimeout(resolve, ms);
+    const done = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    const check = () => {
+      if (img.complete && img.naturalHeight !== 0) {
+        done();
+        return;
+      }
+      img.onload = img.onerror = done;
+    };
+    requestAnimationFrame(check);
   });
 }
 
@@ -52,11 +63,15 @@ export async function animateCardUpdate(
     card.classList.add("flip-in");
     await new Promise((r) => setTimeout(r, FLIP_MS));
   } else if (curIdx === -1) {
-    // First render — wait for image, then show it
     updateContent(card, nextName, nextIdx);
-    await waitForImage(card.querySelector(".photocard-image"));
-    card.style.visibility = "visible";
-    card.style.opacity = 1;
+    const img = card.querySelector(".photocard-image");
+    if (img) {
+      requestAnimationFrame(() => {
+        if (!img.complete || img.naturalHeight === 0) {
+          waitForImage(img).then(() => img.classList.remove("is-loading"));
+        }
+      });
+    }
   }
 
   card.classList.remove("selected-glow", "flip-out", "flip-in", "flip-ready");

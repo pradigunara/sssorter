@@ -5,8 +5,16 @@
   position: relative;
 }
 
-.bump-chart-wrap:hover .bump-chart-inner {
-  opacity: 0.85;
+@media (hover: hover) {
+  .bump-chart-wrap:hover .bump-chart-inner {
+    opacity: 0.85;
+  }
+}
+
+@media (hover: none) {
+  .bump-chart-wrap:active .bump-chart-inner {
+    opacity: 0.85;
+  }
 }
 
 .bump-chart-wrap::after {

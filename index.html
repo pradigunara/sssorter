@@ -68,8 +68,8 @@
     <meta property="twitter:creator" content="@celdaris" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#ff6b9d" />
-    <meta name="msapplication-TileColor" content="#ff6b9d" />
+    <meta name="theme-color" content="#d42d68" />
+    <meta name="msapplication-TileColor" content="#d42d68" />
 
     <!-- Preconnect for faster image loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -137,31 +137,31 @@
     <div class="top-bar">
       <div id="auth-bar" class="auth-bar">
         <div id="auth-buttons" class="auth-buttons">
-          <button id="btn-signin" class="auth-btn auth-btn-signin">
+          <button id="btn-signin" class="auth-btn auth-btn-signin touch-target">
             Sign in
           </button>
           <div id="auth-dropdown" class="dropdown-menu is-hidden">
-            <button id="btn-signin-x" class="dropdown-item">with X</button>
-            <button id="btn-signin-discord" class="dropdown-item">
+            <button id="btn-signin-x" class="dropdown-item touch-target">with X</button>
+            <button id="btn-signin-discord" class="dropdown-item touch-target">
               with Discord
             </button>
           </div>
         </div>
         <div id="auth-user" class="auth-user is-hidden">
-          <button id="btn-user-menu" class="pill-toggle">
+          <button id="btn-user-menu" class="pill-toggle touch-target">
             <span id="auth-username"></span>
             <span class="user-arrow">▾</span>
           </button>
           <div id="user-dropdown" class="dropdown-menu is-hidden">
-            <button id="btn-history" class="dropdown-item">
+            <button id="btn-history" class="dropdown-item touch-target">
               Ranking History
             </button>
-            <button id="btn-signout" class="dropdown-item">Sign out</button>
+            <button id="btn-signout" class="dropdown-item touch-target">Sign out</button>
           </div>
         </div>
       </div>
       <div
-        class="theme-toggle"
+        class="theme-toggle touch-target"
         role="switch"
         tabindex="0"
         aria-checked="false"
@@ -185,7 +185,7 @@
         </div>
       </div>
     </div>
-    <header class="page-header container">
+    <header class="page-header container touch-no-select">
       <h1>tripleS bias sorter</h1>
       <div>
         <p>
@@ -202,7 +202,7 @@
       <div class="container">
         <h2
           id="battleNumber"
-          class="sorter-header"
+          class="sorter-header touch-no-select"
           aria-live="polite"
           aria-atomic="true"
         >
@@ -213,48 +213,29 @@
           <div class="main-battle">
             <div
               id="optionA"
-              class="sorter-option"
+              class="sorter-option sorter-option--pending touch-target touch-target--card"
               role="button"
               tabindex="0"
-              aria-label="Choose this member"
-              style="--member-color: #21aefe"
+              aria-label="Loading battle"
+              aria-busy="true"
             >
-              <div class="photocard-image-container">
-                <img
-                  src="__S1_PICSET1_URL__"
-                  alt="SeoYeon"
-                  class="photocard-image is-loading"
-                  width="582"
-                  height="900"
-                  fetchpriority="high"
-                />
-                <div class="member-badge">S1</div>
-              </div>
+              <div class="photocard-image-container"></div>
               <div class="photocard-info">
-                <div class="member-name">SeoYeon 🐶</div>
+                <div class="member-name">…</div>
               </div>
             </div>
             <div class="versus"><span>vs</span></div>
             <div
               id="optionB"
-              class="sorter-option"
+              class="sorter-option sorter-option--pending touch-target touch-target--card"
               role="button"
               tabindex="0"
-              aria-label="Choose this member"
-              style="--member-color: #ffab64"
+              aria-label="Loading battle"
+              aria-busy="true"
             >
-              <div class="photocard-image-container">
-                <img
-                  src="__S24_PICSET1_URL__"
-                  alt="JiYeon"
-                  class="photocard-image is-loading"
-                  width="582"
-                  height="900"
-                />
-                <div class="member-badge">S24</div>
-              </div>
+              <div class="photocard-image-container"></div>
               <div class="photocard-info">
-                <div class="member-name">JiYeon 🦢</div>
+                <div class="member-name">…</div>
               </div>
             </div>
           </div>
@@ -265,7 +246,7 @@
           <!--   it’s a tie! -->
           <!-- </div> -->
         </div>
-        <p class="keyboard-hint" aria-hidden="true">
+        <p class="keyboard-hint touch-no-select" aria-hidden="true">
           ← → to aim · Enter / Space to choose
         </p>
       </div>
@@ -274,21 +255,21 @@
     <section class="page-result is-hidden" id="page-result">
       <div class="container">
         <div id="battleResult"></div>
-        <a id="showMore" class="is-hidden" style="cursor: pointer">Show More</a>
+        <a id="showMore" class="is-hidden touch-target" style="cursor: pointer">Show More</a>
         <br />
         <a
           id="export-image-button"
-          class="result-btn result-btn-primary is-hidden"
+          class="result-btn result-btn-primary is-hidden touch-target"
           href=""
         >
           Download Image
         </a>
-        <a id="tweet-button" class="result-btn is-hidden" href="">
+        <a id="tweet-button" class="result-btn is-hidden touch-target" href="">
           Share to X
         </a>
         <a
           id="sssongs-button"
-          class="result-btn is-hidden"
+          class="result-btn is-hidden touch-target"
           href="https://sssorter.pages.dev/songs"
         >
           Try Song Sorter!
@@ -296,14 +277,14 @@
       </div>
     </section>
 
-    <footer class="page-footer">
-      <a href="https://x.com/celdaris" class="footer-link author-link">
+    <footer class="page-footer touch-no-select">
+      <a href="https://x.com/celdaris" class="footer-link author-link touch-target">
         made with ♡ by <span class="accent-text">@celdaris</span>
       </a>
     </footer>
 
     <div id="chart-modal" class="chart-modal is-hidden">
-      <button id="btn-chart-close" class="chart-modal-close">&times;</button>
+      <button id="btn-chart-close" class="chart-modal-close touch-target">&times;</button>
       <div id="chart-modal-content" class="chart-modal-content"></div>
     </div>
 
@@ -318,7 +299,7 @@
         role="dialog"
         aria-labelledby="export-modal-title"
       >
-        <button class="modal-close" data-close aria-label="Close">
+        <button class="modal-close touch-target" data-close aria-label="Close">
           &times;
         </button>
         <h2 class="modal-title" id="export-modal-title">Share your ranking</h2>
@@ -330,7 +311,7 @@
               <span class="template-tag">playful</span>
             </div>
             <div class="template-preview" id="export-preview-f1"></div>
-            <button class="template-download" data-layout="f1" type="button">
+            <button class="template-download touch-target" data-layout="f1" type="button">
               Download
             </button>
           </article>
@@ -340,7 +321,7 @@
               <span class="template-tag">elegant</span>
             </div>
             <div class="template-preview" id="export-preview-f2"></div>
-            <button class="template-download" data-layout="f2" type="button">
+            <button class="template-download touch-target" data-layout="f2" type="button">
               Download
             </button>
           </article>
@@ -350,7 +331,7 @@
               <span class="template-tag">festive</span>
             </div>
             <div class="template-preview" id="export-preview-f3"></div>
-            <button class="template-download" data-layout="f3" type="button">
+            <button class="template-download touch-target" data-layout="f3" type="button">
               Download
             </button>
           </article>
@@ -360,7 +341,7 @@
               <span class="template-tag">detective</span>
             </div>
             <div class="template-preview" id="export-preview-f4"></div>
-            <button class="template-download" data-layout="f4" type="button">
+            <button class="template-download touch-target" data-layout="f4" type="button">
               Download
             </button>
           </article>
@@ -370,7 +351,7 @@
               <span class="template-tag">editorial</span>
             </div>
             <div class="template-preview" id="export-preview-f5"></div>
-            <button class="template-download" data-layout="f5" type="button">
+            <button class="template-download touch-target" data-layout="f5" type="button">
               Download
             </button>
           </article>
@@ -380,7 +361,7 @@
               <span class="template-tag">vintage</span>
             </div>
             <div class="template-preview" id="export-preview-f6"></div>
-            <button class="template-download" data-layout="f6" type="button">
+            <button class="template-download touch-target" data-layout="f6" type="button">
               Download
             </button>
           </article>
@@ -390,7 +371,7 @@
 
     <div id="history-page" class="history-page is-hidden">
       <div class="container">
-        <button id="btn-history-back" class="history-back">
+        <button id="btn-history-back" class="history-back touch-target">
           ← Back to sorter
         </button>
         <div id="history-chart" class="history-chart-wrap"></div>

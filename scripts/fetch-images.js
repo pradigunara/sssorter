@@ -2,12 +2,14 @@
 /**
  * Download + optimize all member images for local bundling.
  *
- * Reads assets/member-data.js, downloads each picSet's originalUrl,
- * resizes to 1x (340px) and 2x (680px) webp via Bun.Image,
- * writes to public/members/{member}/{picSet}-{1x|2x}.webp,
- * and updates member-data.js picSet values to local paths.
+ * Resizes to 1x (340px) and 2x (582px) webp via Bun.Image.
  *
- * Usage: bun scripts/fetch-images.js
+ * WebP tuning (env):
+ *   WEBP_QUALITY_1X  default 76 — mobile slot (~340w display)
+ *   WEBP_QUALITY_2X  default 80 — retina / wider cards
+ *   WEBP_EFFORT      default 5  — encoder effort (higher = smaller, slower)
+ *
+ * Re-encode all locals:  bun scripts/fetch-images.js --force
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
@@ -21,7 +23,11 @@ const OUT_DIR = resolve(ROOT, "public/members");
 const { memberData } = await import(pathToFileURL(DATA_FILE).href);
 
 const PIC_SETS = ["picSet1", "picSet2", "picSet3", "picSet4"];
-const SIZES = { "1x": 340, "2x": 680 };
+const SIZES = { "1x": 340, "2x": 582 };
+const WEBP_1X = Number(process.env.WEBP_QUALITY_1X ?? 76);
+const WEBP_2X = Number(process.env.WEBP_QUALITY_2X ?? 80);
+const WEBP_EFFORT = Number(process.env.WEBP_EFFORT ?? 5);
+const FORCE = process.argv.includes("--force") || process.env.FORCE === "1";
 
 function sanitize(name) {
   return name.replace(/[^a-zA-Z0-9]/g, "");
@@ -38,15 +44,18 @@ async function fetchBytes(url) {
   return new Uint8Array(await res.arrayBuffer());
 }
 
-async function processImage(bytes, width, outFile) {
+async function processImage(bytes, width, outFile, quality) {
   await new Bun.Image(bytes)
     .resize(width, undefined, { fit: "inside", withoutEnlargement: true })
-    .webp({ quality: 82 })
+    .webp({ quality, effort: WEBP_EFFORT })
     .write(outFile);
 }
 
 async function main() {
   if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
+  console.log(
+    `WebP: 1x q=${WEBP_1X} @ ${SIZES["1x"]}px, 2x q=${WEBP_2X} @ ${SIZES["2x"]}px, effort=${WEBP_EFFORT}${FORCE ? ", --force" : ""}`,
+  );
 
   const members = Object.keys(memberData);
   let done = 0;
@@ -76,8 +85,8 @@ async function main() {
         continue;
       }
 
-      // Skip if already processed (local1x/local2x present)
       if (
+        !FORCE &&
         typeof entry === "object" &&
         entry.local1x &&
         entry.local2x &&
@@ -90,13 +99,22 @@ async function main() {
 
       const localPaths = {};
       let ok = true;
+      let bytes;
+
+      try {
+        bytes = await fetchBytes(originalUrl);
+      } catch (err) {
+        console.error(`  [fail] ${member}.${picSet}: ${err.message}`);
+        failed++;
+        continue;
+      }
 
       for (const [suffix, width] of Object.entries(SIZES)) {
         const outFile = join(memberDir, `${picSet}-${suffix}.webp`);
+        const quality = suffix === "1x" ? WEBP_1X : WEBP_2X;
 
         try {
-          const bytes = await fetchBytes(originalUrl);
-          await processImage(bytes, width, outFile);
+          await processImage(bytes, width, outFile, quality);
           localPaths[suffix] = `/members/${sanitize(member)}/${picSet}-${suffix}.webp`;
         } catch (err) {
           console.error(

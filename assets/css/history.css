@@ -14,8 +14,17 @@
   margin-bottom: 0.75rem;
 }
 
-.history-back:hover {
-  opacity: 0.8;
+
+@media (hover: hover) {
+  .history-back:hover {
+    opacity: 0.8;
+  }
+}
+
+@media (hover: none) {
+  .history-back:active {
+    opacity: 0.8;
+  }
 }
 
 .history-chart-wrap {

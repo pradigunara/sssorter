@@ -2,10 +2,6 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
   font-family: "Nunito";
   font-weight: 800;
 }
@@ -32,6 +28,13 @@
 
 @media (hover: hover) {
   .theme-toggle:hover .theme-toggle-icon {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--primary-pink);
+  }
+}
+
+@media (hover: none) {
+  .theme-toggle:active .theme-toggle-icon {
     transform: translate(-1px, -1px);
     box-shadow: 3px 3px 0 var(--primary-pink);
   }
