@@ -24,7 +24,8 @@
 
 .image-export-modal .modal-panel {
   position: relative;
-  background: #ffffff;
+  background: var(--surface-primary);
+  color: var(--text-on-surface);
   border-radius: 18px;
   padding: 28px 28px 24px;
   max-width: min(1360px, 96vw);
@@ -34,10 +35,6 @@
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
   z-index: 1;
 }
-body.dark-mode .image-export-modal .modal-panel {
-  background: #1f1d2a;
-  color: #f0f0f5;
-}
 
 .modal-close {
   position: absolute;
@@ -46,7 +43,7 @@ body.dark-mode .image-export-modal .modal-panel {
   background: none;
   border: none;
   font-size: 1.9rem;
-  color: #1c1424;
+  color: var(--text-on-surface);
   cursor: pointer;
   line-height: 1;
   z-index: 2;
@@ -60,36 +57,24 @@ body.dark-mode .image-export-modal .modal-panel {
   font-family: system-ui, sans-serif;
 }
 .modal-close:hover {
-  background: rgba(0, 0, 0, 0.06);
-}
-body.dark-mode .modal-close {
-  color: #f0f0f5;
-}
-body.dark-mode .modal-close:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--close-hover-bg);
 }
 
 .modal-title {
   font-family: "Nunito", system-ui, sans-serif;
   font-weight: 900;
   font-size: 24px;
-  color: #1c1424;
+  color: var(--text-on-surface);
   margin: 0 0 4px;
   letter-spacing: -0.01em;
-}
-body.dark-mode .modal-title {
-  color: #f0f0f5;
 }
 
 .modal-sub {
   font-family: "Nunito", system-ui, sans-serif;
   font-weight: 500;
   font-size: 14px;
-  color: #6b5e7a;
+  color: var(--text-muted-primary);
   margin: 0 0 24px;
-}
-body.dark-mode .modal-sub {
-  color: #a1a1aa;
 }
 
 .export-templates {
@@ -121,11 +106,8 @@ body.dark-mode .modal-sub {
   font-family: "Nunito", system-ui, sans-serif;
   font-weight: 800;
   font-size: 15px;
-  color: #1c1424;
+  color: var(--text-on-surface);
   letter-spacing: -0.005em;
-}
-body.dark-mode .template-name {
-  color: #f0f0f5;
 }
 
 .template-tag {
@@ -134,10 +116,7 @@ body.dark-mode .template-name {
   font-size: 10.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #9890a4;
-}
-body.dark-mode .template-tag {
-  color: #6b6a78;
+  color: var(--text-muted-primary);
 }
 
 .template-preview {
@@ -176,7 +155,7 @@ body.dark-mode .template-tag {
   color: #fff;
   cursor: pointer;
   transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
-  box-shadow: 0 4px 12px rgba(255, 77, 133, 0.25);
+  box-shadow: var(--download-shadow);
 }
 .template-download:hover:not(:disabled) {
   transform: translateY(-1px);
@@ -191,9 +170,6 @@ body.dark-mode .template-tag {
   cursor: wait;
   transform: none;
   box-shadow: 0 2px 6px rgba(255, 77, 133, 0.15);
-}
-body.dark-mode .template-download {
-  box-shadow: 0 4px 14px rgba(255, 77, 133, 0.4);
 }
 
 

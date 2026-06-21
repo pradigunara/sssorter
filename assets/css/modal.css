@@ -17,12 +17,8 @@
   font-family: "Nunito", sans-serif;
   font-size: 0.65rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text-muted-primary);
   pointer-events: none;
-}
-
-body.dark-mode .bump-chart-wrap::after {
-  color: var(--dark-text-muted);
 }
 
 .bump-chart-inner .bump-chart {
@@ -41,15 +37,11 @@ body.dark-mode .bump-chart-wrap::after {
 }
 
 .chart-modal-content {
-  background: var(--surface-white);
+  background: var(--surface-primary);
   border-radius: 16px;
   padding: 1rem;
   max-width: 90vw;
   width: 860px;
-}
-
-body.dark-mode .chart-modal-content {
-  background: var(--dark-surface);
 }
 
 .chart-modal-content .bump-chart {

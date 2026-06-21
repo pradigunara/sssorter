@@ -36,15 +36,15 @@
   font-size: 0.8rem;
   line-height: normal;
   padding: 6px 14px;
-  border: 2px solid var(--ink-line);
+  border: 2px solid var(--border-primary);
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
   -webkit-tap-highlight-color: transparent;
   min-height: 32px;
   min-width: 80px;
-  background: var(--surface-white);
-  color: var(--text-dark);
+  background: var(--surface-primary);
+  color: var(--text-on-surface);
   box-shadow: var(--card-shadow-soft);
 }
 
@@ -55,11 +55,6 @@
 .auth-btn:active {
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 var(--primary-pink);
-}
-
-.auth-btn-signin {
-  background: var(--surface-white);
-  color: var(--text-dark);
 }
 
 .auth-btn-signin:hover {
@@ -85,10 +80,10 @@
   font-weight: 800;
   font-size: 0.8rem;
   padding: 6px 14px;
-  border: 2px solid var(--ink-line);
+  border: 2px solid var(--border-primary);
   border-radius: 999px;
-  background: var(--surface-white);
-  color: var(--text-dark);
+  background: var(--surface-primary);
+  color: var(--text-on-surface);
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s, color 0.2s;
   line-height: normal;
@@ -108,20 +103,6 @@
   }
 }
 
-body.dark-mode .pill-toggle {
-  color: var(--dark-text);
-  background: var(--dark-surface);
-  border-color: var(--dark-ink-line);
-  box-shadow: var(--card-shadow-soft);
-}
-
-body.dark-mode .auth-btn-signin {
-  background: var(--dark-surface);
-  color: var(--dark-text);
-  border-color: var(--dark-ink-line);
-  box-shadow: var(--card-shadow-soft);
-}
-
 .user-arrow {
   font-size: 0.65rem;
   margin-left: 2px;
@@ -132,19 +113,13 @@ body.dark-mode .auth-btn-signin {
   position: absolute;
   top: 100%;
   margin-top: 6px;
-  background: var(--surface-white);
-  border: 2px solid var(--ink-line);
+  background: var(--surface-primary);
+  border: 2px solid var(--border-primary);
   border-radius: 12px;
   box-shadow: var(--card-shadow);
   overflow: hidden;
   min-width: 140px;
   z-index: 101;
-}
-
-body.dark-mode .dropdown-menu {
-  background: var(--dark-surface);
-  border-color: var(--dark-ink-line);
-  box-shadow: var(--card-shadow);
 }
 
 .dropdown-item {
@@ -153,7 +128,7 @@ body.dark-mode .dropdown-menu {
   padding: 10px 16px;
   border: none;
   background: transparent;
-  color: var(--text-dark);
+  color: var(--text-on-surface);
   font-family: "Nunito", sans-serif;
   font-weight: 700;
   font-size: 0.85rem;
@@ -165,8 +140,4 @@ body.dark-mode .dropdown-menu {
 .dropdown-item:hover {
   background: var(--primary-pink);
   color: var(--surface-white);
-}
-
-body.dark-mode .dropdown-item {
-  color: var(--dark-text);
 }
