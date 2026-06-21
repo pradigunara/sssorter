@@ -23,10 +23,11 @@
   --dark-text-muted: #c4b0b5;
   --dark-ink-line: #8a7765;
 
-  /* Sticker-style hard shadows */
+  /* Sticker-style hard shadows — override in body.dark-mode */
   --card-shadow: 6px 6px 0 rgba(43, 32, 36, 0.12);
   --card-shadow-hover: 10px 10px 0 var(--primary-pink);
   --card-shadow-soft: 3px 3px 0 rgba(43, 32, 36, 0.1);
+  --card-shadow-sm: 2px 2px 0 rgba(43, 32, 36, 0.1);
   --card-border: 2.5px solid var(--ink-line);
   --card-radius: 18px;
   --glow-effect: 0 0 0;
@@ -95,6 +96,11 @@ body.dark-mode {
       rgba(255, 255, 255, 0.015) 23px
     );
   background-attachment: fixed;
+
+  /* Dark mode shadows — light grayish offset visible against dark surfaces */
+  --card-shadow: 6px 6px 0 rgba(180, 170, 165, 0.25);
+  --card-shadow-soft: 3px 3px 0 rgba(180, 170, 165, 0.22);
+  --card-shadow-sm: 2px 2px 0 rgba(180, 170, 165, 0.2);
 }
 
 a {
