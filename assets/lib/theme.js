@@ -4,11 +4,16 @@ const MOON_SVG =
   '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
 
 export function initTheme(els, onThemeChange) {
-  const savedDarkMode = localStorage.getItem("darkMode");
   const toggle = document.querySelector(".theme-toggle");
 
-  if (savedDarkMode === "true") {
+  if (
+    localStorage.getItem("darkMode") === "true" &&
+    !document.body.classList.contains("dark-mode")
+  ) {
     document.body.classList.add("dark-mode");
+  }
+
+  if (document.body.classList.contains("dark-mode")) {
     els.themeToggleText.textContent = "Light Mode";
     setThemeIcon(true);
     toggle.setAttribute("aria-checked", "true");

@@ -219,7 +219,32 @@
               aria-label="Loading battle"
               aria-busy="true"
             >
-              <div class="photocard-image-container"></div>
+              <div class="photocard-image-container">
+                <img
+                  id="lcp-battle-img"
+                  src="/members/SeoYeon/picSet1-400.webp"
+                  srcset="/members/SeoYeon/picSet1-400.webp 400w, /members/SeoYeon/picSet1-582.webp 582w"
+                  sizes="(max-width: 500px) 49vw, (max-width: 768px) 48vw, 340px"
+                  alt="SeoYeon"
+                  class="photocard-image"
+                  width="340"
+                  height="525"
+                  decoding="async"
+                  fetchpriority="high"
+                  draggable="false"
+                />
+              </div>
+              <script>
+                (function () {
+                  var ps = window.__PICSET__;
+                  var img = document.getElementById("lcp-battle-img");
+                  if (!img || !ps || ps === "picSet1") return;
+                  var b = "/members/SeoYeon/" + ps;
+                  img.src = b + "-400.webp";
+                  img.srcset =
+                    b + "-400.webp 400w, " + b + "-582.webp 582w";
+                })();
+              </script>
               <div class="photocard-info">
                 <div class="member-name">…</div>
               </div>

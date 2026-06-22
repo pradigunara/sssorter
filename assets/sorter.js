@@ -13,13 +13,14 @@ import {
   isLoggedInUser,
   hideSigninIfUnconfigured,
   clearAuthUI,
+  ensureAuthSession,
 } from "./lib/auth.js";
 import { initTouchTargets } from "./lib/touch-targets.js";
-import { memberPhotoUrl, selectPhotoVariant } from "./lib/photo-src.js";
+import { memberPhotoUrl, selectPreloadWidth } from "./lib/photo-src.js";
 
 const memberNames = Object.keys(memberData);
 let sorter = new TripleSBiasSorter(memberNames, memberData);
-let memberPicId = {};
+let memberPicSets = {};
 let activePicSet = "";
 let showingFullResults = false;
 let isAnimating = false;
@@ -91,36 +92,46 @@ function initMemberPic() {
     picSet = localStorage.getItem("darkMode") === "true" ? `picSet${rand(3, 4)}` : `picSet${rand(1, 2)}`;
   }
   activePicSet = picSet;
-  memberPicId = {};
+  memberPicSets = {};
   for (const memberName of memberNames) {
-    memberPicId[memberName] = memberData[memberName][picSet].local2x;
+    memberPicSets[memberName] = memberData[memberName][picSet];
   }
 }
 
 function preloadPicSet(picSet) {
-  const variant = selectPhotoVariant();
-  const urls = memberNames.map((name) =>
-    memberPhotoUrl(memberData, name, picSet, variant),
-  );
+  const start = () => {
+    const width = selectPreloadWidth();
+    const urls = memberNames.map((name) =>
+      memberPhotoUrl(memberData, name, picSet, width),
+    );
 
-  const loadAll = () => {
-    for (const src of urls) {
-      const img = new Image();
-      img.src = src;
+    const loadAll = () => {
+      for (const src of urls) {
+        const img = new Image();
+        img.src = src;
+      }
+    };
+
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(loadAll, { timeout: 5000 });
+    } else {
+      setTimeout(loadAll, 200);
     }
   };
 
-  if (typeof requestIdleCallback === "function") {
-    requestIdleCallback(loadAll, { timeout: 5000 });
-  } else {
-    setTimeout(loadAll, 200);
-  }
+  requestAnimationFrame(() => requestAnimationFrame(start));
 }
 
 
 // --- Card content ---
 
-function updateOptionContent(optEl, memberName, memberIndex, _forcePhotoUpdate = false) {
+function updateOptionContent(
+  optEl,
+  memberName,
+  memberIndex,
+  _forcePhotoUpdate = false,
+  { lcpCandidate = false } = {},
+) {
   const existingImg = optEl.querySelector(".photocard-image");
   const sameMember =
     !_forcePhotoUpdate &&
@@ -128,7 +139,14 @@ function updateOptionContent(optEl, memberName, memberIndex, _forcePhotoUpdate =
     existingImg?.alt === memberName;
 
   if (!sameMember) {
-    optEl.innerHTML = renderCard(memberName, memberPicId, memberData);
+    optEl.innerHTML = renderCard(
+      memberName,
+      memberPicSets[memberName],
+      memberData,
+      { fetchPriority: lcpCandidate ? "high" : undefined },
+    );
+  } else if (lcpCandidate && existingImg && !existingImg.getAttribute("fetchpriority")) {
+    existingImg.setAttribute("fetchpriority", "high");
   }
 
   const img = optEl.querySelector(".photocard-image");
@@ -180,27 +198,27 @@ function handleSort(preference) {
   isAnimating = true;
   document.body.classList.add("is-animating");
 
-  // Glow immediately, then rAF lets the browser paint it before heavy work
+  // Glow in sync; sort in 2nd rAF so 1st frame can paint feedback (INP).
   const selectedCard =
     preference === "A" ? els.optionA : preference === "B" ? els.optionB : null;
   if (selectedCard) selectedCard.classList.add("selected-glow");
 
   requestAnimationFrame(() => {
-    // Phase 1: sorting computation (pure JS, no DOM)
-    if (preference === "A") sorter.preferMemberA();
-    else if (preference === "B") sorter.preferMemberB();
-    else sorter.declareTie();
+    requestAnimationFrame(() => {
+      if (preference === "A") sorter.preferMemberA();
+      else if (preference === "B") sorter.preferMemberB();
+      else sorter.declareTie();
 
-    if (sorter.isComplete()) {
-      updateProgressDisplay(sorter.getProgress());
-      showResult();
-      finishSort();
-    } else {
-      // Yield so browser can paint progress update before starting animations
-      setTimeout(() => {
-        showFinal({ selectedFlag: preference }).then(finishSort);
-      }, 0);
-    }
+      if (sorter.isComplete()) {
+        updateProgressDisplay(sorter.getProgress());
+        showResult();
+        finishSort();
+      } else {
+        setTimeout(() => {
+          showFinal({ selectedFlag: preference }).then(finishSort);
+        }, 0);
+      }
+    });
   });
 
   function finishSort() {
@@ -269,13 +287,17 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
   if (!skipIncrement) updateProgressDisplay(sorter.getProgress());
   const comp = sorter.getCurrentComparison();
   const force = skipIncrement;
+  const updateA = (card, name, idx, forceUpdate) =>
+    updateOptionContent(card, name, idx, forceUpdate, { lcpCandidate: true });
+  const updateB = (card, name, idx, forceUpdate) =>
+    updateOptionContent(card, name, idx, forceUpdate);
   await Promise.all([
     animateCardUpdate(
       els.optionA,
       comp.memberAName,
       comp.memberA,
       selectedFlag === "A",
-      updateOptionContent,
+      updateA,
       force,
     ),
     animateCardUpdate(
@@ -283,7 +305,7 @@ async function showFinal({ skipIncrement = false, selectedFlag = "" } = {}) {
       comp.memberBName,
       comp.memberB,
       selectedFlag === "B",
-      updateOptionContent,
+      updateB,
       force,
     ),
   ]);
@@ -354,13 +376,21 @@ function init() {
 
   els.btnHistory.addEventListener("click", () => {
     els.userDropdown.classList.add("is-hidden");
-    loadHistory().then(async (history) => {
-      try {
-        await history.showHistoryPage(els, memberData, memberNames);
-      } catch {
-        history.showHistoryError(els, "Could not load history. Please try again.");
-      }
-    });
+    ensureAuthSession(els)
+      .then(() => loadHistory())
+      .then(async (history) => {
+        try {
+          await history.refreshRankings();
+          await history.showHistoryPage(els, memberData, memberNames);
+        } catch {
+          history.showHistoryError(els, "Could not load history. Please try again.");
+        }
+      })
+      .catch(() => {
+        loadHistory().then((history) =>
+          history.showHistoryError(els, "Could not load history. Please try again."),
+        );
+      });
   });
   els.btnHistoryBack.addEventListener("click", handleHistoryBack);
 

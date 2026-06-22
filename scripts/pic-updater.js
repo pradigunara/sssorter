@@ -107,13 +107,14 @@ async function processData() {
 
         if (oldUrl && oldUrl !== memberImageMap[member]) {
           const memberDir = join("public/members", sanitize(member));
-          for (const suffix of ["1x", "2x"]) {
-            const localFile = join(memberDir, `${args.picSet}-${suffix}.webp`);
+          for (const width of [340, 480, 582]) {
+            const localFile = join(memberDir, `${args.picSet}-${width}.webp`);
             if (fs.existsSync(localFile)) {
               fs.unlinkSync(localFile);
               console.log(`  [stale] deleted ${localFile}`);
             }
           }
+
         }
 
         memberData[member][args.picSet] = { originalUrl: memberImageMap[member] };
