@@ -2,19 +2,26 @@
 /**
  * Download + optimize all member images for local bundling.
  *
- * Resizes to 1x (340px) and 2x (582px) webp via Bun.Image.
+ * Resizes to 400 / 582 px webp via Bun.Image.
  *
  * WebP tuning (env):
- *   WEBP_QUALITY_1X  default 76 — mobile slot (~340w display)
- *   WEBP_QUALITY_2X  default 80 — retina / wider cards
- *   WEBP_EFFORT      default 5  — encoder effort (higher = smaller, slower)
+ *   WEBP_QUALITY_400  default 73
+ *   WEBP_QUALITY_582  default 76 (alias WEBP_QUALITY_2X)
+ *   WEBP_EFFORT       default 5
  *
  * Re-encode all locals:  bun scripts/fetch-images.js --force
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, unlinkSync } from "fs";
 import { resolve, join } from "path";
 import { pathToFileURL } from "url";
+import {
+  PHOTO_WIDTHS,
+  PHOTO_QUALITY,
+  WEBP_EFFORT,
+  localPhotoPath,
+  photoFileName,
+} from "./photo-widths.js";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const DATA_FILE = resolve(ROOT, "assets/member-data.js");
@@ -23,10 +30,6 @@ const OUT_DIR = resolve(ROOT, "public/members");
 const { memberData } = await import(pathToFileURL(DATA_FILE).href);
 
 const PIC_SETS = ["picSet1", "picSet2", "picSet3", "picSet4"];
-const SIZES = { "1x": 340, "2x": 582 };
-const WEBP_1X = Number(process.env.WEBP_QUALITY_1X ?? 76);
-const WEBP_2X = Number(process.env.WEBP_QUALITY_2X ?? 80);
-const WEBP_EFFORT = Number(process.env.WEBP_EFFORT ?? 5);
 const FORCE = process.argv.includes("--force") || process.env.FORCE === "1";
 
 function sanitize(name) {
@@ -51,17 +54,36 @@ async function processImage(bytes, width, outFile, quality) {
     .write(outFile);
 }
 
+function picSetCompleteOnDisk(member, picSet) {
+  const folder = sanitize(member);
+  for (const width of PHOTO_WIDTHS) {
+    const f = join(OUT_DIR, folder, photoFileName(picSet, width));
+    if (!existsSync(f)) return false;
+  }
+  return true;
+}
+
+function buildLocalPaths(member, picSet) {
+  const folder = sanitize(member);
+  const paths = {};
+  for (const width of PHOTO_WIDTHS) {
+    paths[width] = localPhotoPath(folder, picSet, width);
+  }
+  return paths;
+}
+
 async function main() {
   if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
-  console.log(
-    `WebP: 1x q=${WEBP_1X} @ ${SIZES["1x"]}px, 2x q=${WEBP_2X} @ ${SIZES["2x"]}px, effort=${WEBP_EFFORT}${FORCE ? ", --force" : ""}`,
+  const qLog = PHOTO_WIDTHS.map((w) => `${w}px q=${PHOTO_QUALITY[w]}`).join(
+    ", ",
   );
+  console.log(`WebP: ${qLog}, effort=${WEBP_EFFORT}${FORCE ? ", --force" : ""}`);
 
   const members = Object.keys(memberData);
   let done = 0;
   let skipped = 0;
+  let synced = 0;
   let failed = 0;
-
   for (const member of members) {
     const memberDir = join(OUT_DIR, sanitize(member));
     const data = memberData[member];
@@ -85,19 +107,25 @@ async function main() {
         continue;
       }
 
-      if (
-        !FORCE &&
-        typeof entry === "object" &&
-        entry.local1x &&
-        entry.local2x &&
-        existsSync(join(OUT_DIR, sanitize(member), `${picSet}-1x.webp`)) &&
-        existsSync(join(OUT_DIR, sanitize(member), `${picSet}-2x.webp`))
-      ) {
-        skipped++;
+      if (!FORCE && picSetCompleteOnDisk(member, picSet)) {
+        const paths = buildLocalPaths(member, picSet);
+        const needsSync =
+          !entry.local400 ||
+          entry.local400 !== paths[400] ||
+          entry.local582 !== paths[582];
+        if (needsSync) {
+          data[picSet] = {
+            originalUrl,
+            local400: paths[400],
+            local582: paths[582],
+          };
+          synced++;
+        } else {
+          skipped++;
+        }
         continue;
       }
 
-      const localPaths = {};
       let ok = true;
       let bytes;
 
@@ -109,16 +137,16 @@ async function main() {
         continue;
       }
 
-      for (const [suffix, width] of Object.entries(SIZES)) {
-        const outFile = join(memberDir, `${picSet}-${suffix}.webp`);
-        const quality = suffix === "1x" ? WEBP_1X : WEBP_2X;
+      const encoded = [];
+      for (const width of PHOTO_WIDTHS) {
+        const outFile = join(memberDir, photoFileName(picSet, width));
 
         try {
-          await processImage(bytes, width, outFile, quality);
-          localPaths[suffix] = `/members/${sanitize(member)}/${picSet}-${suffix}.webp`;
+          await processImage(bytes, width, outFile, PHOTO_QUALITY[width]);
+          encoded.push(width);
         } catch (err) {
           console.error(
-            `  [fail] ${member}.${picSet}-${suffix}: ${err.message}`,
+            `  [fail] ${member}.${picSet}-${width}: ${err.message}`,
           );
           ok = false;
           failed++;
@@ -126,19 +154,37 @@ async function main() {
         }
       }
 
-      if (ok) {
-        data[picSet] = {
-          originalUrl,
-          local1x: localPaths["1x"],
-          local2x: localPaths["2x"],
-        };
-        done++;
-        if (done % 10 === 0) console.log(`  ...processed ${done} images`);
+      if (!ok) {
+        for (const width of encoded) {
+          const partial = join(memberDir, photoFileName(picSet, width));
+          try {
+            unlinkSync(partial);
+          } catch {
+            /* ignore */
+          }
+        }
+        continue;
       }
+
+      const paths = buildLocalPaths(member, picSet);
+      data[picSet] = {
+        originalUrl,
+        local400: paths[400],
+        local582: paths[582],
+      };
+      done++;
+      if (done % 10 === 0) console.log(`  ...processed ${done} images`);
     }
   }
 
-  // Rewrite member-data.js with updated picSet objects
+  if (done === 0 && synced === 0) {
+    console.log(
+      `\nDone: ${done} picSets processed, ${skipped} skipped, ${synced} metadata synced, ${failed} failed.`,
+    );
+    console.log(`No changes to ${DATA_FILE}`);
+    return;
+  }
+
   const source = readFileSync(DATA_FILE, "utf8");
   const startMarker = "export const memberData = ";
   const start = source.indexOf(startMarker);
@@ -158,15 +204,16 @@ async function main() {
   }
   if (end === -1) throw new Error("Could not find end of memberData object");
 
+  const tail = source.slice(end).replace(/^\s*;\s*/, "");
   const newContent =
     source.substring(0, start + startMarker.length) +
     JSON.stringify(memberData, null, 2) +
-    ";\n";
+    (tail ? `;\n${tail}` : ";\n");
 
   writeFileSync(DATA_FILE, newContent);
 
   console.log(
-    `\nDone: ${done} picSets processed, ${skipped} skipped, ${failed} failed.`,
+    `\nDone: ${done} picSets processed, ${skipped} skipped, ${synced} metadata synced, ${failed} failed.`,
   );
   console.log(`Updated ${DATA_FILE}`);
   console.log(`Run: npx prettier --write ${DATA_FILE}`);

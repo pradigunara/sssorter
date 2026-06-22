@@ -112,7 +112,7 @@
   #optionA.sorter-option:active,
   #optionB.sorter-option:active {
     transform: rotate(0deg) translateY(-4px);
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: 10px 10px 0 var(--member-color, var(--primary-pink));
     border-color: var(--member-color);
   }
 }
@@ -120,7 +120,7 @@
 @media (hover: hover) {
   .sorter-option:hover {
     transform: rotate(0deg) translateY(-4px);
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: 10px 10px 0 var(--member-color, var(--primary-pink));
     border-color: var(--member-color);
   }
 

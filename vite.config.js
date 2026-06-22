@@ -31,11 +31,26 @@ export default defineConfig(({ mode }) => {
   var d=localStorage.getItem("darkMode")==="true";
   var p=d?["picSet3","picSet4"]:["picSet1","picSet2"];
   window.__PICSET__=p[Math.random()<.5?0:1];
+  var m="SeoYeon",ps=window.__PICSET__,sizes="(max-width: 500px) 49vw, (max-width: 768px) 48vw, 340px";
+  var l=document.createElement("link");
+  l.rel="preload";l.as="image";l.href="/members/"+m+"/"+ps+"-400.webp";
+  l.setAttribute("imagesrcset","/members/"+m+"/"+ps+"-400.webp 400w, /members/"+m+"/"+ps+"-582.webp 582w");
+  l.setAttribute("imagesizes",sizes);
+  l.setAttribute("fetchpriority","high");
+  document.head.appendChild(l);
 })();</script>`;
+
+          const bodyDarkScript =
+            '<script>if(localStorage.getItem("darkMode")==="true")document.body.classList.add("dark-mode");</script>';
 
           result = result.replace(
             '<script>\n      window.__SUPABASE_CONFIG__',
             `${preloadScript}\n    <script>\n      window.__SUPABASE_CONFIG__`,
+          );
+
+          result = result.replace(
+            '<body class="bias-sorter">',
+            `<body class="bias-sorter">${bodyDarkScript}`,
           );
 
           return result;

@@ -1,5 +1,7 @@
 let isLoggedIn = false;
 let supabaseMod = null;
+let authCallbacks = null;
+let sessionStarted = false;
 
 async function getSupabase() {
   if (!supabaseMod) supabaseMod = await import("../supabase.js");
@@ -71,23 +73,41 @@ function applyOptimisticAuthUI(els) {
   return true;
 }
 
+function isOAuthReturnInUrl() {
+  const hash = window.location.hash;
+  if (!hash || hash.length < 2) return false;
+  return (
+    hash.includes("access_token=") ||
+    hash.includes("refresh_token=") ||
+    hash.includes("error=") ||
+    hash.includes("error_description=")
+  );
+}
+
+function clearAuthHashFromUrl() {
+  if (!window.location.hash) return;
+  const path = window.location.pathname + window.location.search;
+  history.replaceState(null, "", path);
+}
+
 export function isLoggedInUser() {
   return isLoggedIn;
 }
 
 export function initAuth(els, onSignIn, onSignOut) {
-  if (applyOptimisticAuthUI(els)) onSignIn();
+  authCallbacks = { onSignIn, onSignOut };
+  applyOptimisticAuthUI(els);
 
   els.btnSignin.addEventListener("click", () => {
     els.authDropdown.classList.toggle("is-hidden");
   });
   els.btnSigninX.addEventListener("click", () => {
     els.authDropdown.classList.add("is-hidden");
-    getSupabase().then((m) => m.signInWithX());
+    ensureAuthSession(els).then((m) => m.signInWithX());
   });
   els.btnSigninDiscord.addEventListener("click", () => {
     els.authDropdown.classList.add("is-hidden");
-    getSupabase().then((m) => m.signInWithDiscord());
+    ensureAuthSession(els).then((m) => m.signInWithDiscord());
   });
 
   els.btnUserMenu.addEventListener("click", () => {
@@ -95,7 +115,7 @@ export function initAuth(els, onSignIn, onSignOut) {
   });
   els.btnSignout.addEventListener("click", async () => {
     els.userDropdown.classList.add("is-hidden");
-    const m = await getSupabase();
+    const m = await ensureAuthSession(els);
     await m.signOut();
     updateAuthUI(els, null);
     onSignOut();
@@ -108,23 +128,42 @@ export function initAuth(els, onSignIn, onSignOut) {
     }
   });
 
-  const initSession = () => {
-    getSupabase().then((m) => {
-      m.onAuthChange(async (session, event) => {
-        updateAuthUI(els, session);
-        if (session) onSignIn();
-        else if (event === "SIGNED_OUT") onSignOut();
-      });
-
-      m.getSession().then((s) => updateAuthUI(els, s));
-    });
-  };
-
-  if (typeof requestIdleCallback === "function") {
-    requestIdleCallback(initSession, { timeout: 3000 });
-  } else {
-    setTimeout(initSession, 200);
+  if (isOAuthReturnInUrl()) {
+    handleOAuthRedirect(els);
   }
+}
+
+function handleOAuthRedirect(els) {
+  ensureAuthSession(els)
+    .then((m) => m.getSession())
+    .then((session) => {
+      updateAuthUI(els, session);
+      if (session && authCallbacks) authCallbacks.onSignIn();
+      clearAuthHashFromUrl();
+    })
+    .catch(() => {
+      clearAuthHashFromUrl();
+    });
+}
+
+function startAuthSession(els) {
+  if (!isConfigured() || sessionStarted || !authCallbacks) return;
+  sessionStarted = true;
+  const { onSignIn, onSignOut } = authCallbacks;
+  getSupabase().then((m) => {
+    m.onAuthChange(async (session, event) => {
+      updateAuthUI(els, session);
+      if (session) onSignIn();
+      else if (event === "SIGNED_OUT") onSignOut();
+    });
+    m.getSession().then((s) => updateAuthUI(els, s));
+  });
+}
+
+/** Load Supabase client + auth listeners on first user-driven auth/history need. */
+export function ensureAuthSession(els) {
+  startAuthSession(els);
+  return getSupabase();
 }
 
 function updateAuthUI(els, session) {

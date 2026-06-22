@@ -5,6 +5,28 @@ function yieldToMain() {
   return new Promise((r) => setTimeout(r, 0));
 }
 
+/** Resolve when image is ready, or after capMs — don't block flip-in on slow loads. */
+function waitForImageOrTimeout(img, capMs = 100) {
+  if (!img) return Promise.resolve();
+  return new Promise((resolve) => {
+    const done = () => resolve();
+    const timer = setTimeout(done, capMs);
+    const finish = () => {
+      clearTimeout(timer);
+      done();
+    };
+    const check = () => {
+      if (img.complete && img.naturalHeight !== 0) {
+        finish();
+        return;
+      }
+      img.onload = img.onerror = finish;
+    };
+    requestAnimationFrame(check);
+  });
+}
+
+
 /** Wait for an image to load. Avoids reading naturalHeight in the same turn as DOM writes. */
 function waitForImage(img, ms = 3000) {
   if (!img) return Promise.resolve();
@@ -51,7 +73,7 @@ export async function animateCardUpdate(
     card.classList.remove("selected-glow");
     updateContent(card, nextName, nextIdx, forceUpdate);
 
-    await waitForImage(card.querySelector(".photocard-image"));
+    await waitForImageOrTimeout(card.querySelector(".photocard-image"));
     await yieldToMain();
 
     // Snap to start of flip-in (no transition), then trigger it

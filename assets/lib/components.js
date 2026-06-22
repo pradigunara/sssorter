@@ -1,12 +1,20 @@
 import { html } from "./html.js";
 
-import { PHOTO_SIZES_ATTR } from "./photo-src.js";
-export function renderCard(memberName, memberPicId, memberData) {
-  const src2x = memberPicId[memberName];
-  const src1x = src2x.replace(/-2x\.webp$/, "-1x.webp");
+import {
+  PHOTO_SIZES_ATTR,
+  picSetSources,
+  photoSrcset,
+  photoDefaultSrc,
+} from "./photo-src.js";
+export function renderCard(memberName, picSetEntry, memberData, { fetchPriority } = {}) {
+  const sources = picSetSources(picSetEntry);
+  const src = photoDefaultSrc(sources);
+  const srcset = photoSrcset(sources);
   const sizes = PHOTO_SIZES_ATTR;
+  const fetchAttr =
+    fetchPriority === "high" ? ' fetchpriority="high"' : "";
   return html`<div class="photocard-image-container">
-      <img src="${src1x}" srcset="${src1x} 340w, ${src2x} 582w" sizes="${sizes}" alt="${memberName}" class="photocard-image" width="340" height="525" decoding="async" draggable="false" />
+      <img src="${src}" srcset="${srcset}" sizes="${sizes}" alt="${memberName}" class="photocard-image" width="340" height="525" decoding="async" draggable="false"${fetchAttr} />
       <div class="member-badge">${memberData[memberName].sNumber}</div>
     </div>
     <div class="photocard-info">

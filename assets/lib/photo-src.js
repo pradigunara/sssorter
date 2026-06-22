@@ -3,14 +3,34 @@ export const PHOTO_SLOT_CAP_PX = 340;
 export const PHOTO_SIZES_ATTR =
   "(max-width: 500px) 49vw, (max-width: 768px) 48vw, 340px";
 
-/**
- * Which file srcset would pick: 340w (1x) vs 582w (2x).
- * Rule: use 2x when CSS slot × DPR needs more than 340px of image width.
- */
-export function selectPhotoVariant(cssSlotPx = null, dpr = null) {
+/** Bundled photocard widths (px); filenames: {picSet}-{width}.webp under public/members. */
+export const PHOTO_WIDTHS = [400, 582];
+
+export function picSetSources(picSetEntry) {
+  if (!picSetEntry || typeof picSetEntry !== "object") return {};
+  const { local400, local582 } = picSetEntry;
+  if (!local400 || !local582) return {};
+  return {
+    400: String(local400),
+    582: String(local582),
+  };
+}
+
+export function photoSrcset(sources) {
+  return PHOTO_WIDTHS.filter((w) => sources[w])
+    .map((w) => `${sources[w]} ${w}w`)
+    .join(", ");
+}
+
+/** Default src: smallest tier (400w). */
+export function photoDefaultSrc(sources) {
+  return sources[400] ?? sources[582] ?? "";
+}
+
+/** Smallest bundled width >= slot * DPR (for preload). */
+export function selectPreloadWidth(cssSlotPx = null, dpr = null) {
   const ratio =
-    dpr ??
-    (typeof devicePixelRatio === "number" ? devicePixelRatio : 1);
+    dpr ?? (typeof devicePixelRatio === "number" ? devicePixelRatio : 1);
   let slot = cssSlotPx;
   if (slot == null && typeof window !== "undefined" && window.innerWidth) {
     const w = window.innerWidth;
@@ -19,10 +39,14 @@ export function selectPhotoVariant(cssSlotPx = null, dpr = null) {
     else slot = PHOTO_SLOT_CAP_PX;
   }
   slot = slot ?? PHOTO_SLOT_CAP_PX;
-  return slot * ratio >= 340 ? "2x" : "1x";
+  const need = slot * ratio;
+  for (const width of PHOTO_WIDTHS) {
+    if (width >= need) return width;
+  }
+  return PHOTO_WIDTHS[PHOTO_WIDTHS.length - 1];
 }
 
-export function memberPhotoUrl(memberData, memberName, picSet, variant) {
-  const set = memberData[memberName][picSet];
-  return variant === "2x" ? set.local2x : set.local1x;
+export function memberPhotoUrl(memberData, memberName, picSet, widthPx) {
+  const sources = picSetSources(memberData[memberName][picSet]);
+  return sources[widthPx] ?? "";
 }
