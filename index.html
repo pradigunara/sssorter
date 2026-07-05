@@ -71,6 +71,11 @@
     <meta name="theme-color" content="#d42d68" />
     <meta name="msapplication-TileColor" content="#d42d68" />
 
+    <meta
+      name="google-site-verification"
+      content="bt803s2BMCzmkH29h454TuQE2CKP9ozMhQhIh8rnf34"
+    />
+
     <!-- Preconnect for faster image loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -141,7 +146,9 @@
             Sign in
           </button>
           <div id="auth-dropdown" class="dropdown-menu is-hidden">
-            <button id="btn-signin-x" class="dropdown-item touch-target">with X</button>
+            <button id="btn-signin-x" class="dropdown-item touch-target">
+              with X
+            </button>
             <button id="btn-signin-discord" class="dropdown-item touch-target">
               with Discord
             </button>
@@ -156,7 +163,9 @@
             <button id="btn-history" class="dropdown-item touch-target">
               Ranking History
             </button>
-            <button id="btn-signout" class="dropdown-item touch-target">Sign out</button>
+            <button id="btn-signout" class="dropdown-item touch-target">
+              Sign out
+            </button>
           </div>
         </div>
       </div>
@@ -223,7 +232,10 @@
                 <img
                   id="lcp-battle-img"
                   src="/members/SeoYeon/picSet1-400.webp"
-                  srcset="/members/SeoYeon/picSet1-400.webp 400w, /members/SeoYeon/picSet1-582.webp 582w"
+                  srcset="
+                    /members/SeoYeon/picSet1-400.webp 400w,
+                    /members/SeoYeon/picSet1-582.webp 582w
+                  "
                   sizes="(max-width: 500px) 49vw, (max-width: 768px) 48vw, 340px"
                   alt="SeoYeon"
                   class="photocard-image"
@@ -241,8 +253,7 @@
                   if (!img || !ps || ps === "picSet1") return;
                   var b = "/members/SeoYeon/" + ps;
                   img.src = b + "-400.webp";
-                  img.srcset =
-                    b + "-400.webp 400w, " + b + "-582.webp 582w";
+                  img.srcset = b + "-400.webp 400w, " + b + "-582.webp 582w";
                 })();
               </script>
               <div class="photocard-info">
@@ -280,7 +291,9 @@
     <section class="page-result is-hidden" id="page-result">
       <div class="container">
         <div id="battleResult"></div>
-        <a id="showMore" class="is-hidden touch-target" style="cursor: pointer">Show More</a>
+        <a id="showMore" class="is-hidden touch-target" style="cursor: pointer"
+          >Show More</a
+        >
         <br />
         <a
           id="export-image-button"
@@ -303,13 +316,18 @@
     </section>
 
     <footer class="page-footer touch-no-select">
-      <a href="https://x.com/celdaris" class="footer-link author-link touch-target">
+      <a
+        href="https://x.com/celdaris"
+        class="footer-link author-link touch-target"
+      >
         made with ♡ by <span class="accent-text">@celdaris</span>
       </a>
     </footer>
 
     <div id="chart-modal" class="chart-modal is-hidden">
-      <button id="btn-chart-close" class="chart-modal-close touch-target">&times;</button>
+      <button id="btn-chart-close" class="chart-modal-close touch-target">
+        &times;
+      </button>
       <div id="chart-modal-content" class="chart-modal-content"></div>
     </div>
 
@@ -336,7 +354,11 @@
               <span class="template-tag">playful</span>
             </div>
             <div class="template-preview" id="export-preview-f1"></div>
-            <button class="template-download touch-target" data-layout="f1" type="button">
+            <button
+              class="template-download touch-target"
+              data-layout="f1"
+              type="button"
+            >
               Download
             </button>
           </article>
@@ -346,7 +368,11 @@
               <span class="template-tag">elegant</span>
             </div>
             <div class="template-preview" id="export-preview-f2"></div>
-            <button class="template-download touch-target" data-layout="f2" type="button">
+            <button
+              class="template-download touch-target"
+              data-layout="f2"
+              type="button"
+            >
               Download
             </button>
           </article>
@@ -356,7 +382,11 @@
               <span class="template-tag">festive</span>
             </div>
             <div class="template-preview" id="export-preview-f3"></div>
-            <button class="template-download touch-target" data-layout="f3" type="button">
+            <button
+              class="template-download touch-target"
+              data-layout="f3"
+              type="button"
+            >
               Download
             </button>
           </article>
@@ -366,7 +396,11 @@
               <span class="template-tag">detective</span>
             </div>
             <div class="template-preview" id="export-preview-f4"></div>
-            <button class="template-download touch-target" data-layout="f4" type="button">
+            <button
+              class="template-download touch-target"
+              data-layout="f4"
+              type="button"
+            >
               Download
             </button>
           </article>
@@ -376,7 +410,11 @@
               <span class="template-tag">editorial</span>
             </div>
             <div class="template-preview" id="export-preview-f5"></div>
-            <button class="template-download touch-target" data-layout="f5" type="button">
+            <button
+              class="template-download touch-target"
+              data-layout="f5"
+              type="button"
+            >
               Download
             </button>
           </article>
@@ -386,7 +424,11 @@
               <span class="template-tag">vintage</span>
             </div>
             <div class="template-preview" id="export-preview-f6"></div>
-            <button class="template-download touch-target" data-layout="f6" type="button">
+            <button
+              class="template-download touch-target"
+              data-layout="f6"
+              type="button"
+            >
               Download
             </button>
           </article>
