@@ -21,7 +21,7 @@ export const memberData = {
       "local582": "/members/SeoYeon/picSet4-582.webp"
     },
     "color": "#21AEFE",
-    "emoji": "🐶",
+    "emoji": "🐹",
     "sNumber": "S1"
   },
   "HyeRin": {
@@ -96,7 +96,7 @@ export const memberData = {
       "local582": "/members/ChaeYeon/picSet4-582.webp"
     },
     "color": "#98C64A",
-    "emoji": "🦌",
+    "emoji": "🍑",
     "sNumber": "S4"
   },
   "YooYeon": {
@@ -171,7 +171,7 @@ export const memberData = {
       "local582": "/members/NaKyoung/picSet4-582.webp"
     },
     "color": "#659AA0",
-    "emoji": "🐈",
+    "emoji": "🐈‍⬛",
     "sNumber": "S7"
   },
   "YuBin": {
@@ -321,7 +321,7 @@ export const memberData = {
       "local582": "/members/Nien/picSet4-582.webp"
     },
     "color": "#FD963D",
-    "emoji": "🐑",
+    "emoji": "🐶",
     "sNumber": "S13"
   },
   "SoHyun": {
@@ -471,7 +471,7 @@ export const memberData = {
       "local582": "/members/HaYeon/picSet4-582.webp"
     },
     "color": "#52D8BB",
-    "emoji": "🐹",
+    "emoji": "🦔",
     "sNumber": "S19"
   },
   "ShiOn": {
@@ -521,7 +521,7 @@ export const memberData = {
       "local582": "/members/ChaeWon/picSet4-582.webp"
     },
     "color": "#C3A4E0",
-    "emoji": "🎀",
+    "emoji": "🍓",
     "sNumber": "S21"
   },
   "Sullin": {
