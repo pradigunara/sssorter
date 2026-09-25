@@ -15,3 +15,6 @@ export { renderF3 } from "./export-template-f3.js";
 export { renderF4 } from "./export-template-f4.js";
 export { renderF5 } from "./export-template-f5.js";
 export { renderF6 } from "./export-template-f6.js";
+export { renderF7 } from "./export-template-f7.js";
+export { renderF8 } from "./export-template-f8.js";
+export { renderF9 } from "./export-template-f9.js";

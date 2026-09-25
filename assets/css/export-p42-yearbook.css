@@ -1,0 +1,262 @@
+/* ═══ P42 — School yearbook spread ═══ */
+.layout-p42,
+.layout-p42 * {
+  box-sizing: border-box;
+}
+
+.layout-p42 {
+  --p42-ink: #2a1814;
+  --p42-wine: #6b1d2a;
+  --p42-cream: #f3ead8;
+  --member-color: #6b1d2a;
+  overflow: hidden;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: var(--p42-ink);
+  background: #e8dcc6;
+}
+
+.layout-p42 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.layout-p42 .p42-page {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #f1e6d2;
+  background-image:
+    linear-gradient(90deg, rgba(90, 50, 30, 0.05) 0%, transparent 8%, transparent 92%, rgba(90, 50, 30, 0.05) 100%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(80, 40, 24, 0.025) 0 1px,
+      transparent 1px 28px
+    ),
+    linear-gradient(180deg, #f6ecda 0%, #eadfc8 100%);
+}
+
+.layout-p42 .p42-gutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 18px;
+  z-index: 1;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(80, 40, 24, 0.08) 0%,
+    rgba(255, 248, 230, 0.2) 48%,
+    rgba(80, 40, 24, 0.1) 100%
+  );
+}
+
+.layout-p42 .p42-mast {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  height: 118px;
+  display: grid;
+  grid-template-columns: 120px 1fr 140px;
+  align-items: center;
+  padding: 0 36px;
+  background: var(--p42-wine);
+  color: var(--p42-cream);
+}
+
+.layout-p42 .p42-crest {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e0b868;
+}
+
+.layout-p42 .title {
+  text-align: center;
+}
+
+.layout-p42 .title .t1 {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 44px;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--p42-cream);
+}
+
+.layout-p42 .title .t1 span {
+  color: #e0b868;
+}
+
+.layout-p42 .title .t2 {
+  margin-top: 4px;
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(243, 234, 216, 0.62);
+}
+
+.layout-p42 .p42-year {
+  justify-self: end;
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e0b868;
+}
+
+.layout-p42 .p42-heroes {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  top: 140px;
+  height: 348px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 18px;
+  align-items: end;
+}
+
+.layout-p42 .p42-heroes .p42-port {
+  width: 100%;
+  max-width: 210px;
+  justify-self: center;
+}
+
+.layout-p42 .p42-heroes .p42-port.is-hero {
+  max-width: 300px;
+}
+
+.layout-p42 .p42-port {
+  position: relative;
+}
+
+.layout-p42 .p42-photo {
+  position: relative;
+  width: 100%;
+  padding-bottom: 118%;
+  overflow: hidden;
+  background: #d4c4ae;
+  border: 3px solid #fff8ee;
+  box-shadow:
+    0 0 0 1px rgba(107, 29, 42, 0.25),
+    0 10px 20px rgba(42, 24, 20, 0.16);
+}
+
+.layout-p42 .p42-port.is-hero .p42-photo {
+  padding-bottom: 112%;
+  border-width: 5px;
+  box-shadow:
+    0 0 0 2px #e0b868,
+    0 14px 26px rgba(42, 24, 20, 0.2);
+}
+
+.layout-p42 .p42-photo img {
+  position: absolute;
+  inset: 0;
+}
+
+.layout-p42 .p42-port.is-empty .p42-photo {
+  background:
+    repeating-linear-gradient(
+      -18deg,
+      rgba(42, 24, 20, 0.05) 0 8px,
+      transparent 8px 16px
+    ),
+    #ddd0bc;
+}
+
+.layout-p42 .p42-plate {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 6px 8px 5px;
+  background: #fff8ee;
+  border-bottom: 3px solid var(--member-color, var(--p42-wine));
+}
+
+.layout-p42 .p42-rank {
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--p42-wine);
+}
+
+.layout-p42 .p42-name {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--p42-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layout-p42 .p42-port.is-hero .p42-name {
+  font-size: 28px;
+}
+
+.layout-p42 .p42-port.is-mini .p42-name {
+  font-size: 16px;
+}
+
+.layout-p42 .p42-port.is-empty .p42-name {
+  display: none;
+}
+
+.layout-p42 .p42-class {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  top: 508px;
+  bottom: 54px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px 18px;
+  place-items: center;
+}
+
+.layout-p42 .p42-class .p42-port {
+  width: 100%;
+  max-width: 132px;
+}
+
+.layout-p42 .p42-class .p42-photo {
+  padding-bottom: 100%;
+  border-width: 2px;
+}
+
+.layout-p42 .p42-class .p42-plate {
+  padding: 4px 6px 3px;
+  margin-top: 5px;
+}
+
+.layout-p42 .footer {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  z-index: 10;
+  transform: translateX(-50%);
+  padding: 7px 16px 8px;
+  background: var(--p42-wine);
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--p42-cream);
+  white-space: nowrap;
+}

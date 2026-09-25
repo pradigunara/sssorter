@@ -1,0 +1,310 @@
+/* ═══ P41 — Record-shop vinyl wall ═══ */
+.layout-p41,
+.layout-p41 * {
+  box-sizing: border-box;
+}
+
+.layout-p41 {
+  --p41-cream: #f3ead8;
+  --member-color: #c4a060;
+  overflow: hidden;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: var(--p41-cream);
+  background: #1a1410;
+}
+
+.layout-p41 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.layout-p41 .p41-shop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #241c16;
+  background-image:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0 18px, transparent 18px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(80, 52, 28, 0.35) 0 2px,
+      transparent 2px 42px
+    ),
+    linear-gradient(180deg, #2c221a 0%, #1c1612 52%, #14100c 100%);
+}
+
+.layout-p41 .p41-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    repeating-linear-gradient(
+      88deg,
+      rgba(255, 220, 160, 0.04) 0 1px,
+      transparent 1px 13px
+    ),
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(196, 160, 96, 0.14) 0%, transparent 70%);
+}
+
+.layout-p41 .p41-mast {
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  z-index: 10;
+  width: 520px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.layout-p41 .title .t1 {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 46px;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  color: var(--p41-cream);
+}
+
+.layout-p41 .title .t1 span {
+  color: #e0b050;
+}
+
+.layout-p41 .title .t2 {
+  margin-top: 4px;
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(243, 234, 216, 0.48);
+}
+
+.layout-p41 .p41-kicker {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border: 1px solid rgba(224, 176, 80, 0.45);
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e0b050;
+}
+
+.layout-p41 .p41-heroes {
+  position: absolute;
+  left: 36px;
+  right: 36px;
+  top: 132px;
+  height: 400px;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.layout-p41 .p41-sleeve {
+  position: relative;
+  width: 100%;
+  max-width: 210px;
+  justify-self: center;
+}
+
+.layout-p41 .p41-sleeve.is-hero {
+  max-width: 300px;
+  z-index: 8;
+}
+
+.layout-p41 .p41-sleeve.is-r2 {
+  transform: rotate(-6deg) translateY(12px);
+}
+
+.layout-p41 .p41-sleeve.is-r3 {
+  transform: rotate(5deg) translateY(12px);
+}
+
+.layout-p41 .p41-disc {
+  position: absolute;
+  top: 14%;
+  right: -26%;
+  width: 82%;
+  padding-bottom: 82%;
+  border-radius: 50%;
+  z-index: 0;
+  background:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      #1a1410 0 2px,
+      #2e2824 2px 4px
+    );
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.layout-p41 .p41-sleeve.is-hero .p41-disc {
+  right: -20%;
+}
+
+.layout-p41 .p41-art {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+  background: #3a3228;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(243, 234, 216, 0.12);
+}
+
+.layout-p41 .p41-art img {
+  position: absolute;
+  inset: 0;
+}
+
+.layout-p41 .p41-sleeve.is-empty .p41-art {
+  background:
+    repeating-linear-gradient(
+      -18deg,
+      rgba(243, 234, 216, 0.06) 0 8px,
+      transparent 8px 16px
+    ),
+    #2a241e;
+}
+
+.layout-p41 .p41-meta {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 0 2px;
+}
+
+.layout-p41 .p41-rank {
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: #e0b050;
+}
+
+.layout-p41 .p41-name {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.03em;
+  color: var(--p41-cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layout-p41 .p41-sleeve.is-hero .p41-name {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.layout-p41 .p41-sleeve.is-empty .p41-name {
+  display: none;
+}
+
+.layout-p41 .p41-crate {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  top: 552px;
+  bottom: 54px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 6px 14px;
+  padding: 12px 16px 8px;
+  background: linear-gradient(180deg, #3a2c20 0%, #2a2018 100%);
+  box-shadow:
+    inset 0 8px 16px rgba(0, 0, 0, 0.35),
+    0 0 0 3px #4a3828;
+}
+
+.layout-p41 .p41-seven {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.layout-p41 .p41-platter {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      #141010 0 1.5px,
+      #2a2420 1.5px 3px
+    );
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.layout-p41 .p41-label {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--member-color, #c4a060);
+  box-shadow: 0 0 0 2px #1a1410;
+}
+
+.layout-p41 .p41-seven.is-empty .p41-label {
+  background:
+    repeating-linear-gradient(
+      -18deg,
+      rgba(243, 234, 216, 0.1) 0 5px,
+      transparent 5px 10px
+    ),
+    #3a3228;
+}
+
+.layout-p41 .p41-cap {
+  margin-top: 6px;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--p41-cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.layout-p41 .p41-cap b {
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 10px;
+  color: #e0b050;
+  margin-right: 4px;
+}
+
+.layout-p41 .footer {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  z-index: 12;
+  transform: translateX(-50%);
+  padding: 7px 16px 8px;
+  background: #e0b050;
+  font-family: "Fragment Mono", ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: #1a1410;
+  white-space: nowrap;
+}
