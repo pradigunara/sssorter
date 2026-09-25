@@ -1,38 +1,491 @@
-/* === F1 — S1 + faint bubbles === */
-.layout-f1 { background: radial-gradient(900px 700px at 30% 20%, #ffd6e7 0%, transparent 55%), radial-gradient(700px 500px at 80% 80%, #d8c8f7 0%, transparent 55%), linear-gradient(170deg, #fff5fa 0%, #f0e9fb 100%); }
-.layout-f1::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 8% 12%, #ff4d85 0 16px, transparent 17px), radial-gradient(circle at 92% 18%, #9b72cf 0 14px, transparent 15px), radial-gradient(circle at 14% 38%, #5c9eff 0 12px, transparent 13px), radial-gradient(circle at 88% 42%, #ff4d85 0 14px, transparent 15px), radial-gradient(circle at 6% 68%, #9b72cf 0 12px, transparent 13px), radial-gradient(circle at 94% 72%, #ff4d85 0 16px, transparent 17px), radial-gradient(circle at 22% 92%, #5c9eff 0 12px, transparent 13px), radial-gradient(circle at 78% 96%, #9b72cf 0 14px, transparent 15px), radial-gradient(circle at 20% 30%, transparent 70px, rgba(255,77,133,0.13) 72px, transparent 74px), radial-gradient(circle at 78% 28%, transparent 60px, rgba(155,114,207,0.13) 62px, transparent 64px), radial-gradient(circle at 30% 58%, transparent 80px, rgba(92,158,255,0.11) 82px, transparent 84px), radial-gradient(circle at 82% 62%, transparent 64px, rgba(255,77,133,0.11) 66px, transparent 68px), radial-gradient(circle at 48% 50%, transparent 86px, rgba(155,114,207,0.08) 88px, transparent 90px); pointer-events: none; opacity: 0.75; }
-.layout-f1 .sticker-deco { position: absolute; pointer-events: none; z-index: 1; color: #fff; }
-.layout-f1 .sticker-deco.s1 { top: 40px; left: 60px; font-size: 150px; transform: rotate(-15deg); }
-.layout-f1 .sticker-deco.s2 { top: 90px; right: 80px; font-size: 120px; transform: rotate(20deg); }
-.layout-f1 .sticker-deco.s3 { bottom: 180px; left: 50px; font-size: 130px; transform: rotate(12deg); }
-.layout-f1 .sticker-deco.s4 { bottom: 160px; right: 60px; font-size: 110px; transform: rotate(-18deg); }
-.layout-f1 .title { position: absolute; top: 70px; left: 0; right: 0; text-align: center; z-index: 2; }
-.layout-f1 .title .t1 { font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 62px; letter-spacing: -0.02em; color: #1c1424; line-height: 1; text-shadow: 0 4px 0 #fff, 0 6px 12px rgba(40,24,60,0.15); }
-.layout-f1 .title .t1 span { display: inline-block; background: linear-gradient(120deg, #ff4d85, #9b72cf); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.layout-f1 .title .t2 { margin-top: 14px; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.3em; text-transform: uppercase; color: #9890a4; }
-.layout-f1 .hero-cluster { position: absolute; top: 220px; left: 0; right: 0; height: 320px; }
-.layout-f1 .sticker { position: absolute; border-radius: 50%; overflow: visible; }
-.layout-f1 .sticker .img { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; border: 8px solid #fff; box-shadow: 0 0 0 3px rgba(0,0,0,0.06), 0 12px 30px rgba(40,24,60,0.2); }
-.layout-f1 .sticker .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.layout-f1 .sticker .rank-tag { position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 28px; color: #fff; z-index: 3; }
-.layout-f1 .sticker .name-tag { position: absolute; top: -36px; left: 50%; transform: translateX(-50%); background: #fff; padding: 8px 18px; border-radius: 999px; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 17px; color: #1c1424; white-space: nowrap; box-shadow: 0 6px 14px rgba(0,0,0,0.12); z-index: 3; }
-.layout-f1 .sticker .emoji { position: absolute; top: -10px; right: -10px; width: 54px; height: 54px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 6px 14px rgba(0,0,0,0.15); z-index: 3; }
-.layout-f1 .sticker.s1 .name-tag { left: calc(50% - 28px); }
-.layout-f1 .sticker.s1 .emoji { right: 20px; }
-.layout-f1 .sticker.s2 .emoji { right: auto; left: -10px; }
-.layout-f1 .sticker.s1 { width: 240px; height: 240px; left: 50%; top: 0; transform: translateX(-50%) rotate(-3deg); z-index: 3; }
-.layout-f1 .sticker.s2 { width: 190px; height: 190px; left: calc(50% - 280px); top: 60px; transform: rotate(8deg); z-index: 2; }
-.layout-f1 .sticker.s3 { width: 190px; height: 190px; left: calc(50% + 90px); top: 60px; transform: rotate(-6deg); z-index: 2; }
-.layout-f1 .sticker.s1 .rank-tag { background: #ff4d85; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); width: 70px; height: 70px; }
-.layout-f1 .sticker.s2 .rank-tag { background: #9b72cf; width: 60px; height: 60px; }
-.layout-f1 .sticker.s3 .rank-tag { background: #5c9eff; width: 56px; height: 56px; }
-.layout-f1 .sticker-grid { position: absolute; top: 500px; left: 0; right: 0; padding: 0 50px; }
-.layout-f1 .sticker-grid .row { display: flex; justify-content: space-evenly; margin-bottom: 20px; }
-.layout-f1 .sticker-grid .row:last-child { margin-bottom: 0; }
-.layout-f1 .sticker-grid .mini { position: relative; width: 150px; height: 150px; flex: 0 0 150px; }
-.layout-f1 .sticker-grid .mini .img { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #fff; border: 5px solid #fff; box-shadow: 0 8px 20px rgba(40,24,60,0.15); }
-.layout-f1 .sticker-grid .mini .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.layout-f1 .sticker-grid .mini .num { position: absolute; bottom: -4px; right: 0; width: 36px; height: 36px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 16px; color: #1c1424; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-.layout-f1 .sticker-grid .mini.r1 { transform: rotate(-4deg); } .layout-f1 .sticker-grid .mini.r2 { transform: rotate(5deg); } .layout-f1 .sticker-grid .mini.r3 { transform: rotate(-3deg); } .layout-f1 .sticker-grid .mini.r4 { transform: rotate(7deg); } .layout-f1 .sticker-grid .mini.r5 { transform: rotate(-5deg); } .layout-f1 .sticker-grid .mini.r6 { transform: rotate(4deg); } .layout-f1 .sticker-grid .mini.r7 { transform: rotate(-6deg); } .layout-f1 .sticker-grid .mini.r8 { transform: rotate(3deg); } .layout-f1 .sticker-grid .mini.r9 { transform: rotate(-2deg); }
-.layout-f1 .sticker-grid .mini.empty { background: rgba(255,255,255,0.35); border-radius: 50%; border: 5px solid #fff; box-shadow: 0 8px 20px rgba(40,24,60,0.1); }
-.layout-f1 .footer { position: absolute; bottom: 36px; left: 0; right: 0; text-align: center; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: #b3a8c2; }
+/* ═══ F1 — Bubbles (from P36) ═══ */
+.layout-p36,
+.layout-p36 * {
+  box-sizing: border-box;
+}
+
+.layout-p36 {
+  --p36-ink: #24182e;
+  --p36-muted: #8a7e98;
+  --member-color: #c4b4e4;
+  overflow: hidden;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: var(--p36-ink);
+  background:
+    radial-gradient(ellipse 78% 52% at 6% -4%, #ffd2e6 0%, transparent 58%),
+    radial-gradient(ellipse 64% 48% at 96% 4%, #d4c4f8 0%, transparent 56%),
+    radial-gradient(ellipse 58% 42% at 88% 96%, #c4defc 0%, transparent 58%),
+    radial-gradient(ellipse 52% 40% at 8% 92%, #ffe6f0 0%, transparent 54%),
+    radial-gradient(ellipse 40% 32% at 48% 48%, #fff8fc 0%, transparent 70%),
+    linear-gradient(168deg, #fff6fb 0%, #efe8fc 46%, #e4f0ff 100%);
+}
+
+.layout-p36 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Empty soap-film rings — bg layer only */
+.layout-p36 .p36-films {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      circle at 10% 42%,
+      transparent 72px,
+      rgba(255, 210, 230, 0.22) 74px,
+      rgba(255, 255, 255, 0.55) 77px,
+      rgba(170, 200, 255, 0.2) 80px,
+      transparent 82px
+    ),
+    radial-gradient(
+      circle at 52% 8%,
+      transparent 54px,
+      rgba(255, 255, 255, 0.4) 56px,
+      rgba(200, 170, 255, 0.18) 59px,
+      transparent 61px
+    ),
+    radial-gradient(
+      circle at 94% 48%,
+      transparent 88px,
+      rgba(180, 220, 255, 0.18) 90px,
+      rgba(255, 255, 255, 0.5) 94px,
+      rgba(255, 180, 220, 0.16) 97px,
+      transparent 99px
+    ),
+    radial-gradient(
+      circle at 78% 90%,
+      transparent 70px,
+      rgba(255, 255, 255, 0.42) 72px,
+      rgba(180, 160, 255, 0.16) 75px,
+      transparent 77px
+    ),
+    radial-gradient(
+      circle at 38% 94%,
+      transparent 48px,
+      rgba(255, 200, 230, 0.2) 50px,
+      rgba(255, 255, 255, 0.45) 53px,
+      transparent 55px
+    ),
+    radial-gradient(
+      circle at 96% 78%,
+      transparent 42px,
+      rgba(255, 255, 255, 0.38) 44px,
+      rgba(160, 210, 255, 0.2) 47px,
+      transparent 49px
+    ),
+    radial-gradient(
+      circle at 4% 78%,
+      transparent 36px,
+      rgba(255, 255, 255, 0.35) 38px,
+      rgba(220, 180, 255, 0.16) 41px,
+      transparent 43px
+    ),
+    radial-gradient(
+      circle at 62% 52%,
+      transparent 96px,
+      rgba(255, 255, 255, 0.18) 98px,
+      rgba(180, 200, 255, 0.1) 102px,
+      transparent 104px
+    ),
+    radial-gradient(
+      circle at 90% 70%,
+      transparent 84px,
+      rgba(255, 255, 255, 0.4) 86px,
+      rgba(170, 200, 255, 0.16) 90px,
+      rgba(255, 180, 220, 0.12) 93px,
+      transparent 95px
+    ),
+    radial-gradient(
+      circle at 58% 78%,
+      transparent 58px,
+      rgba(255, 220, 240, 0.2) 60px,
+      rgba(255, 255, 255, 0.42) 63px,
+      transparent 65px
+    );
+}
+
+.layout-p36 .p36-glints {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 16%, #fff 0 3px, transparent 4px),
+    radial-gradient(circle at 72% 10%, rgba(255, 255, 255, 0.9) 0 2px, transparent 3px),
+    radial-gradient(circle at 92% 22%, #fff 0 2.5px, transparent 3.5px),
+    radial-gradient(circle at 8% 58%, rgba(255, 255, 255, 0.85) 0 2px, transparent 3px),
+    radial-gradient(circle at 48% 88%, #fff 0 3px, transparent 4px),
+    radial-gradient(circle at 88% 62%, rgba(255, 255, 255, 0.8) 0 2px, transparent 3px),
+    radial-gradient(circle at 30% 48%, rgba(255, 255, 255, 0.7) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 84% 86%, #fff 0 2px, transparent 3px);
+}
+
+/* Title */
+.layout-p36 .p36-mast {
+  position: absolute;
+  top: 28px;
+  left: 48px;
+  right: 48px;
+  z-index: 14;
+}
+
+.layout-p36 .title {
+  text-align: center;
+}
+
+.layout-p36 .title .t1 {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 52px;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  color: var(--p36-ink);
+  text-shadow: 0 1px 0 #fff, 0 8px 18px rgba(255, 255, 255, 0.7);
+}
+
+.layout-p36 .title .t1 span {
+  background: linear-gradient(118deg, #ff6b9d 0%, #9b7dff 48%, #4aa8ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.layout-p36 .title .t2 {
+  margin-top: 8px;
+  font-family: "Fragment Mono", "Nunito", monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--p36-muted);
+}
+
+/* Shared bubble */
+.layout-p36 .p36-bubble {
+  position: relative;
+  z-index: 5;
+}
+
+.layout-p36 .p36-orb {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.72),
+    0 0 0 5px color-mix(in srgb, var(--member-color, #c4b4e4) 55%, #fff),
+    0 10px 26px color-mix(in srgb, var(--member-color, #c4b4e4) 34%, transparent),
+    0 4px 10px rgba(36, 24, 46, 0.1);
+}
+
+.layout-p36 .p36-photo {
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--member-color, #c4b4e4) 16%, #fff);
+  z-index: 1;
+}
+
+.layout-p36 .p36-bubble.is-empty .p36-photo {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.78) 0%, transparent 38%),
+    radial-gradient(circle at 72% 76%, rgba(170, 205, 255, 0.28) 0%, transparent 52%),
+    linear-gradient(148deg, rgba(255, 255, 255, 0.42), rgba(214, 198, 255, 0.18) 58%, rgba(176, 216, 255, 0.14));
+}
+
+.layout-p36 .p36-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    124deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.2) 16%,
+    transparent 38%,
+    transparent 68%,
+    rgba(170, 210, 255, 0.14) 86%,
+    rgba(255, 170, 210, 0.12) 100%
+  );
+}
+
+.layout-p36 .p36-spec {
+  position: absolute;
+  top: 13%;
+  left: 18%;
+  width: 22%;
+  height: 13%;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.12) 100%);
+}
+
+.layout-p36 .p36-rim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.9),
+    inset 0 0 0 7px color-mix(in srgb, var(--member-color, #c4b4e4) 32%, rgba(255, 255, 255, 0.55)),
+    inset 0 -16px 22px rgba(255, 170, 210, 0.14),
+    inset 14px 12px 18px rgba(170, 210, 255, 0.12);
+}
+
+.layout-p36 .p36-pill {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: calc(100% + 36px);
+  padding: 6px 12px 6px 6px;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 999px;
+  box-shadow:
+    0 6px 16px rgba(36, 24, 46, 0.12),
+    0 0 0 2px color-mix(in srgb, var(--member-color, #c4b4e4) 38%, #fff);
+}
+
+.layout-p36 .p36-rank {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--member-color, #c4b4e4) 42%, #2a1838);
+  color: #fff;
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.layout-p36 .p36-name {
+  font-family: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--p36-ink);
+  white-space: nowrap;
+}
+
+.layout-p36 .p36-emo {
+  font-size: 13px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+.layout-p36 .p36-badge {
+  position: absolute;
+  right: -2px;
+  bottom: 22px;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--member-color, #c4b4e4) 42%, #2a1838);
+  color: #fff;
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  line-height: 1;
+  box-shadow:
+    0 0 0 3px #fff,
+    0 4px 10px rgba(36, 24, 46, 0.16);
+}
+
+.layout-p36 .p36-bubble.is-empty {
+  --member-color: #c8bddc;
+}
+
+.layout-p36 .p36-bubble.is-empty .p36-pill .p36-name,
+.layout-p36 .p36-bubble.is-empty.is-mini .p36-pill {
+  display: none;
+}
+
+.layout-p36 .p36-bubble.is-empty .p36-rank,
+.layout-p36 .p36-bubble.is-empty .p36-badge {
+  background: #c0b4cc;
+}
+
+/* Top row: #2 | #1 | #3, bottoms aligned */
+.layout-p36 .p36-heroes {
+  position: absolute;
+  left: 48px;
+  right: 48px;
+  top: 112px;
+  height: 400px;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1fr;
+  gap: 20px;
+  align-items: end;
+}
+
+.layout-p36 .p36-heroes .p36-bubble {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.layout-p36 .p36-heroes .p36-bubble.is-mid {
+  width: 92%;
+  justify-self: center;
+}
+
+.layout-p36 .p36-bubble.is-hero {
+  z-index: 10;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-orb,
+.layout-p36 .p36-bubble.is-mid .p36-orb {
+  transform: none;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-photo {
+  inset: 9px;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-shine {
+  background: linear-gradient(
+    122deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.28) 14%,
+    transparent 36%,
+    transparent 70%,
+    rgba(170, 210, 255, 0.16) 88%,
+    rgba(255, 170, 210, 0.12) 100%
+  );
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-spec {
+  top: 14%;
+  left: 17%;
+  width: 26%;
+  height: 15%;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-pill {
+  left: 50%;
+  bottom: -6px;
+  padding: 8px 16px 8px 8px;
+  gap: 8px;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-rank {
+  width: 42px;
+  height: 42px;
+  font-size: 16px;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-name {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.layout-p36 .p36-bubble.is-hero .p36-emo {
+  font-size: 16px;
+}
+
+.layout-p36 .p36-bubble.is-mid .p36-photo {
+  inset: 6px;
+}
+
+.layout-p36 .p36-bubble.is-mid .p36-rank {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+}
+
+.layout-p36 .p36-bubble.is-mid .p36-name {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* Ranks 4–12 — even 3×3 */
+.layout-p36 .p36-minis {
+  position: absolute;
+  left: 48px;
+  right: 48px;
+  top: 548px;
+  bottom: 62px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 18px 28px;
+  place-items: center;
+  padding: 8px 12px 22px;
+}
+
+.layout-p36 .p36-minis .p36-bubble {
+  width: auto;
+  height: 100%;
+  max-height: 168px;
+  aspect-ratio: 1;
+}
+
+.layout-p36 .p36-minis .p36-orb {
+  transform: none;
+}
+
+.layout-p36 .p36-bubble.is-mini .p36-photo {
+  inset: 5px;
+}
+
+.layout-p36 .p36-bubble.is-mini .p36-pill {
+  left: 50%;
+  bottom: -8px;
+  padding: 5px 10px;
+  gap: 0;
+}
+
+.layout-p36 .p36-bubble.is-mini .p36-name {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.layout-p36 .p36-bubble.is-mini .p36-badge {
+  width: 28px;
+  height: 28px;
+  font-size: 10px;
+}
+
+.layout-p36 .footer {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  z-index: 16;
+  transform: translateX(-50%);
+  padding: 8px 16px 9px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 2px rgba(36, 24, 46, 0.08),
+    0 6px 16px rgba(36, 24, 46, 0.12);
+  font-family: "Fragment Mono", "Nunito", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: #24182e;
+  white-space: nowrap;
+}

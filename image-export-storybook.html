@@ -2489,11 +2489,12 @@
     <header class="sb-header">
       <h1>Image Export Presets</h1>
       <p>
-        Storybook for the share-image ranking templates. All six presets (F1–F6) are
-        imported from <code>export-templates.js</code> and wired into the app export modal.
+        Storybook for the share-image ranking templates. F1–F9 are live in the
+        export modal. P40–P42 are new sketches.
       </p>
       <nav class="sb-nav">
         <a href="#production">Production</a>
+        <a href="#proposals">Proposals</a>
       </nav>
     </header>
 
@@ -2501,9 +2502,17 @@
       <section class="sb-section" id="production">
         <div class="sb-section-head">
           <h2>Production</h2>
-          <span class="count">6 presets · live in app</span>
+          <span class="count">9 presets · live in app</span>
         </div>
         <div class="sb-grid" id="production-grid"></div>
+      </section>
+
+      <section class="sb-section" id="proposals">
+        <div class="sb-section-head">
+          <h2>Proposals</h2>
+          <span class="count">3 sketches · not in the app yet</span>
+        </div>
+        <div class="sb-grid" id="proposal-grid"></div>
       </section>
     </main>
 
@@ -2521,7 +2530,14 @@
         renderF4,
         renderF5,
         renderF6,
+        renderF7,
+        renderF8,
+        renderF9,
       } from "./assets/lib/export-templates.js";
+      import {
+        EXPORT_PROPOSALS,
+        injectProposalCSS,
+      } from "./assets/lib/export-template-proposals.js";
       import { memberData } from "./assets/member-data.js";
       import { html } from "./assets/lib/html.js";
 
@@ -3193,26 +3209,26 @@ function renderP15({ top12, imgSrc, html, TITLE_DATE }) {
       const PRODUCTION = [
         {
           id: "F1",
-          name: "Soft Stickers",
-          desc: "Pastel gradient, circular stickers, sparkle deco. The default cute look.",
+          name: "Bubbles",
+          desc: "Soap-bubble ranking — #1 centered, #2/#3 flanking, ranks 4–12 in an even 3×3.",
           render: renderF1,
         },
         {
           id: "F2",
-          name: "Polaroid Scrapbook",
-          desc: "Dotted paper, washi-tape polaroids, sticky-note accents.",
+          name: "Polaroid",
+          desc: "Cork pinboard of instant film — #1 centered, #2/#3 flanking, ranks 4–12 in a tidy 3×3.",
           render: renderF2,
         },
         {
           id: "F3",
-          name: "Pop Art Grid",
-          desc: "Notebook grid + confetti, bold black borders, high-contrast badges.",
+          name: "Confetti",
+          desc: "Pop-art comic splash — #1 poster centered, #2/#3 flanking, 3×3 sheet below.",
           render: renderF3,
         },
         {
           id: "F4",
-          name: "Moodboard",
-          desc: "Pastel sepia detective chalkboard — pinned polaroids, red string, ranks 4–12 scattered.",
+          name: "Case Board",
+          desc: "Charcoal detective board — organic scatter, red twine, #1 largest near center.",
           render: renderF4,
         },
         {
@@ -3226,6 +3242,24 @@ function renderP15({ top12, imgSrc, html, TITLE_DATE }) {
           name: "Stamp Album",
           desc: "Vintage stamp album — commemorative top 3, scattered mini stamps with postmarks.",
           render: renderF6,
+        },
+        {
+          id: "F7",
+          name: "Binder",
+          desc: "Rank 1 large with 2–4 under it; ranks 5–12 as two 4-cut photostrips.",
+          render: renderF7,
+        },
+        {
+          id: "F8",
+          name: "Rhythm",
+          desc: "Rhythm-game character select — #1 hex portrait, roster of parallelogram tiles.",
+          render: renderF8,
+        },
+        {
+          id: "F9",
+          name: "Arcade",
+          desc: "Cabinet attract screen — #1–#3 on the left, 4–12 as a 3×3 grid, tripleS LED below.",
+          render: renderF9,
         },
       ];
 
@@ -3258,9 +3292,20 @@ function renderP15({ top12, imgSrc, html, TITLE_DATE }) {
       }
 
       injectTemplateCSS();
+      injectProposalCSS();
 
       document.getElementById("production-grid").innerHTML = PRODUCTION.map((t) =>
         makeCard({ ...t, isProposal: false }),
+      ).join("");
+
+      document.getElementById("proposal-grid").innerHTML = EXPORT_PROPOSALS.map((t) =>
+        makeCard({
+          id: t.id.toUpperCase(),
+          name: t.name,
+          desc: t.desc,
+          render: t.render,
+          isProposal: true,
+        }),
       ).join("");
 
       await document.fonts.ready;
